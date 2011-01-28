@@ -1,14 +1,10 @@
 #ifndef DGLOBALS_HPP
 #define DGLOBALS_HPP
 
-#if WIN32
-#include "SDL.h"
-#else
-#include <SDL/SDL.h>
-#endif
 #include <string>
 #include <vector>
 #include "DSprite.hpp"
+#include "Bitmap.hpp"
 
 namespace Distillate
 {
@@ -185,7 +181,7 @@ public:
      * Reference to the active graphics buffer.
      * Can also be referenced via <code>FlxState.screen</code>.
      */  
-    static SDL_Surface* buffer;
+    static SDL::Bitmap* buffer;
 
 protected:
     /**

@@ -5,11 +5,12 @@ namespace Distillate
 
 DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom)
 {
+    /*
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         exit(1);
     }
-
+*/
     _zoom = Zoom;
     //DState::bgColor = 0xff000000;
     //DGlobals::setGameData(this,GameSizeX,GameSizeY,Zoom);
@@ -30,7 +31,7 @@ DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialStat
     _created = false;
 
 
-    _buffer = SDL_SetVideoMode(GameSizeX,GameSizeY,16,SDL_HWSURFACE);
+//    _buffer = SDL_SetVideoMode(GameSizeX,GameSizeY,16,SDL_HWSURFACE);
     create();
 }
 
@@ -55,7 +56,7 @@ void DGame::update()
 
     while(true)
     {
-        SDL_Delay(10);
+ //       SDL_Delay(10);
     }
 }
 

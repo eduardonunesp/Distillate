@@ -14,6 +14,7 @@ if int(debug):
 
 files = Split("""
 sdl/Sprite.cpp
+sdl/Bitmap.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp
