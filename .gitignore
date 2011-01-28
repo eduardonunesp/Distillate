@@ -1,0 +1,12 @@
+*~
+*.o
+*.so
+*.lo
+*.a
+*.la
+*.loT
+*.orig
+*.rej
+.libs
+.deps
+
