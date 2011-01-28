@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="src\DGame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="957" topLine="18" />
+	</File>
+	<File name="src\DGame.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="228" topLine="6" />
+	</File>
+	<File name="src\DGlobals.hpp" open="0" top="0" tabpos="8">
+		<Cursor position="3815" topLine="123" />
+	</File>
+	<File name="src\DGroup.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="140" topLine="0" />
+	</File>
+	<File name="src\DGroup.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src\DObject.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="5752" topLine="0" />
+	</File>
+	<File name="src\DObject.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="4545" topLine="136" />
+	</File>
+	<File name="src\DPoint.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="396" topLine="0" />
+	</File>
+	<File name="src\DQuadTree.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="9044" topLine="312" />
+	</File>
+	<File name="src\DQuadTree.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="1364" topLine="18" />
+	</File>
+	<File name="src\DRect.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="752" topLine="0" />
+	</File>
+	<File name="src\DSprite.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="143" topLine="0" />
+	</File>
+	<File name="src\DSprite.hpp" open="1" top="1" tabpos="0">
+		<Cursor position="6623" topLine="0" />
+	</File>
+	<File name="src\DUtils.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="11944" topLine="329" />
+	</File>
+	<File name="src\DUtils.hpp" open="0" top="0" tabpos="6">
+		<Cursor position="1470" topLine="39" />
+	</File>
+	<File name="src\data\DList.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="656" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

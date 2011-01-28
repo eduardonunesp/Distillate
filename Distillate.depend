@@ -1,0 +1,631 @@
+# depslib dependency file v1.0
+1272382878 source:/media/4469-F806/Distillate/src/DGame.cpp
+	"DGame.hpp"
+
+1272382928 "
+
+1272382859 /media/4469-F806/Distillate/src/DGame.hpp
+
+1272380916 source:/media/4469-F806/Distillate/src/DPoint.cpp
+	"DPoint.hpp"
+	"DPoint.hpp"
+
+1272380916 p"
+
+1272380916 /media/4469-F806/Distillate/include/DPoint.hpp
+	<string>
+	<sstream>
+	<string>
+	<sstream>
+
+1272380916 
+
+1272382928 source:/media/4469-F806/Distillate/src/DRect.cpp
+	"DRect.hpp"
+	"DRect.hpp"
+
+1272380916 /media/4469-F806/Distillate/include/DRect.hpp
+	"../include/DPoint.hpp"
+	"../include/DPoint.hpp"
+
+1272380916 e/DPoint.hpp"
+
+1272383834 source:/media/4469-F806/Distillate/src/DGroup.cpp
+	"DGroup.hpp"
+
+1272385443 /media/4469-F806/Distillate/include/DGroup.hpp
+	<vector>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272413460 /media/4469-F806/Distillate/include/DObject.hpp
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+
+1272456314 source:/media/4469-F806/Distillate/src/DObject.cpp
+	"DObject.hpp"
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+
+1272383827 pp"
+
+1272383834 source:e:\distillate\src\dgroup.cpp
+	"DGroup.hpp"
+
+1272385442 e:\distillate\include\dgroup.hpp
+	<vector>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272413460 e:\distillate\include\dobject.hpp
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+
+1272380916 e:\distillate\include\dpoint.hpp
+	<string>
+	<sstream>
+
+1272380916 e:\distillate\include\drect.hpp
+	"../include/DPoint.hpp"
+
+1272380916 source:e:\distillate\src\dpoint.cpp
+	"DPoint.hpp"
+
+1272382928 source:e:\distillate\src\drect.cpp
+	"DRect.hpp"
+
+1272398300 source:e:\distillate\src\dstate.cpp
+	"DState.hpp"
+
+1272398290 e:\distillate\include\dstate.hpp
+
+1272382878 source:e:\distillate\src\dgame.cpp
+	"DGame.hpp"
+
+1272382858 e:\distillate\src\dgame.hpp
+
+1272446630 source:e:\distillate\src\dobject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+
+1272447188 source:e:\distillate\src\dutils.cpp
+	<cmath>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+
+1272444828 hpp"
+
+1272446964 e:\distillate\include\dutils.hpp
+	<math.h>
+	<string>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272444674 e:\distillate\include\dglobals.hpp
+
+1272444828 source:e:\distillate\src\dglobals.cpp
+	"DGlobals.hpp"
+
+1272444828 source:/media/4469-F806/Distillate/src/DGlobals.cpp
+	"DGlobals.hpp"
+
+1272444674 /media/4469-F806/Distillate/include/DGlobals.hpp
+
+1272447188 source:/media/4469-F806/Distillate/src/DUtils.cpp
+	<cmath>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+
+1272446964 /media/4469-F806/Distillate/include/DUtils.hpp
+	<math.h>
+	<string>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272533438 source:e:\programas\distillate\src\dobject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+
+1272413460 e:\programas\distillate\include\dobject.hpp
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+
+1272380916 e:\programas\distillate\include\dpoint.hpp
+	<string>
+	<sstream>
+
+1272380916 e:\programas\distillate\include\drect.hpp
+	"../include/DPoint.hpp"
+
+1272444674 e:\programas\distillate\include\dglobals.hpp
+
+1272533776 e:\programas\distillate\include\dutils.hpp
+	<math.h>
+	<string>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272380916 source:e:\programas\distillate\src\dpoint.cpp
+	"DPoint.hpp"
+
+1272382928 source:e:\programas\distillate\src\drect.cpp
+	"DRect.hpp"
+
+1272533656 source:e:\programas\distillate\src\dutils.cpp
+	<cmath>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+
+1272444828 source:e:\programas\distillate\src\dglobals.cpp
+	"DGlobals.hpp"
+
+1272547006 source:/media/4469-F806/Programas/Distillate/src/DGlobals.cpp
+	"DGlobals.hpp"
+
+1272546886 /media/4469-F806/Programas/Distillate/include/DGlobals.hpp
+	<string>
+	<vector>
+	"DPoint.hpp"
+	"DObject.hpp"
+
+1272380916 source:/media/4469-F806/Programas/Distillate/src/DPoint.cpp
+	"DPoint.hpp"
+
+1272380916 /media/4469-F806/Programas/Distillate/include/DPoint.hpp
+	<string>
+	<sstream>
+
+1272382928 source:/media/4469-F806/Programas/Distillate/src/DRect.cpp
+	"DRect.hpp"
+
+1272380916 /media/4469-F806/Programas/Distillate/include/DRect.hpp
+	"../include/DPoint.hpp"
+
+1272533656 source:/media/4469-F806/Programas/Distillate/src/DUtils.cpp
+	<cmath>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+
+1272533776 /media/4469-F806/Programas/Distillate/include/DUtils.hpp
+	<math.h>
+	<string>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272413460 /media/4469-F806/Programas/Distillate/include/DObject.hpp
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+
+1272382878 source:/media/4469-F806/Programas/Distillate/src/DGame.cpp
+	"DGame.hpp"
+
+1272382858 /media/4469-F806/Programas/Distillate/src/DGame.hpp
+
+1272533896 source:/media/4469-F806/Programas/Distillate/src/DObject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+
+1272383834 source:/media/4469-F806/Programas/Distillate/src/DGroup.cpp
+	"DGroup.hpp"
+
+1272385442 /media/4469-F806/Programas/Distillate/include/DGroup.hpp
+	<vector>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272398300 source:/media/4469-F806/Programas/Distillate/src/DState.cpp
+	"DState.hpp"
+
+1272398290 /media/4469-F806/Programas/Distillate/include/DState.hpp
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DGlobals.cpp
+	"DGlobals.hpp"
+
+1272643954 /home/eduardo/Projects/Distillate/include/DGlobals.hpp
+	<string>
+	<vector>
+	"DPoint.hpp"
+	"DObject.hpp"
+
+1272640359 /home/eduardo/Projects/Distillate/include/DPoint.hpp
+	<string>
+	<sstream>
+
+1272643954 /home/eduardo/Projects/Distillate/include/DObject.hpp
+	<vector>
+	"DPoint.hpp"
+	"DRect.hpp"
+
+1272640359 /home/eduardo/Projects/Distillate/include/DRect.hpp
+	"../include/DPoint.hpp"
+
+1272643794 source:/home/eduardo/Projects/Distillate/src/DGroup.cpp
+	"DGroup.hpp"
+
+1272643954 /home/eduardo/Projects/Distillate/include/DGroup.hpp
+	<vector>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DObject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+
+1272640359 /home/eduardo/Projects/Distillate/src/DObject.hpp
+
+1272643951 /home/eduardo/Projects/Distillate/include/DUtils.hpp
+	<math.h>
+	<string>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DPoint.cpp
+	"DPoint.hpp"
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DRect.cpp
+	"DRect.hpp"
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DState.cpp
+	"DState.hpp"
+
+1272640359 /home/eduardo/Projects/Distillate/include/DState.hpp
+
+1272640359 source:/home/eduardo/Projects/Distillate/src/DUtils.cpp
+	<cmath>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+
+1272641041 source:/home/eduardo/Projects/Distillate/src/DGame.cpp
+	"DGame.hpp"
+
+1272643251 /home/eduardo/Projects/Distillate/src/DGame.hpp
+	"DGroup.hpp"
+	"DState.hpp"
+	"DPoint.hpp"
+
+1272643197 source:/home/eduardo/Projects/Distillate/src/DEmitter.cpp
+	"DEmitter.hpp"
+
+1272643954 /home/eduardo/Projects/Distillate/include/DEmitter.hpp
+	"DGroup.hpp"
+
+1272643954 /home/eduardo/Projects/Distillate/include/DGame.hpp
+	"DGroup.hpp"
+	"DState.hpp"
+	"DPoint.hpp"
+
+1288395043 source:c:\users\eduardo\projetos\distillate\src\demitter.cpp
+	"DEmitter.hpp"
+
+1288395043 c:\users\eduardo\projetos\distillate\src\demitter.hpp
+	"DGroup.hpp"
+
+1288395043 c:\users\eduardo\projetos\distillate\src\dgroup.hpp
+	<vector>
+	"DObject.hpp"
+	"DPoint.hpp"
+
+1288859928 c:\users\eduardo\projetos\distillate\src\dobject.hpp
+	<vector>
+	"DRect.hpp"
+
+1288465051 c:\users\eduardo\projetos\distillate\src\dpoint.hpp
+	<string>
+	<sstream>
+
+1288855342 c:\users\eduardo\projetos\distillate\src\drect.hpp
+	"DPoint.hpp"
+
+1288856964 source:c:\users\eduardo\projetos\distillate\src\dgame.cpp
+	"DGame.hpp"
+
+1288855343 c:\users\eduardo\projetos\distillate\src\dgame.hpp
+	"SDL.h"
+	<SDL/SDL.h>
+	"DSprite.hpp"
+	"SDL.h"
+	<SDL/SDL.h>
+
+1288855343 c:\users\eduardo\projetos\distillate\src\dstate.hpp
+	"DSprite.hpp"
+
+1288395043 source:c:\users\eduardo\projetos\distillate\src\dglobals.cpp
+	"DGlobals.hpp"
+
+1288395043 c:\users\eduardo\projetos\distillate\src\dglobals.hpp
+	<string>
+	<vector>
+	"DPoint.hpp"
+	"DObject.hpp"
+
+1288855342 source:c:\users\eduardo\projetos\distillate\src\dgroup.cpp
+	"DGroup.hpp"
+
+1288859066 source:c:\users\eduardo\projetos\distillate\src\dobject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+	"DPoint.hpp"
+	"DSprite.hpp"
+
+1288859351 c:\users\eduardo\projetos\distillate\src\dutils.hpp
+	<math.h>
+	<algorithm>
+	<functional>
+	<utility>
+	<string>
+
+1288395043 source:c:\users\eduardo\projetos\distillate\src\dpoint.cpp
+	"DPoint.hpp"
+
+1288395043 source:c:\users\eduardo\projetos\distillate\src\drect.cpp
+	"DRect.hpp"
+
+1288855343 source:c:\users\eduardo\projetos\distillate\src\dstate.cpp
+	"DState.hpp"
+	"DGroup.hpp"
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1288859127 source:c:\users\eduardo\projetos\distillate\src\dutils.cpp
+	<cmath>
+	<cstdlib>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+	"DObject.hpp"
+	"DPoint.hpp"
+	"DQuadTree.hpp"
+	"DRect.hpp"
+
+1288855343 source:c:\users\eduardo\projetos\distillate\src\dquadtree.cpp
+	"DQuadTree.hpp"
+	"DUtils.hpp"
+	"DList.hpp"
+	"DRect.hpp"
+	<vector>
+
+1288855343 c:\users\eduardo\projetos\distillate\src\dquadtree.hpp
+	"DRect.hpp"
+	"DUtils.hpp"
+
+1288396520 c:\users\eduardo\projetos\distillate\src\data\dlist.hpp
+	"DObject.hpp"
+
+1288396324 source:c:\users\eduardo\projetos\distillate\src\data\dlist.cpp
+	"DList.hpp"
+
+1287532408 c:\sdl\include\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1287532409 c:\sdl\include\sdl_platform.h
+
+1287532408 c:\sdl\include\sdl_config_dreamcast.h
+	"SDL_platform.h"
+
+1287532408 c:\sdl\include\sdl_config_macos.h
+	"SDL_platform.h"
+	<MacTypes.h>
+
+1287532408 c:\sdl\include\sdl_config_macosx.h
+	"SDL_platform.h"
+	<AvailabilityMacros.h>
+
+1287532408 c:\sdl\include\sdl_config_symbian.h
+	"SDL_platform.h"
+	<stdarg.h>
+	<stddef.h>
+
+1287532408 c:\sdl\include\sdl_config_win32.h
+	"SDL_platform.h"
+
+1287532408 c:\sdl\include\sdl_config_os2.h
+	"SDL_platform.h"
+
+1287532408 c:\sdl\include\sdl_config_minimal.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1287532407 c:\sdl\include\begin_code.h
+
+1287532408 c:\sdl\include\close_code.h
+
+1287532408 c:\sdl\include\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_keysym.h
+
+1287532408 c:\sdl\include\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532408 c:\sdl\include\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1287532408 c:\sdl\include\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1287532409 c:\sdl\include\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1288855343 c:\users\eduardo\projetos\distillate\src\dsprite.hpp
+	<string>
+	<vector>
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1288857663 source:c:\users\eduardo\projetos\distillate\src\dsprite.cpp
+	"DSprite.hpp"
+
+1288855343 source:c:\users\eduardo\projetos\distillate\test\main.cpp
+
