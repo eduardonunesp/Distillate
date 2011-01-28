@@ -167,30 +167,9 @@ namespace Distillate
         getScreenXY(_point);
         int tx = _point->x;
         int ty = _point->y;
-        int tw = width;
-        int th = height;
-
-        if(_is_sprite)
-        {
-            DSprite *ts = static_cast<DSprite*>(this);
-            tw = ts->frameWidth;
-            th = ts->frameHeight;
-        }
-
+      
         Object->getScreenXY(_point);
-        int ox = _point->x;
-        int oy = _point->y;
-        int ow = Object->width;
-        int oh = Object->height;
-
-        if(_is_sprite)
-        {
-            DSprite *os = static_cast<DSprite*>(Object);
-            ow = os->frameWidth;
-            oh = os->frameHeight;
-        }
-
-        if((ox <= tx-ow) || (ox >= tx+tw) || (oy <= ty-oh) || (oy >= ty+th))
+        if((_point->x <= tx-Object->width) || (_point->x >= tx+width) || (_point->y <=ty-Object->height) || (_point->y >= ty+height))
             return false;
         return true;
     }

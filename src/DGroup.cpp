@@ -1,37 +1,271 @@
 #include "Distillate/DGroup.hpp"
+#include <algorithm>
 #include "Distillate/DPoint.hpp"
 #include "Distillate/DUtils.hpp"
 
 namespace Distillate
 {
+    DGroup::DGroup():
+        _last(new DPoint()),
+        _first(true)
+    {
+        _group = true;
+        _solid = false;
+        delete_all(members);
+    }
 
-DGroup::DGroup():
-    _last(new DPoint())
-{
+    DGroup::~DGroup()
+    {
+        delete _last;
+        delete_all(members);
+    }
 
-}
+    DObject* DGroup::add(DObject* Object, bool ShareScroll)
+    {
+        pointer_values_equal<DObject*> eq = { Object };
+        if(std::find_if(members.begin(), members.end(), eq) == members.end())
+            members.push_back(Object);
+        /*
+        TODO: WHERE scrollfactor ?
+        if(ShareScroll)
+            Object->scrollfactor = scrollfactor;
+        */
+        return Object;
+    }
 
-DGroup::~DGroup()
-{
-    delete _last;
-    delete_all(members);
-}
+    DObject* DGroup::replace(DObject* OldObject, DObject* NewObject)
+    {
+        /*TODO: DO IT BETTER */
+        std::vector<DObject*>::const_iterator it;
+        pointer_values_equal<DObject*> eq = { OldObject };
+        it = std::find_if(members.begin(), members.end(), eq);
+        if(it == members.end())
+            return NULL;
+        std::replace(members.begin(), members.end(), OldObject, NewObject);
+        return NewObject;
+    }
 
-void DGroup::render()
-{
-}
+    DObject* DGroup::remove(DObject* Object, bool Splice)
+    {
+        /*TODO: DO IT BETTER */
+        std::vector<DObject*>::const_iterator it;
+        pointer_values_equal<DObject*> eq = { Object };
+        it = std::find_if(members.begin(), members.end(), eq);
+        if(it == members.end())
+            return NULL;
+        /* members.erase(it); */
+        return Object;
+    }
 
-void DGroup::update()
-{
-}
+    void DGroup::sort(int Order) 
+    {
+        /* HOW TO */
+    }
 
-void DGroup::destroy()
-{
-}
+    DObject* DGroup::getFirstAvail()
+    {
+        unsigned int i=0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o && o->exists)
+                return o;
+        }
+        return NULL;
+    }
 
-DObject* DGroup::add(DObject *Object, bool ShareScroll)
-{
-    return NULL;
-}
+    int DGroup::getFirstNull()
+    {
+        unsigned int i=0;
+        while(i < members.size())
+        {
+            if(!members[i])
+                return i;
+            else
+                i++;
+        }
+        return -1;
+    }
 
+    bool DGroup::resetFirstAvail(float X, float Y)
+    {
+        DObject* o = getFirstAvail();
+        if(!o)
+            return false;
+        o->reset(X,Y);
+        return true;
+    }
+
+    DObject* DGroup::getFirstExtant()
+    {
+        DObject* o = NULL;
+        unsigned int i=0;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o && o->exists)
+                return o;
+        }
+        return NULL;
+    }
+
+    DObject* DGroup::getFirstAlive()
+    {
+        DObject* o = NULL;
+        unsigned int i=0;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o && o->exists && !o->dead)
+                return o;
+        }
+        return NULL;
+    }
+
+    DObject* DGroup::getFirstDead()
+    {
+        DObject* o = NULL;
+        unsigned int i=0;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o && o->dead)
+                return o;
+        }
+        return NULL;
+    }
+
+    int DGroup::countLiving()
+    {
+        int count =-1;
+        unsigned int i =0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o)
+            {
+                if(count < 0)
+                    count = 0;
+                if(o->exists && !o->dead)
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    int DGroup::countDead()
+    {
+        int count =-1;
+        unsigned int i =0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o)
+            {
+                if(count < 0)
+                    count = 0;
+                if(o->dead)
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    int DGroup::countOnScreen()
+    {
+        int count =-1;
+        unsigned int i =0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o)
+            {
+                if(count < 0)
+                    count = 0;
+                if(o->onScreen())
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    DObject* DGroup::getRandom()
+    {
+        unsigned int c=0;
+        DObject* o = NULL;
+        unsigned int i= DUtils::random()*members.size();
+        while(!o && i < members.size())
+        {
+            o = (DObject*) members[++i%members.size()];
+            c++;
+        }
+        return o;
+    }
+
+    void DGroup::saveOldPosition()
+    {
+        if(_first)
+        {
+            _first = false;
+            _last->x = 0;
+            _last->y = 0;
+            return;
+        }
+        _last->x = x;
+        _last->y = y;
+    }
+
+    void DGroup::updateMembers()
+    {
+
+    }
+
+    void DGroup::update()
+    {
+        saveOldPosition();
+        updateMotion();
+        updateMembers();
+        updateFlickering();
+    }
+
+    void DGroup::renderMembers()
+    {
+
+    }
+
+    void DGroup::render()
+    {
+        renderMembers();
+    }
+
+    void DGroup::killMembers()
+    {
+    }
+
+    void DGroup::kill()
+    {
+        killMembers();
+        DObject::kill();
+    }
+
+    void DGroup::destroyMembers()
+    {
+    }
+
+    void DGroup::destroy()
+    {
+    }
+
+    void DGroup::reset(float X, float Y)
+    {
+    }
+
+    int DGroup::sortHandler(DObject* Obj1, DObject* Obj2)
+    {
+        return 0;
+    }
 }
