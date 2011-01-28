@@ -1,8 +1,8 @@
 #ifndef DGAME_HPP
 #define DGAME_HPP
 
-#include "Bitmap.hpp"
-#include "DSprite.hpp"
+#include "SDL/Bitmap.hpp"
+#include "SDL/Sprite.hpp"
 
 namespace Distillate
 {

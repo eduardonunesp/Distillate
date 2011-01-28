@@ -1,4 +1,4 @@
-#include "Sprite.hpp"
+#include "Distillate/SDL/Sprite.hpp"
 
 namespace SDL
 {

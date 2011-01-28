@@ -3,8 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "DSprite.hpp"
-#include "Bitmap.hpp"
+#include "Distillate/SDL/Bitmap.hpp"
 
 namespace Distillate
 {

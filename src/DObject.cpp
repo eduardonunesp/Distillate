@@ -1,8 +1,8 @@
-#include "DObject.hpp"
-#include "DGlobals.hpp"
-#include "DUtils.hpp"
-#include "DPoint.hpp"
-#include "DSprite.hpp"
+#include "Distillate/DObject.hpp"
+#include "Distillate/DGlobals.hpp"
+#include "Distillate/DUtils.hpp"
+#include "Distillate/DPoint.hpp"
+#include "Distillate/DSprite.hpp"
 
 namespace Distillate
 {

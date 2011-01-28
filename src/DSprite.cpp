@@ -1,6 +1,6 @@
-#include "DSprite.hpp"
-#include "DPoint.hpp"
-#include "DAnim.hpp"
+#include "Distillate/DSprite.hpp"
+#include "Distillate/DPoint.hpp"
+#include "Distillate/data/DAnim.hpp"
 
 namespace Distillate
 {

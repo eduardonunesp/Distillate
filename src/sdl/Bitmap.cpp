@@ -1,4 +1,4 @@
-#include "Bitmap.hpp"
+#include "Distillate/SDL/Bitmap.hpp"
 
 namespace SDL
 {

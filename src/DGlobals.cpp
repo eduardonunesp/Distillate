@@ -1,5 +1,6 @@
-#include "DGlobals.hpp"
-#include "DGame.hpp"
+#include "Distillate/DGlobals.hpp"
+#include "Distillate/DGame.hpp"
+#include "Distillate/DPoint.hpp"
 
 namespace Distillate
 {
