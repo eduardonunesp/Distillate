@@ -3,14 +3,16 @@
 
 #include "SDL.hpp"
 
-namespace SDL
+namespace Distillate 
 {
-    class Sprite 
+    namespace SDL
     {
+        class Sprite 
+        {
         public:
-        Sprite();
-        ~Sprite();
-    };
+            Sprite();
+            ~Sprite();
+        };
+    }
 }
-
 #endif

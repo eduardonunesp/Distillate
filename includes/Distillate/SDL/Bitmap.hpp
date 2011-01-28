@@ -3,14 +3,16 @@
 
 #include "SDL.hpp"
 
-namespace SDL
+namespace Distillate 
 {
-    class Bitmap 
+    namespace SDL
     {
+        class Bitmap 
+        {
         public:
-        Bitmap();
-        ~Bitmap();
-    };
+            Bitmap();
+            ~Bitmap();
+        };
+    }
 }
-
 #endif

@@ -13,8 +13,8 @@ if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
 
 files = Split("""
-src/sdl/Sprite.cpp
-src/sdl/Bitmap.cpp
+src/SDL/Sprite.cpp
+src/SDL/Bitmap.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp
