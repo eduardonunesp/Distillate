@@ -1,6 +1,6 @@
 libname = 'Distillate';
 
-IncludePath = ['src','src/data']
+IncludePath = ['sdl','src','src/data']
 LibsPath = []   
 Libs = ['SDL']
 
@@ -13,6 +13,7 @@ if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
 
 files = Split("""
+sdl/Sprite.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp
