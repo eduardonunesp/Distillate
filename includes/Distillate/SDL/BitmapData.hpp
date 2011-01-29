@@ -10,6 +10,9 @@ namespace Distillate
         class BitmapData 
         {
         public:
+            int width;
+            int height;
+
             BitmapData();
             ~BitmapData();
         };

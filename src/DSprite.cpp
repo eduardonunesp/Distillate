@@ -45,8 +45,6 @@ namespace Distillate
         _bakedRotation = 0;
         _pixels = DGlobals::addBitmap(Graphic, Reverse, Unique);
 
-        /*
-
         if(Reverse)
             _flipped = _pixels->width>>1;
         else
@@ -75,8 +73,5 @@ namespace Distillate
         height = frameHeight = Height;
         resetHelpers();
         return this;
-        */
-
-        return NULL;
     }
 }
