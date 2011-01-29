@@ -221,7 +221,54 @@ namespace Distillate
 
     void DGroup::updateMembers()
     {
+        float mx;
+        float my;
+        bool moved = false;
 
+        if((x != _last->x) || (y != _last->y))
+        {
+            moved = true;
+            mx = x - _last->x;
+            my = y - _last->y;
+        }
+
+        unsigned int i=0;
+        DObject* o = NULL;
+        unsigned int ml = members.size();
+
+        while (i < ml)
+        {
+            o = (DObject*) members[i++];
+            if((o) && o->exists)
+            {
+                if(moved)
+                {
+                    if(o->_group)
+                        o->reset(o->x+mx, o->y+my);
+                    else
+                    {
+                        o->x += mx;
+                        o->y += my;
+                    }
+                }
+
+                if(o->active)
+                    o->update();
+
+                if(moved && o->_solid)
+                {
+                    o->colHullX->width += ((mx>0) ? mx : -mx);
+                    if(mx < 0)
+                        o->colHullX->x += mx;
+                    o->colHullY->x = x;
+                    o->colHullY->height += ((my>0) ? my : -my);
+                    if(my < 0)
+                        o->colHullY->y += mx;
+                    o->colVector->x += mx;
+                    o->colVector->y += my;
+                }
+            }
+        }
     }
 
     void DGroup::update()
@@ -234,7 +281,14 @@ namespace Distillate
 
     void DGroup::renderMembers()
     {
-
+        unsigned int i=0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if((o) && o->exists && o->visible)
+                o->render();
+        }
     }
 
     void DGroup::render()
@@ -244,6 +298,14 @@ namespace Distillate
 
     void DGroup::killMembers()
     {
+        unsigned int i=0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o)
+                o->kill();
+        }
     }
 
     void DGroup::kill()
@@ -254,18 +316,75 @@ namespace Distillate
 
     void DGroup::destroyMembers()
     {
+        unsigned int i=0;
+        DObject* o = NULL;
+        while(i < members.size())
+        {
+            o = (DObject*) members[i++];
+            if(o)
+                o->destroy();
+        }
     }
 
     void DGroup::destroy()
     {
+        destroyMembers();
+        DObject::destroy();
     }
 
     void DGroup::reset(float X, float Y)
     {
+        saveOldPosition();
+        DObject::reset(X,Y);
+        float mx;
+        float my;
+        bool moved = false;
+
+        if((x != _last->x) || (y != _last->y))
+        {
+            moved = true;
+            mx = x - _last->x;
+            my = y - _last->y;
+        }
+
+        unsigned int i=0;
+        DObject* o = NULL;
+        unsigned int ml = members.size();
+
+        while (i < ml)
+        {
+            o = (DObject*) members[i++];
+            if((o) && o->exists)
+            {
+                if(moved)
+                {
+                    if(o->_group)
+                        o->reset(o->x+mx, o->y+my);
+                    else
+                    {
+                        o->x += mx;
+                        o->y += my;
+                        if(_solid)
+                        {
+                            o->colHullX->width += ((mx>0) ? mx : -mx);
+                            if(mx < 0)
+                                o->colHullX->x += mx;
+                            o->colHullY->x = x;
+                            o->colHullY->height += ((my>0) ? my : -my);
+                            if(my < 0)
+                                o->colHullY->y += mx;
+                            o->colVector->x += mx;
+                            o->colVector->y += my;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     int DGroup::sortHandler(DObject* Obj1, DObject* Obj2)
     {
+        //TODO: I'm lazy, one day
         return 0;
     }
 }

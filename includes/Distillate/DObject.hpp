@@ -19,6 +19,7 @@ namespace Distillate
         /* Internal */
         friend class DQuadTree;
         friend class DUtils;
+        friend class DGroup;
 
         public:
         /**
