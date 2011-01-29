@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#include "Distillate/Generic/Object.hpp"
 #include "Distillate/SDL/Bitmap.hpp"
+#include "Distillate/SDL/BitmapData.hpp"
 
 namespace Distillate
 {
@@ -186,7 +188,7 @@ protected:
     /**
      * Internal storage system to prevent graphics from being used repeatedly in memory.
      */
-    //static Object _cache;
+    static Generic::Object* _cache;
 
 public:
     /**
@@ -227,8 +229,17 @@ public:
      * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.
      */
     static bool pause();
-
     static void pause(bool Pause);
+
+    /** 
+     * Loads a bitmap from a file, caches it, and generates a horizontally flipped version if necessary.
+     * 
+     * @param   Graphic     The image file that you want to load.
+     * @param   Reverse     Whether to generate a flipped version.
+     * 
+     * @return  The <code>BitmapData</code> we just created.
+     */
+    static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
 
     DGlobals();
     virtual ~DGlobals();
