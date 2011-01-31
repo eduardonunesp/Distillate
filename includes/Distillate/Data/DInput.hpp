@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Distillate/Generic/Object.hpp"
+#include "Distillate/SDL/Object.hpp"
 
 namespace Distillate
 {
@@ -13,12 +13,12 @@ namespace Distillate
         /** 
          * @private
          */
-        Generic::Object* _lookup;
+        SDL::Object* _lookup;
 
         /** 
          * @private
          */
-        std::vector<Generic::Object*> _map;
+        std::vector<SDL::Object*> _map;
 
         /** 
          * @private

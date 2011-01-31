@@ -3,7 +3,7 @@
 namespace Distillate 
 {
     DInput::DInput():
-        _lookup(new Generic::Object),
+        _lookup(new SDL::Object),
         _t(256) {}
 
 
@@ -12,7 +12,7 @@ namespace Distillate
         unsigned int i =0;
         while(i < _t)
         {
-            Generic::Object* o = _map[i++];
+            SDL::Object* o = _map[i++];
             if(!o) continue;
             /*TODO: WHATs goes HERE ?! */
         }
@@ -23,7 +23,7 @@ namespace Distillate
         unsigned int i =0;
         while(i < _t)
         {
-            Generic::Object* o = _map[i++];
+            SDL::Object* o = _map[i++];
             if(!o) continue;
         }
     }

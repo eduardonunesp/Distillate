@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Distillate/Generic/Object.hpp"
+#include "Distillate/SDL/Object.hpp"
 #include "Distillate/SDL/Bitmap.hpp"
 #include "Distillate/SDL/BitmapData.hpp"
 
@@ -189,7 +189,7 @@ namespace Distillate
         /**
          * Internal storage system to prevent graphics from being used repeatedly in memory.
          */
-        static Generic::Object* _cache;
+        static SDL::Object* _cache;
 
     public:
         /**
