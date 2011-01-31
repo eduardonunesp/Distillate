@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "Distillate/SDL/Object.hpp"
 #include "Distillate/SDL/Bitmap.hpp"
 #include "Distillate/SDL/BitmapData.hpp"
@@ -189,7 +190,7 @@ namespace Distillate
         /**
          * Internal storage system to prevent graphics from being used repeatedly in memory.
          */
-        static SDL::Object* _cache;
+        static std::map<std::string, SDL::Object*> _cache;
 
     public:
         /**
@@ -222,9 +223,7 @@ namespace Distillate
          *
          * @param	Data		Anything you want to log to the console.
          */
-        static void log(/*Object*/)
-        {
-        }
+        static void log(const std::string& log);
 
         /**
          * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.

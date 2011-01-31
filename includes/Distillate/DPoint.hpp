@@ -3,13 +3,14 @@
 
 #include <string>
 #include <sstream>
+#include "Distillate/SDL/Object.hpp"
 
 namespace Distillate 
 {
     /**
      * Stores a 2D floating point coordinate.
      */
-    class DPoint
+    class DPoint : public SDL::Object
     {
         public:
         /**

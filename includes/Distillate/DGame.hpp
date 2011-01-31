@@ -10,6 +10,7 @@ namespace Distillate
     class DPoint;
     class DState;
     class DGroup;
+    class DConsole;
 
     /**
      * DGame is the heart o Distillate
@@ -90,7 +91,7 @@ namespace Distillate
         //DSprite *_soundTray:Sprite;
         float _soundTrayTimer;
         //std::vector<???*> _soundTrayBars;
-        //DConsole *_console;
+        DConsole *_console;
 
         /**
          * This is the main game loop.  It controls all the updating and rendering.

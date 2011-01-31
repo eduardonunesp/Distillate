@@ -1,6 +1,7 @@
 #include "Distillate/DGlobals.hpp"
 #include "Distillate/DGame.hpp"
 #include "Distillate/DPoint.hpp"
+#include "Distillate/Data/DConsole.hpp"
 
 namespace Distillate
 {
@@ -9,6 +10,7 @@ namespace Distillate
     DPoint *DGlobals::scroll = new DPoint();
     unsigned int DGlobals::width  = 0;
     unsigned int DGlobals::height = 0;
+    DGame* DGlobals::_game = NULL;
     bool DGlobals::_pause = false;
 
     DGlobals::DGlobals()
@@ -19,6 +21,12 @@ namespace Distillate
     DGlobals::~DGlobals()
     {
         //dtor
+    }
+
+    void DGlobals::log(const std::string& log)
+    {
+        if(_game && _game->_console)
+            _game->_console->log(log);
     }
 
     bool DGlobals::pause()
