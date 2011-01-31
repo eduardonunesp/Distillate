@@ -20,6 +20,11 @@ namespace Distillate
     {
     public:
         /**
+         * Callback function for QuadTree
+         */
+        typedef bool (callbackFunctionQuadTree)(DObject*, DObject*);
+
+        /**
          * Flag for specifying that you want to add an object to the A list.
          */
         static const unsigned int A_LIST = 0;
@@ -70,7 +75,7 @@ namespace Distillate
         static int _or;
         static int _ob;
         static unsigned int _oa;
-        static DUtils::callbackFunction* _oc;
+        static callbackFunctionQuadTree* _oc;
 
     public:
         /**
@@ -117,7 +122,7 @@ namespace Distillate
          *
          * @return	Whether or not any overlaps were found.
          */
-        bool overlap(bool BothLists = true, DUtils::callbackFunction *Callback = NULL);
+        bool overlap(bool BothLists = true, callbackFunctionQuadTree *Callback = NULL);
 
     protected:
         /**

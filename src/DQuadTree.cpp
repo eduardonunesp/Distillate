@@ -13,7 +13,7 @@ int DQuadTree::_ot = 0;
 int DQuadTree::_or = 0;
 int DQuadTree::_ob = 0;
 unsigned int DQuadTree::_oa = 0;
-DUtils::callbackFunction *DQuadTree::_oc;
+DQuadTree::callbackFunctionQuadTree *DQuadTree::_oc;
 
 DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
     DRect(X,Y,Width,Height),
@@ -240,7 +240,7 @@ void DQuadTree::addToList()
         _sw->addToList();
 }
 
-bool DQuadTree::overlap(bool BothLists, DUtils::callbackFunction *Callback)
+bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
 {
     _oc = Callback;
     bool c = false;

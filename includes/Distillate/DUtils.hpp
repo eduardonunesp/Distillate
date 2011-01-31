@@ -43,6 +43,7 @@ namespace Distillate
         std::for_each(c.begin(), c.end(), make_dtor(c));
     }
 
+    /* Functor to compare if exists */
     template <typename T>
     struct pointer_values_equal
     {
@@ -53,6 +54,7 @@ namespace Distillate
         }
     };
 
+    /* Forward */
     class DObject;
     class DPoint;
     class DQuadTree;
@@ -75,9 +77,9 @@ namespace Distillate
 
         public:
             /**
-             * Callback function for Distillate
+             * Callback function for DUtils
              */
-            typedef bool (callbackFunction)(DObject*, DObject*);
+            typedef bool (callbackFunctionUtils)(void);
 
             /**
              * Helps to eliminate false collisions and/or rendering glitches caused by rounding errors
@@ -173,7 +175,6 @@ namespace Distillate
             {
                 _seed = Seed;
                 _originalSeed = _seed;
-
             }
 
             /**

@@ -22,6 +22,11 @@ namespace Distillate
     {
     public:
         /**
+         * Callback function for DSprite
+         */
+        typedef bool (callbackFunctionSprite)(DAnim*, unsigned int);
+
+        /**
          * Useful for controlling flipped animations and checking player orientation.
          */
         static const unsigned int  LEFT = 0;
@@ -100,7 +105,7 @@ namespace Distillate
         unsigned int _curFrame;
         unsigned int _caf;
         int _frameTimer;
-        DUtils::callbackFunction *_callback;
+        callbackFunctionSprite *_callback;
         unsigned int _facing;
         int _bakedRotation;
 
