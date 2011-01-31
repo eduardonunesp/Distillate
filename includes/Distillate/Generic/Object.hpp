@@ -7,6 +7,7 @@ namespace Distillate
     {
         class Object
         {
+        public:
             Object(){};
             ~Object(){}
         };

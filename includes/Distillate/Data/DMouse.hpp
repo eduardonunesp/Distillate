@@ -1,7 +1,9 @@
 #ifndef __DMOUSE_HPP__
 #define __DMOUSE_HPP__
 
-#include <string>
+#ifndef NULL
+#define NULL 0
+#endif
 
 namespace Distillate
 {

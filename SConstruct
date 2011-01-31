@@ -18,6 +18,8 @@ src/SDL/Bitmap.cpp
 src/SDL/BitmapData.cpp
 src/SDL/Graphics.cpp
 src/Data/DMouse.cpp
+src/Data/DInput.cpp
+src/Data/DKeyboard.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp

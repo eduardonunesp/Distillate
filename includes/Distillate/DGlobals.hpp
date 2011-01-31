@@ -14,6 +14,7 @@ namespace Distillate
     class DPoint;
     class DGame;
     class DMouse;
+    class DKeyboard;
 
     /**
      * This is a global helper class full of useful functions for audio,
@@ -116,8 +117,7 @@ namespace Distillate
         /**
          * A reference to a <code>DKeyboard</code> object.  Important for input!
          */
-        //static DKeyboard *keys;
-
+        static DKeyboard *keys;
 
         /**
          * A handy container for a background music object.
