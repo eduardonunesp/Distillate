@@ -117,19 +117,19 @@ namespace Distillate
         unsigned int _color;
         SDL::BitmapData* _bbb;
         bool _boundsVisible;
-
         static SDL::Sprite* _gfxSprite;
         static SDL::Graphics* _gfx;
         /*
-_flashRect:Rectangle;
-_flashRect2:Rectangle;
-_flashPointZero:Point;
-_pixels:BitmapData;
-_framePixels:BitmapData;
-_ct:ColorTransform;
-_mtx:Matrix;
-_bbb:BitmapData;
-*/
+            TODO: NEED A PORT HERE
+            _flashRect:Rectangle;
+            _flashRect2:Rectangle;
+            _flashPointZero:Point;
+            _pixels:BitmapData;
+            _framePixels:BitmapData;
+            _ct:ColorTransform;
+            _mtx:Matrix;
+            _bbb:BitmapData;
+        */
 
     public:
 
