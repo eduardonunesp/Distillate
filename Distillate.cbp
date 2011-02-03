@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Distillate" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\Distillate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="includes" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\Distillate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="includes\Distillate\DEmitter.hpp" />
+		<Unit filename="includes\Distillate\DGame.hpp" />
+		<Unit filename="includes\Distillate\DGlobals.hpp" />
+		<Unit filename="includes\Distillate\DGroup.hpp" />
+		<Unit filename="includes\Distillate\DObject.hpp" />
+		<Unit filename="includes\Distillate\DPoint.hpp" />
+		<Unit filename="includes\Distillate\DQuadTree.hpp" />
+		<Unit filename="includes\Distillate\DRect.hpp" />
+		<Unit filename="includes\Distillate\DSprite.hpp" />
+		<Unit filename="includes\Distillate\DState.hpp" />
+		<Unit filename="includes\Distillate\DUtils.hpp" />
+		<Unit filename="includes\Distillate\Data\DAnim.hpp" />
+		<Unit filename="includes\Distillate\Data\DConsole.hpp" />
+		<Unit filename="includes\Distillate\Data\DInput.hpp" />
+		<Unit filename="includes\Distillate\Data\DKeyboard.hpp" />
+		<Unit filename="includes\Distillate\Data\DList.hpp" />
+		<Unit filename="includes\Distillate\Data\DMouse.hpp" />
+		<Unit filename="includes\Distillate\SDL\Bitmap.hpp" />
+		<Unit filename="includes\Distillate\SDL\BitmapData.hpp" />
+		<Unit filename="includes\Distillate\SDL\Graphics.hpp" />
+		<Unit filename="includes\Distillate\SDL\Matrix.hpp" />
+		<Unit filename="includes\Distillate\SDL\Object.hpp" />
+		<Unit filename="includes\Distillate\SDL\Point.hpp" />
+		<Unit filename="includes\Distillate\SDL\Rectangle.hpp" />
+		<Unit filename="includes\Distillate\SDL\SDL.hpp" />
+		<Unit filename="includes\Distillate\SDL\Sprite.hpp" />
+		<Unit filename="src\DEmitter.cpp" />
+		<Unit filename="src\DGame.cpp" />
+		<Unit filename="src\DGlobals.cpp" />
+		<Unit filename="src\DGroup.cpp" />
+		<Unit filename="src\DObject.cpp" />
+		<Unit filename="src\DQuadTree.cpp" />
+		<Unit filename="src\DSprite.cpp" />
+		<Unit filename="src\DState.cpp" />
+		<Unit filename="src\DUtils.cpp" />
+		<Unit filename="src\Data\DInput.cpp" />
+		<Unit filename="src\Data\DKeyboard.cpp" />
+		<Unit filename="src\Data\DMouse.cpp" />
+		<Unit filename="src\SDL\Bitmap.cpp" />
+		<Unit filename="src\SDL\BitmapData.cpp" />
+		<Unit filename="src\SDL\Graphics.cpp" />
+		<Unit filename="src\SDL\Sprite.cpp" />
+		<Unit filename="test\main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

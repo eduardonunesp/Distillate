@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1296763035 source:d:\projects\distillate\src\demitter.cpp
+	"Distillate/DEmitter.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\demitter.hpp
+	"DGroup.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\dgroup.hpp
+	<vector>
+	<string>
+	"DObject.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\dobject.hpp
+	<vector>
+	"DRect.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\drect.hpp
+	"DPoint.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\dpoint.hpp
+	<string>
+	<sstream>
+	"Distillate/SDL/Object.hpp"
+
+1296763035 d:\projects\distillate\includes\distillate\sdl\object.hpp
+	<string>
+
