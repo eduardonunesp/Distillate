@@ -11,6 +11,7 @@ namespace Distillate
     class DState;
     class DGroup;
     class DConsole;
+    class DSprite;
 
     /**
      * DGame is the heart o Distillate
@@ -24,7 +25,7 @@ namespace Distillate
         /* Internal */
         friend class DGlobals;
 
-        public:
+    public:
         /**
          * Sets 0, -, and + to control the global volume and P to pause.
          * @default true
@@ -38,7 +39,37 @@ namespace Distillate
          */
         DGroup *pause;
 
-        private:
+    protected:
+        //startup
+        DState *_iState;
+        bool _created;
+
+    private:
+        //basic display stuff
+        DState* _state;
+        DSprite* _screen;
+        SDL::Bitmap* _buffer;
+        unsigned int _zoom;
+        int _gameXOffset;
+        int _gameYOffset;
+        // _frame:Class;
+        DPoint* _zeroPoint;
+
+        //basic update stuff
+        float _elapsed;
+        unsigned int _total;
+        bool _paused;
+        unsigned int _framerate;
+        unsigned int _frameratePaused;
+
+        //Pause screen, sound tray, support panel, dev console, and special effects objects
+        DSprite* _soundTray;
+        float _soundTrayTimer;
+        //std::vector<???*> _soundTrayBars;
+        DConsole *_console;
+
+                
+
         /**
          * Internal event handler for input and focus.
          */
@@ -64,34 +95,6 @@ namespace Distillate
          */
         void create(/*event:Event*/);
 
-        protected:
-        //startup
-        DState *_iState;
-        bool _created;
-
-        //basic display stuff
-        DState *_state;
-        //DSprite *_screen;
-        SDL::Bitmap* _buffer;
-
-        unsigned int _zoom;
-        int _gameXOffset;
-        int _gameYOffset;
-        // _frame:Class;
-        DPoint* _zeroPoint;
-
-        //basic update stuff
-        float _elapsed;
-        unsigned int _total;
-        bool _paused;
-        unsigned int _framerate;
-        unsigned int _frameratePaused;
-
-        //Pause screen, sound tray, support panel, dev console, and special effects objects
-        //DSprite *_soundTray:Sprite;
-        float _soundTrayTimer;
-        //std::vector<???*> _soundTrayBars;
-        DConsole *_console;
 
         /**
          * This is the main game loop.  It controls all the updating and rendering.
