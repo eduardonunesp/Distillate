@@ -2,11 +2,15 @@
 #include "Distillate/DPoint.hpp"
 #include "Distillate/DGroup.hpp"
 #include "Distillate/DState.hpp"
+#include "Distillate/SDL/SDL.hpp"
+#include <stdexcept>
 
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom)
     {
+        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
+
         _zoom = Zoom;
         DState::bgColor = 0xff000000;
         //DGlobals::setGameData(this,GameSizeX,GameSizeY,Zoom);

@@ -1,7 +1,6 @@
 #ifndef __GRAPHICS_HPP__
 #define __GRAPHICS_HPP__ 
 
-#include "SDL.hpp"
 
 namespace Distillate 
 {

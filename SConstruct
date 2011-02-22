@@ -13,6 +13,7 @@ if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
 
 files = Split("""
+src/SDL/SDL.cpp
 src/SDL/Sprite.cpp
 src/SDL/Bitmap.cpp
 src/SDL/BitmapData.cpp
