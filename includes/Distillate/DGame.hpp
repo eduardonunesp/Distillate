@@ -20,7 +20,7 @@ namespace Distillate
      * It is basically only used to create your game object in the first place,
      * after that DGlobals and DState have all the useful stuff you actually need.
      */
-    class DGame
+    class DGame: public SDL::Sprite
     {
         /* Internal */
         friend class DGlobals;
@@ -68,40 +68,7 @@ namespace Distillate
         //std::vector<???*> _soundTrayBars;
         DConsole *_console;
 
-                
-
-        /**
-         * Internal event handler for input and focus.
-         */
-        void onFocus(/*event:Event=null*/);
-
-        /**
-         * Internal event handler for input and focus.
-         */
-        void onFocusLost(/*event:Event=null*/);
-
-        /**
-         * Internal function to help with basic pause game functionality.
-         */
-        void unpauseGame();
-
-        /**
-         * Internal function to help with basic pause game functionality.
-         */
-        void pauseGame();
-
-        /**
-         * Used to instantiate the guts of flixel once we have a valid pointer to the root.
-         */
-        void create(/*event:Event*/);
-
-
-        /**
-         * This is the main game loop.  It controls all the updating and rendering.
-         */
-        void update(/*event:Event*/);
-
-
+    public:
         /**
          * Game object constructor - sets up the basic properties of your game.
          *
@@ -113,6 +80,7 @@ namespace Distillate
         DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState *InitialState, unsigned int Zoom = 2);
         virtual ~DGame();
 
+    protected:
         /**
          * Adds a frame around your game for presentation purposes (see Canabalt, Gravity Hook).
          *
@@ -124,6 +92,7 @@ namespace Distillate
          */
         DGame* addFrame(void *Frame, unsigned int ScreenOffsetX, unsigned int ScreenOffsetY);
 
+    public:
         /**
          * Makes the little volume tray slide out.
          *
@@ -139,10 +108,44 @@ namespace Distillate
          */
         void switchState(DState *State);
 
+    protected:
         /**
          * Internal event handler for input and focus.
          */
         void onKeyUp(/*event:KeyboardEvent*/);
+
+        /**
+         * Internal event handler for input and focus.
+         */
+        void onFocus(/*event:Event=null*/);
+
+        /**
+         * Internal event handler for input and focus.
+         */
+        void onFocusLost(/*event:Event=null*/);
+
+    private:
+        /**
+         * Internal function to help with basic pause game functionality.
+         */
+        void unpauseGame();
+
+        /**
+         * Internal function to help with basic pause game functionality.
+         */
+        void pauseGame();
+
+        /**
+         * Used to instantiate the guts of flixel once we have a valid pointer to the root.
+         */
+        void create(/*event:Event*/);
+
+    protected:
+        /**
+         * This is the main game loop.  It controls all the updating and rendering.
+         */
+        void update(/*event:Event*/);
+
     };
 }
 #endif // DGAME_HPP

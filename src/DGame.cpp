@@ -1,19 +1,14 @@
 #include "Distillate/DGame.hpp"
 #include "Distillate/DPoint.hpp"
+#include "Distillate/DGroup.hpp"
+#include "Distillate/DState.hpp"
 
 namespace Distillate
 {
-
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom)
     {
-        /*
-           if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
-           {
-           exit(1);
-           }
-           */
         _zoom = Zoom;
-        //DState::bgColor = 0xff000000;
+        DState::bgColor = 0xff000000;
         //DGlobals::setGameData(this,GameSizeX,GameSizeY,Zoom);
         _elapsed = 0;
         _total = 0;
@@ -39,14 +34,20 @@ namespace Distillate
     DGame::~DGame()
     {
         //dtor
+        delete pause;
+        delete _iState;
+        delete _buffer;
+        delete _zeroPoint;
+        delete _soundTray;
 
     }
 
     void DGame::create()
     {
-        //unsigned int i;
-        //DSave* soundPrefs;
-
+        unsigned int i;
+        unsigned int l;
+        //DSave* soundPrefs = NULL;
+        //TODO: Set frame rate !!! 
         update();
     }
 
