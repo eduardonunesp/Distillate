@@ -241,6 +241,12 @@ namespace Distillate
          */
         static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
 
+    private:
+        /** 
+         * Called by <code>FlxGame</code> to set up <code>FlxG</code> during <code>FlxGame</code>'s constructor.
+         */
+        static function setGameData(Game:FlxGame,Width:uint,Height:uint,Zoom:uint):void
+
         DGlobals();
         virtual ~DGlobals();
     };

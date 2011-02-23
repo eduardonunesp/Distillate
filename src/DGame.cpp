@@ -7,10 +7,10 @@
 
 namespace Distillate
 {
-    DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom)
+    DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
+    pause(new DGroup()),
+    _screen(new SDL::Sprite())
     {
-        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
-
         _zoom = Zoom;
         DState::bgColor = 0xff000000;
         //DGlobals::setGameData(this,GameSizeX,GameSizeY,Zoom);
@@ -30,8 +30,6 @@ namespace Distillate
         _paused = false;
         _created = false;
 
-
-        //    _buffer = SDL_SetVideoMode(GameSizeX,GameSizeY,16,SDL_HWSURFACE);
         create();
     }
 
@@ -39,8 +37,8 @@ namespace Distillate
     {
         //dtor
         delete pause;
+        delete _screen;
         delete _iState;
-        delete _buffer;
         delete _zeroPoint;
         delete _soundTray;
 
@@ -48,10 +46,12 @@ namespace Distillate
 
     void DGame::create()
     {
+        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
         unsigned int i;
         unsigned int l;
         //DSave* soundPrefs = NULL;
         //TODO: Set frame rate !!! 
+        _screen->buffer(SDL::setVideoMode(GameSizeX, GameSizeY));
         update();
     }
 

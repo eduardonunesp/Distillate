@@ -12,6 +12,7 @@ namespace Distillate
     namespace SDL
     {
         bool initSDL();
+        SDL_Surface* setVideoMode(unsigned int w, unsigned int h);
     }
 }
 

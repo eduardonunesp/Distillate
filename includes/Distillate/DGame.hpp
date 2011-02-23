@@ -3,6 +3,7 @@
 
 #include "SDL/Bitmap.hpp"
 #include "SDL/Sprite.hpp"
+#include "SDL/Surface.hpp"
 
 namespace Distillate
 {
@@ -14,7 +15,7 @@ namespace Distillate
     class DSprite;
 
     /**
-     * DGame is the heart o Distillate
+     * DGame is the heart of Distillate
      * all Distillate games, and contains a bunch of basic game loops and things.
      * It is a long and sloppy file that you shouldn't have to worry about too much!
      * It is basically only used to create your game object in the first place,
@@ -47,8 +48,8 @@ namespace Distillate
     private:
         //basic display stuff
         DState* _state;
-        DSprite* _screen;
-        SDL::Bitmap* _buffer;
+        SDL::Sprite* _screen;
+        SDL::Surface* _buffer;
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
