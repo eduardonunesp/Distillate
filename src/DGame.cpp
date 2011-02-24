@@ -3,34 +3,34 @@
 #include "Distillate/DGroup.hpp"
 #include "Distillate/DState.hpp"
 #include "Distillate/DGlobals.hpp"
+#include "Distillate/Data/DConsole.hpp"
 #include "Distillate/SDL/SDL.hpp"
 #include <stdexcept>
 
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
+    useDefaultHotKeys(true),
     pause(new DGroup()),
-    _screen(new SDL::Sprite())
+    _iState(InitialState),
+    _created(false),
+    _state(NULL),
+    _screen(new SDL::Sprite()),
+    _zoom(Zoom),
+    _gameXOffset(0),
+    _gameYOffset(0),
+    _zeroPoint(new SDL::Point),
+    _elapsed(0),
+    _total(0),
+    _paused(false),
+    _framerate(0),
+    _frameratePaused(false),
+    _soundTray(new DSprite()),
+    _soundTrayTimer(0),
+    _console(new DConsole())
     {
-        _zoom = Zoom;
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
-        _elapsed = 0;
-        _total = 0;
-        //pause = new DPauseState();
-        _state = NULL;
-        _iState = InitialState;
-        _zeroPoint = new DPoint();
-
-        useDefaultHotKeys = true;
-
-        //_frame = NULL;
-        _gameXOffset = 0;
-        _gameYOffset = 0;
-
-        _paused = false;
-        _created = false;
-
         create();
     }
 
@@ -39,10 +39,10 @@ namespace Distillate
         //dtor
         delete pause;
         delete _screen;
-        delete _iState;
         delete _zeroPoint;
+        delete _iState;
         delete _soundTray;
-
+        delete _console;
     }
 
     void DGame::create()
@@ -70,5 +70,4 @@ namespace Distillate
             DGlobals::elapsed *= DGlobals::timeScale;
         }
     }
-
 }

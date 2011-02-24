@@ -13,8 +13,8 @@ namespace Distillate
             int x;
             int y;
 
-            Point();
-            ~Point();
+            Point() {};
+            ~Point() {};
         };
     }
 }

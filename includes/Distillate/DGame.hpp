@@ -4,6 +4,7 @@
 #include "SDL/Bitmap.hpp"
 #include "SDL/Sprite.hpp"
 #include "SDL/Surface.hpp"
+#include "SDL/Point.hpp"
 
 namespace Distillate
 {
@@ -49,12 +50,11 @@ namespace Distillate
         //basic display stuff
         DState* _state;
         SDL::Sprite* _screen;
-        SDL::Surface* _buffer;
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
         // _frame:Class;
-        DPoint* _zeroPoint;
+        SDL::Point* _zeroPoint;
 
         //basic update stuff
         float _elapsed;
