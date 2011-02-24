@@ -1,17 +1,13 @@
 #ifndef __SURFACE_HPP__
-#define __SURFACE_HPP__ 
+#define __SURFACE_HPP__
 
-#ifdef WIN32 
-#include "SDL.h" 
-#else 
-#include "SDL/SDL.h" 
-#endif 
+#include "SDL/SDL.h"
 
-namespace Distillate 
+namespace Distillate
 {
     namespace SDL
     {
-        class Surface 
+        class Surface
         {
         public:
             Surface() : _buffer(NULL) {};

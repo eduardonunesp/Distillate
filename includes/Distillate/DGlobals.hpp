@@ -23,24 +23,27 @@ namespace Distillate
      */
     class DGlobals
     {
+        /* Internal */
+        friend class DGame;
+
     public:
-        /** 
+        /**
          * If you build and maintain your own version of flixel,
          * you can give it your own name here.  Appears in the console.
-         */  
+         */
         static const std::string LIBRARY_NAME;
 
-        /** 
+        /**
          * Assign a major version to your library.
          * Appears before the decimal in the console.
-         */  
+         */
         static const unsigned int LIBRARY_MAJOR_VERSION = 1;
 
-        /** 
+        /**
          * Assign a minor version to your library.
          * Appears after the decimal in the console.
-         */  
-        static const unsigned int LIBRARY_MINOR_VERSION = 0; 
+         */
+        static const unsigned int LIBRARY_MINOR_VERSION = 0;
 
     protected:
         /**
@@ -61,9 +64,9 @@ namespace Distillate
         static bool debug;
 
     protected:
-        /** 
+        /**
          * Internal tracker for bounding box visibility.
-         */  
+         */
         static bool _showBounds;
 
     public:
@@ -180,10 +183,10 @@ namespace Distillate
          */
         static DPoint *scroll;
 
-        /** 
+        /**
          * Reference to the active graphics buffer.
          * Can also be referenced via <code>FlxState.screen</code>.
-         */  
+         */
         static SDL::Bitmap* buffer;
 
     protected:
@@ -231,21 +234,21 @@ namespace Distillate
         static bool pause();
         static void pause(bool Pause);
 
-        /** 
+        /**
          * Loads a bitmap from a file, caches it, and generates a horizontally flipped version if necessary.
-         * 
+         *
          * @param   Graphic     The image file that you want to load.
          * @param   Reverse     Whether to generate a flipped version.
-         * 
+         *
          * @return  The <code>BitmapData</code> we just created.
          */
         static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
 
     private:
-        /** 
-         * Called by <code>FlxGame</code> to set up <code>FlxG</code> during <code>FlxGame</code>'s constructor.
+        /**
+         * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
          */
-        static function setGameData(Game:FlxGame,Width:uint,Height:uint,Zoom:uint):void
+        static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom);
 
         DGlobals();
         virtual ~DGlobals();

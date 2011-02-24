@@ -1,27 +1,368 @@
 # depslib dependency file v1.0
-1296763035 source:d:\projects\distillate\src\demitter.cpp
+1298454126 source:d:\projects\distillate\src\demitter.cpp
 	"Distillate/DEmitter.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\demitter.hpp
+1298454128 d:\projects\distillate\includes\distillate\demitter.hpp
 	"DGroup.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\dgroup.hpp
+1298454128 d:\projects\distillate\includes\distillate\dgroup.hpp
 	<vector>
 	<string>
 	"DObject.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\dobject.hpp
+1298454128 d:\projects\distillate\includes\distillate\dobject.hpp
 	<vector>
 	"DRect.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\drect.hpp
+1298454128 d:\projects\distillate\includes\distillate\drect.hpp
 	"DPoint.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\dpoint.hpp
+1298454128 d:\projects\distillate\includes\distillate\dpoint.hpp
 	<string>
 	<sstream>
 	"Distillate/SDL/Object.hpp"
 
-1296763035 d:\projects\distillate\includes\distillate\sdl\object.hpp
+1298454131 d:\projects\distillate\includes\distillate\sdl\object.hpp
 	<string>
+
+1298515905 source:d:\projects\distillate\src\dglobals.cpp
+	"Distillate/DGlobals.hpp"
+	"Distillate/DGame.hpp"
+	"Distillate/DPoint.hpp"
+	"Distillate/Data/DConsole.hpp"
+
+1298514404 d:\projects\distillate\includes\distillate\dglobals.hpp
+	<string>
+	<vector>
+	<map>
+	"Distillate/SDL/Object.hpp"
+	"Distillate/SDL/Bitmap.hpp"
+	"Distillate/SDL/BitmapData.hpp"
+
+1298510974 d:\projects\distillate\includes\distillate\sdl\bitmap.hpp
+	"BitmapData.hpp"
+
+1298510974 d:\projects\distillate\includes\distillate\sdl\bitmapdata.hpp
+
+1298510974 d:\projects\distillate\includes\distillate\dgame.hpp
+	"SDL/Bitmap.hpp"
+	"SDL/Sprite.hpp"
+	"SDL/Surface.hpp"
+
+1298510974 d:\projects\distillate\includes\distillate\sdl\sprite.hpp
+	"Surface.hpp"
+
+1298513701 d:\projects\distillate\includes\distillate\sdl\surface.hpp
+	"SDL/SDL.h"
+
+1298454131 d:\projects\distillate\includes\distillate\data\dconsole.hpp
+	<string>
+	"Distillate/SDL/Object.hpp"
+
+1298454126 source:d:\projects\distillate\src\dgroup.cpp
+	"Distillate/DGroup.hpp"
+	<algorithm>
+	"Distillate/DPoint.hpp"
+	"Distillate/DUtils.hpp"
+
+1298454128 d:\projects\distillate\includes\distillate\dutils.hpp
+	<math.h>
+	<algorithm>
+	<functional>
+	<utility>
+	<string>
+
+1298454126 source:d:\projects\distillate\src\dobject.cpp
+	"Distillate/DObject.hpp"
+	"Distillate/DGlobals.hpp"
+	"Distillate/DUtils.hpp"
+	"Distillate/DPoint.hpp"
+	"Distillate/DSprite.hpp"
+
+1298454128 d:\projects\distillate\includes\distillate\dsprite.hpp
+	<string>
+	<vector>
+	"DObject.hpp"
+	"DUtils.hpp"
+	"SDL/BitmapData.hpp"
+	"SDL/Sprite.hpp"
+	"SDL/Graphics.hpp"
+
+1298510974 d:\projects\distillate\includes\distillate\sdl\graphics.hpp
+
+1298454126 source:d:\projects\distillate\src\dquadtree.cpp
+	"Distillate/DQuadTree.hpp"
+	"Distillate/Data/DList.hpp"
+	"Distillate/DRect.hpp"
+	<vector>
+
+1298454128 d:\projects\distillate\includes\distillate\dquadtree.hpp
+	"DRect.hpp"
+	"DUtils.hpp"
+
+1298454131 d:\projects\distillate\includes\distillate\data\dlist.hpp
+	"Distillate/DObject.hpp"
+
+1298454126 source:d:\projects\distillate\src\dsprite.cpp
+	"Distillate/DSprite.hpp"
+	"Distillate/DPoint.hpp"
+	"Distillate/Data/DAnim.hpp"
+	"Distillate/DGlobals.hpp"
+
+1298454131 d:\projects\distillate\includes\distillate\data\danim.hpp
+	<string>
+	<vector>
+
+1298454126 source:d:\projects\distillate\src\dutils.cpp
+	<cmath>
+	<cstdlib>
+	"Distillate/DUtils.hpp"
+	"Distillate/DGlobals.hpp"
+	"Distillate/DObject.hpp"
+	"Distillate/DPoint.hpp"
+	"Distillate/DQuadTree.hpp"
+	"Distillate/DRect.hpp"
+
+1298454128 source:d:\projects\distillate\src\data\dinput.cpp
+	"Distillate/Data/DInput.hpp"
+
+1298454131 d:\projects\distillate\includes\distillate\data\dinput.hpp
+	<vector>
+	<string>
+	"Distillate/SDL/Object.hpp"
+
+1298454128 source:d:\projects\distillate\src\data\dkeyboard.cpp
+	"Distillate/Data/DKeyboard.hpp"
+
+1298454131 d:\projects\distillate\includes\distillate\data\dkeyboard.hpp
+
+1298454128 source:d:\projects\distillate\src\data\dmouse.cpp
+	"Distillate/Data/DMouse.hpp"
+	"Distillate/DSprite.hpp"
+
+1298454131 d:\projects\distillate\includes\distillate\data\dmouse.hpp
+
+1298454128 source:d:\projects\distillate\src\sdl\bitmap.cpp
+	"Distillate/SDL/Bitmap.hpp"
+
+1298454128 source:d:\projects\distillate\src\sdl\bitmapdata.cpp
+	"Distillate/SDL/BitmapData.hpp"
+
+1298454128 source:d:\projects\distillate\src\sdl\sprite.cpp
+	"Distillate/SDL/Sprite.hpp"
+
+1255800449 d:\projects\sdl\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255800464 d:\projects\sdl\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255800450 d:\projects\sdl\include\sdl\sdl_platform.h
+
+1255800450 d:\projects\sdl\include\sdl\begin_code.h
+
+1255800450 d:\projects\sdl\include\sdl\close_code.h
+
+1255800449 d:\projects\sdl\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_keysym.h
+
+1255800450 d:\projects\sdl\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 d:\projects\sdl\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1298515967 source:d:\projects\distillate\src\dgame.cpp
+	"Distillate/DGame.hpp"
+	"Distillate/DPoint.hpp"
+	"Distillate/DGroup.hpp"
+	"Distillate/DState.hpp"
+	"Distillate/DGlobals.hpp"
+	"Distillate/SDL/SDL.hpp"
+	<stdexcept>
+
+1298510974 d:\projects\distillate\includes\distillate\dstate.hpp
+	"DSprite.hpp"
+
+1298513719 d:\projects\distillate\includes\distillate\sdl\sdl.hpp
+	"SDL/SDL.h"
+
+1298510974 source:d:\projects\distillate\src\dstate.cpp
+	"Distillate/DState.hpp"
+	"Distillate/DGroup.hpp"
+	"Distillate/DObject.hpp"
+	"Distillate/DUtils.hpp"
+
+1298510974 source:d:\projects\distillate\src\sdl\graphics.cpp
+	"Distillate/SDL/Graphics.hpp"
+
+1298510974 source:d:\projects\distillate\src\sdl\sdl.cpp
+	"Distillate/SDL/SDL.hpp"
+
+1298510974 source:d:\projects\distillate\src\sdl\surface.cpp
+	"Distillate/SDL/Surface.hpp"
+
+1298515542 source:d:\projects\distillate\test\main.cpp
+	"SDL/SDL.h"
+	"Distillate/DState.hpp"
+	"Distillate/DGame.hpp"
 

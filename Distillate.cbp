@@ -13,7 +13,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="includes" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -31,7 +30,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="includes" />
+			<Add directory="..\SDL\include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lmingw32" />
+			<Add option="-lSDLmain" />
+			<Add option="-lSDL" />
+			<Add directory="..\SDL\lib" />
+		</Linker>
 		<Unit filename="includes\Distillate\DEmitter.hpp" />
 		<Unit filename="includes\Distillate\DGame.hpp" />
 		<Unit filename="includes\Distillate\DGlobals.hpp" />
@@ -58,6 +65,7 @@
 		<Unit filename="includes\Distillate\SDL\Rectangle.hpp" />
 		<Unit filename="includes\Distillate\SDL\SDL.hpp" />
 		<Unit filename="includes\Distillate\SDL\Sprite.hpp" />
+		<Unit filename="includes\Distillate\SDL\Surface.hpp" />
 		<Unit filename="src\DEmitter.cpp" />
 		<Unit filename="src\DGame.cpp" />
 		<Unit filename="src\DGlobals.cpp" />
@@ -73,7 +81,9 @@
 		<Unit filename="src\SDL\Bitmap.cpp" />
 		<Unit filename="src\SDL\BitmapData.cpp" />
 		<Unit filename="src\SDL\Graphics.cpp" />
+		<Unit filename="src\SDL\SDL.cpp" />
 		<Unit filename="src\SDL\Sprite.cpp" />
+		<Unit filename="src\SDL\Surface.cpp" />
 		<Unit filename="test\main.cpp" />
 		<Extensions>
 			<code_completion />

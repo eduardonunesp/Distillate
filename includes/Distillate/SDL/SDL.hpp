@@ -1,11 +1,7 @@
 #ifndef __SDL_HPP__
 #define __SDL_HPP__
 
-#ifdef WIN32 
-#include "SDL.h" 
-#else 
-#include "SDL/SDL.h" 
-#endif 
+#include "SDL/SDL.h"
 
 namespace Distillate
 {

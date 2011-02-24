@@ -2,6 +2,7 @@
 #include "Distillate/DPoint.hpp"
 #include "Distillate/DGroup.hpp"
 #include "Distillate/DState.hpp"
+#include "Distillate/DGlobals.hpp"
 #include "Distillate/SDL/SDL.hpp"
 #include <stdexcept>
 
@@ -13,7 +14,7 @@ namespace Distillate
     {
         _zoom = Zoom;
         DState::bgColor = 0xff000000;
-        //DGlobals::setGameData(this,GameSizeX,GameSizeY,Zoom);
+        DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
         _elapsed = 0;
         _total = 0;
         //pause = new DPauseState();
@@ -50,8 +51,8 @@ namespace Distillate
         unsigned int i;
         unsigned int l;
         //DSave* soundPrefs = NULL;
-        //TODO: Set frame rate !!! 
-        _screen->buffer(SDL::setVideoMode(GameSizeX, GameSizeY));
+        //TODO: Set frame rate !!!
+        _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
         update();
     }
 
@@ -62,7 +63,7 @@ namespace Distillate
 
         while(true)
         {
-            //       SDL_Delay(10);
+            SDL_Delay(10);
         }
     }
 

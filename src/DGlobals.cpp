@@ -59,29 +59,29 @@ namespace Distillate
         std::string key = Key;
         /*
         if(!key.empty())
-        {   
+        {
             key = String(Graphic);
             if(Unique && (_cache[key] != undefined) && (_cache[key] != null))
-            {   
+            {
                 //Generate a unique key
                 var inc:uint = 0;
                 var ukey:String;
                 do { ukey = key + inc++;
                 } while((_cache[ukey] != undefined) && (_cache[ukey] != null));
                 key = ukey;
-            }   
-        }   
+            }
+        }
         //If there is no data for this key, generate the requested graphic
         if(!checkBitmapCache(key))
-        {   
+        {
             _cache[key] = (new Graphic).bitmapData;
             if(Reverse) needReverse = true;
-        }   
+        }
         var pixels:BitmapData = _cache[key];
         if(!needReverse && Reverse && (pixels.width == (new Graphic).bitmapData.width))
             needReverse = true;
         if(needReverse)
-        {   
+        {
             var newPixels:BitmapData = new BitmapData(pixels.width<<1,pixels.height,true,0x00000000);
             newPixels.draw(pixels);
             var mtx:Matrix = new Matrix();
@@ -89,7 +89,7 @@ namespace Distillate
             mtx.translate(newPixels.width,0);
             newPixels.draw(pixels,mtx);
             pixels = newPixels;
-        }   
+        }
         return pixels;
 
 
@@ -99,4 +99,11 @@ namespace Distillate
         */
         return NULL;
     }
+
+     void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
+     {
+         _game = Game;
+         width = Width;
+         height = Height;
+     }
 }
