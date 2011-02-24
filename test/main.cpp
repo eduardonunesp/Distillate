@@ -11,8 +11,7 @@ public:
 class Test : public Distillate::DGame
 {
 public:
-    Test() : Distillate::DGame(640,480,new StatePlay())
-    {}
+    Test() : Distillate::DGame(640,480,new StatePlay()) {}
 };
 
 int main(int argc, char *argv[])

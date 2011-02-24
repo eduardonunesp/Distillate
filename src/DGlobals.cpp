@@ -5,8 +5,10 @@
 
 namespace Distillate
 {
-    float  DGlobals::elapsed;
-    const  std::string DGlobals::LIBRARY_NAME = "Distillate";
+    const std::string DGlobals::LIBRARY_NAME = "Distillate";
+    float DGlobals::elapsed;
+    float DGlobals::maxElapsed;
+    float DGlobals::timeScale;
     DPoint *DGlobals::scroll = new DPoint();
     unsigned int DGlobals::width  = 0;
     unsigned int DGlobals::height = 0;
@@ -105,5 +107,7 @@ namespace Distillate
          _game = Game;
          width = Width;
          height = Height;
+         timeScale = 1.0f;
+         maxElapsed = 0.0333333;
      }
 }

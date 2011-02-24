@@ -50,20 +50,24 @@ namespace Distillate
         if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
         unsigned int i;
         unsigned int l;
-        //DSave* soundPrefs = NULL;
-        //TODO: Set frame rate !!!
         _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
         update();
     }
 
     void DGame::update()
     {
-        //unsigned int mark = getTimer();
-        //TODO: put time controller
-
         while(true)
         {
-            SDL_Delay(10);
+            SDL::pollEvent();
+            //Frame timing
+            unsigned int mark = SDL::getTimer();
+            unsigned int ems = mark-_total;
+            _elapsed = ems/1000;
+            _total = mark;
+            DGlobals::elapsed = _elapsed;
+            if(DGlobals::elapsed > DGlobals::maxElapsed)
+                DGlobals::elapsed = DGlobals::maxElapsed;
+            DGlobals::elapsed *= DGlobals::timeScale;
         }
     }
 

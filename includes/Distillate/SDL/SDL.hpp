@@ -9,6 +9,8 @@ namespace Distillate
     {
         bool initSDL();
         SDL_Surface* setVideoMode(unsigned int w, unsigned int h);
+        unsigned int getTimer();
+        void pollEvent();
     }
 }
 
