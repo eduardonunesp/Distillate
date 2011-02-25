@@ -1,7 +1,7 @@
 #ifndef DUTILS_HPP
 #define DUTILS_HPP
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <functional>
 #include <utility>
@@ -124,6 +124,11 @@ namespace Distillate
             static float ceilValue(float N)
             {
                 return ceil(N);
+            }
+
+            static float roundValue(float N)
+            {
+                return round(N);
             }
 
             /**

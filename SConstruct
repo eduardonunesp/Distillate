@@ -2,11 +2,11 @@ libname = 'Distillate';
 
 IncludePath = ['src','src/sdl','src/data','includes']
 LibsPath = []   
-Libs = ['SDL']
+Libs = ['SDL','SDL_mixer']
 
 CommonFlags = ' -Wall -pedantic'
 
-debug  = ARGUMENTS.get('debug', 0)
+debug  = ARGUMENTS.get('debug', 1)
 shared = ARGUMENTS.get('shared', 0)
 libenv = Environment(CPPFLAGS = CommonFlags)
 if int(debug):

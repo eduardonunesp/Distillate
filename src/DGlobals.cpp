@@ -14,16 +14,7 @@ namespace Distillate
     unsigned int DGlobals::height = 0;
     DGame* DGlobals::_game = NULL;
     bool DGlobals::_pause = false;
-
-    DGlobals::DGlobals()
-    {
-        //ctor
-    }
-
-    DGlobals::~DGlobals()
-    {
-        //dtor
-    }
+    bool DGlobals::_running = false;
 
     void DGlobals::log(const std::string& log)
     {
@@ -104,6 +95,7 @@ namespace Distillate
 
      void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
      {
+         _running = true;
          _game = Game;
          width = Width;
          height = Height;

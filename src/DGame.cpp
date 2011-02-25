@@ -45,21 +45,61 @@ namespace Distillate
         delete _console;
     }
 
+    void DGame::switchState(DState* State)
+    {
+    }
+    
+    void onKeyUp(SDL::Event* e)
+    {
+        DGlobals::log((char*) e->data);
+    }
+
+    void onFocus(/*event:Event=null*/)
+    {
+
+    }
+
+    void onFocusLost(/*event:Event=null*/)
+    {
+        
+    }
+
     void DGame::create()
     {
         if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
-        unsigned int i;
-        unsigned int l;
         _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
+        SDL::Event::addEvent(SDL::Event::KEY_UP, &onKeyUp);
         update();
+    }
+
+    void DGame::showSoundTray(bool Silent)
+    {
+        /*
+        if(!Silent)
+            DGlobals::play(SndBeep);        
+        _soundTrayTimer = 1;
+        _sonndTray.y = _gameYOffset;
+        _sonndTray.visible = true;
+
+        unsigned int gv = DUtils::roundValue(DGlobals::volume*10);
+        if(DGlobals::mute)
+            gv = 0;
+        for(unsigned int i = 0; i < _sonndTrayBars.length; i++)
+        {
+            if(i < gv) _sonndTrayBars[i].alpha = 1;
+            else _sonndTrayBars[i].alpha = 0.5;
+        }
+        */
     }
 
     void DGame::update()
     {
-        while(true)
+        while(DGlobals::_running)
         {
-            SDL::pollEvent();
-            //Frame timing
+            // Polling events
+            SDL::Event::pollEvent();
+
+            // Frame timing
             unsigned int mark = SDL::getTimer();
             unsigned int ems = mark-_total;
             _elapsed = ems/1000;

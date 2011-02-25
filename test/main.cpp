@@ -1,4 +1,4 @@
-#include "SDL/SDL.h"
+#include <iostream>
 #include "Distillate/DState.hpp"
 #include "Distillate/DGame.hpp"
 
@@ -16,6 +16,14 @@ public:
 
 int main(int argc, char *argv[])
 {
-    Test* test = new Test();
+    try
+    {
+        Test* test = new Test();
+    }
+    catch(...)
+    {
+        std::cout << "Error while initialize" << std::endl;
+    }
+
     return 0;
 }

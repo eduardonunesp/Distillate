@@ -53,7 +53,6 @@ namespace Distillate
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
-        // _frame:Class;
         SDL::Point* _zeroPoint;
 
         //basic update stuff
@@ -81,19 +80,6 @@ namespace Distillate
         DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState *InitialState, unsigned int Zoom = 2);
         virtual ~DGame();
 
-    protected:
-        /**
-         * Adds a frame around your game for presentation purposes (see Canabalt, Gravity Hook).
-         *
-         * @param	Frame			If you want you can add a little graphical frame to the outside edges of your game.
-         * @param	ScreenOffsetX	Width in pixels of left side of frame.
-         * @param	ScreenOffsetY	Height in pixels of top of frame.
-         *
-         * @return	This <code>DGame</code> instance.
-         */
-        DGame* addFrame(void *Frame, unsigned int ScreenOffsetX, unsigned int ScreenOffsetY);
-
-    public:
         /**
          * Makes the little volume tray slide out.
          *
@@ -110,11 +96,6 @@ namespace Distillate
         void switchState(DState *State);
 
     protected:
-        /**
-         * Internal event handler for input and focus.
-         */
-        void onKeyUp(/*event:KeyboardEvent*/);
-
         /**
          * Internal event handler for input and focus.
          */

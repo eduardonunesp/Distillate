@@ -245,13 +245,19 @@ namespace Distillate
         static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
 
     private:
+
+        /**
+         * Indicates if current game is running, used in main loop
+         */
+        static bool _running;
+
         /**
          * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
          */
         static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom);
 
-        DGlobals();
-        virtual ~DGlobals();
+        DGlobals() {};
+        virtual ~DGlobals() {};
     };
 }
 #endif // DGLOBALS_HPP
