@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include "Distillate/DState.hpp"
 #include "Distillate/DGame.hpp"
 
@@ -19,6 +20,10 @@ int main(int argc, char *argv[])
     try
     {
         Test* test = new Test();
+    }
+    catch(std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
     }
     catch(...)
     {

@@ -48,10 +48,11 @@ namespace Distillate
                     current = CLOSE_WINDOW;
                     curr_data = (void*) "Command: SDL_QUIT\0";
                     break;
-               case SDL_KEYUP:                    
-               {
-                    current = KEY_UP;
-                } break;
+                case SDL_KEYUP:                    
+                    {
+                        current = KEY_UP;
+                    } 
+                    break;
                 default:
                     current = NONE;
                     break;

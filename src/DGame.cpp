@@ -51,7 +51,8 @@ namespace Distillate
     
     void onKeyUp(SDL::Event* e)
     {
-        DGlobals::log((char*) e->data);
+        if(e->data)
+            DGlobals::log((char*) e->data);
     }
 
     void onFocus(/*event:Event=null*/)
