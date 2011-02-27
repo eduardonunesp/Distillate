@@ -25,13 +25,13 @@
 1298454131 d:\projects\distillate\includes\distillate\sdl\object.hpp
 	<string>
 
-1298543521 source:d:\projects\distillate\src\dglobals.cpp
+1298679101 source:d:\projects\distillate\src\dglobals.cpp
 	"Distillate/DGlobals.hpp"
 	"Distillate/DGame.hpp"
 	"Distillate/DPoint.hpp"
 	"Distillate/Data/DConsole.hpp"
 
-1298514404 d:\projects\distillate\includes\distillate\dglobals.hpp
+1298679101 d:\projects\distillate\includes\distillate\dglobals.hpp
 	<string>
 	<vector>
 	<map>
@@ -44,10 +44,11 @@
 
 1298510974 d:\projects\distillate\includes\distillate\sdl\bitmapdata.hpp
 
-1298510974 d:\projects\distillate\includes\distillate\dgame.hpp
+1298679101 d:\projects\distillate\includes\distillate\dgame.hpp
 	"SDL/Bitmap.hpp"
 	"SDL/Sprite.hpp"
 	"SDL/Surface.hpp"
+	"SDL/Point.hpp"
 
 1298510974 d:\projects\distillate\includes\distillate\sdl\sprite.hpp
 	"Surface.hpp"
@@ -55,8 +56,9 @@
 1298513701 d:\projects\distillate\includes\distillate\sdl\surface.hpp
 	"SDL/SDL.h"
 
-1298454131 d:\projects\distillate\includes\distillate\data\dconsole.hpp
+1298679101 d:\projects\distillate\includes\distillate\data\dconsole.hpp
 	<string>
+	<iostream>
 	"Distillate/SDL/Object.hpp"
 
 1298454126 source:d:\projects\distillate\src\dgroup.cpp
@@ -65,8 +67,8 @@
 	"Distillate/DPoint.hpp"
 	"Distillate/DUtils.hpp"
 
-1298454128 d:\projects\distillate\includes\distillate\dutils.hpp
-	<math.h>
+1298679101 d:\projects\distillate\includes\distillate\dutils.hpp
+	<cmath>
 	<algorithm>
 	<functional>
 	<utility>
@@ -331,20 +333,23 @@
 	"begin_code.h"
 	"close_code.h"
 
-1298544043 source:d:\projects\distillate\src\dgame.cpp
+1298680010 source:d:\projects\distillate\src\dgame.cpp
 	"Distillate/DGame.hpp"
 	"Distillate/DPoint.hpp"
 	"Distillate/DGroup.hpp"
 	"Distillate/DState.hpp"
 	"Distillate/DGlobals.hpp"
+	"Distillate/Data/DConsole.hpp"
 	"Distillate/SDL/SDL.hpp"
 	<stdexcept>
 
 1298510974 d:\projects\distillate\includes\distillate\dstate.hpp
 	"DSprite.hpp"
 
-1298544149 d:\projects\distillate\includes\distillate\sdl\sdl.hpp
+1298679101 d:\projects\distillate\includes\distillate\sdl\sdl.hpp
 	"SDL/SDL.h"
+	"SDL/SDL_mixer.h"
+	<map>
 
 1298510974 source:d:\projects\distillate\src\dstate.cpp
 	"Distillate/DState.hpp"
@@ -355,14 +360,31 @@
 1298510974 source:d:\projects\distillate\src\sdl\graphics.cpp
 	"Distillate/SDL/Graphics.hpp"
 
-1298544145 source:d:\projects\distillate\src\sdl\sdl.cpp
+1298679101 source:d:\projects\distillate\src\sdl\sdl.cpp
 	"Distillate/SDL/SDL.hpp"
+	<cstring>
 
 1298510974 source:d:\projects\distillate\src\sdl\surface.cpp
 	"Distillate/SDL/Surface.hpp"
 
-1298540867 source:d:\projects\distillate\test\main.cpp
-	"SDL/SDL.h"
+1298679101 source:d:\projects\distillate\test\main.cpp
+	<iostream>
+	<stdexcept>
 	"Distillate/DState.hpp"
 	"Distillate/DGame.hpp"
+
+1298588998 d:\projects\distillate\includes\distillate\sdl\point.hpp
+	"Object.hpp"
+
+1258275152 d:\projects\sdl\include\sdl\sdl_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 d:\projects\sdl\include\sdl\sdl_types.h
+	"SDL_stdinc.h"
 

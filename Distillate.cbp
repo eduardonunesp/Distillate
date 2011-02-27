@@ -37,8 +37,11 @@
 			<Add option="-lmingw32" />
 			<Add option="-lSDLmain" />
 			<Add option="-lSDL" />
+			<Add option="-lSDL_mixer" />
 			<Add directory="..\SDL\lib" />
 		</Linker>
+		<Unit filename="includes\Distillate\Abstract\DEventListerner.hpp" />
+		<Unit filename="includes\Distillate\Abstract\DSurface.hpp" />
 		<Unit filename="includes\Distillate\DEmitter.hpp" />
 		<Unit filename="includes\Distillate\DGame.hpp" />
 		<Unit filename="includes\Distillate\DGlobals.hpp" />
@@ -52,6 +55,7 @@
 		<Unit filename="includes\Distillate\DUtils.hpp" />
 		<Unit filename="includes\Distillate\Data\DAnim.hpp" />
 		<Unit filename="includes\Distillate\Data\DConsole.hpp" />
+		<Unit filename="includes\Distillate\Data\DEventListerner.hpp" />
 		<Unit filename="includes\Distillate\Data\DInput.hpp" />
 		<Unit filename="includes\Distillate\Data\DKeyboard.hpp" />
 		<Unit filename="includes\Distillate\Data\DList.hpp" />

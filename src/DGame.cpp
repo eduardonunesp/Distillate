@@ -29,6 +29,7 @@ namespace Distillate
     _soundTrayTimer(0),
     _console(new DConsole())
     {
+        DGlobals::log("CREATE");
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
         create();
@@ -48,7 +49,7 @@ namespace Distillate
     void DGame::switchState(DState* State)
     {
     }
-    
+
     void onKeyUp(SDL::Event* e)
     {
         if(e->data)
@@ -62,7 +63,7 @@ namespace Distillate
 
     void onFocusLost(/*event:Event=null*/)
     {
-        
+
     }
 
     void DGame::create()
@@ -77,7 +78,7 @@ namespace Distillate
     {
         /*
         if(!Silent)
-            DGlobals::play(SndBeep);        
+            DGlobals::play(SndBeep);
         _soundTrayTimer = 1;
         _sonndTray.y = _gameYOffset;
         _sonndTray.visible = true;
