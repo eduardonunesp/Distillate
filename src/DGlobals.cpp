@@ -1,7 +1,7 @@
-#include "Distillate/DGlobals.hpp"
-#include "Distillate/DGame.hpp"
-#include "Distillate/DPoint.hpp"
-#include "Distillate/Data/DConsole.hpp"
+#include "DGlobals.hpp"
+#include "DGame.hpp"
+#include "DPoint.hpp"
+#include "DConsole.hpp"
 
 namespace Distillate
 {
@@ -46,10 +46,10 @@ namespace Distillate
         }
     }
 
-    SDL::BitmapData* DGlobals::addBitmap(void* Graphic, bool Reverse, bool Unique, const std::string& Key)
-    {
-        bool needReverse = false;
-        std::string key = Key;
+//    SDL::BitmapData* DGlobals::addBitmap(void* Graphic, bool Reverse, bool Unique, const std::string& Key)
+ //   {
+   //     bool needReverse = false;
+     //   std::string key = Key;
         /*
         if(!key.empty())
         {
@@ -90,8 +90,8 @@ namespace Distillate
 
         std::string key = "";
         */
-        return NULL;
-    }
+       // return NULL;
+   // }
 
      void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
      {

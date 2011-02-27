@@ -1,11 +1,11 @@
 #include <cmath>
 #include <cstdlib>
-#include "Distillate/DUtils.hpp"
-#include "Distillate/DGlobals.hpp"
-#include "Distillate/DObject.hpp"
-#include "Distillate/DPoint.hpp"
-#include "Distillate/DQuadTree.hpp"
-#include "Distillate/DRect.hpp"
+#include "DUtils.hpp"
+#include "DGlobals.hpp"
+#include "DObject.hpp"
+#include "DPoint.hpp"
+#include "DQuadTree.hpp"
+#include "DRect.hpp"
 
 namespace Distillate
 {

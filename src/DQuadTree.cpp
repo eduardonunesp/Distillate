@@ -1,6 +1,6 @@
-#include "Distillate/DQuadTree.hpp"
-#include "Distillate/Data/DList.hpp"
-#include "Distillate/DRect.hpp"
+#include "DQuadTree.hpp"
+#include "DList.hpp"
+#include "DRect.hpp"
 #include <vector>
 
 namespace Distillate

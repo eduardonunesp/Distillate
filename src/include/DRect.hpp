@@ -1,5 +1,5 @@
-#ifndef DRECT_HPP
-#define DRECT_HPP
+#ifndef __DRECT_HPP__
+#define __DRECT_HPP__
 
 #include "DPoint.hpp"
 
@@ -11,12 +11,12 @@ namespace Distillate
     class DRect : public DPoint
     {
         public:
-        /*
+        /**
          * @default 0
          */
         float width;
 
-        /*
+        /**
          * @default 0
          */
         float height;
@@ -65,6 +65,5 @@ namespace Distillate
             return y + height;
         }
     };
-
 }
 #endif // DRECT_HPP

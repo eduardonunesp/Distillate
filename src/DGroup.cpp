@@ -1,7 +1,7 @@
-#include "Distillate/DGroup.hpp"
+#include "DGroup.hpp"
 #include <algorithm>
-#include "Distillate/DPoint.hpp"
-#include "Distillate/DUtils.hpp"
+#include "DPoint.hpp"
+#include "DUtils.hpp"
 
 namespace Distillate
 {
@@ -57,7 +57,7 @@ namespace Distillate
         return Object;
     }
 
-    void DGroup::sort(int Order) 
+    void DGroup::sort(int Order)
     {
         /* HOW TO */
     }

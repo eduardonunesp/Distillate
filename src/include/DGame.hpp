@@ -1,11 +1,6 @@
 #ifndef DGAME_HPP
 #define DGAME_HPP
 
-#include "SDL/Bitmap.hpp"
-#include "SDL/Sprite.hpp"
-#include "SDL/Surface.hpp"
-#include "SDL/Point.hpp"
-
 namespace Distillate
 {
     /* Forwards */
@@ -22,7 +17,7 @@ namespace Distillate
      * It is basically only used to create your game object in the first place,
      * after that DGlobals and DState have all the useful stuff you actually need.
      */
-    class DGame: public SDL::Sprite
+    class DGame
     {
         /* Internal */
         friend class DGlobals;
@@ -49,11 +44,11 @@ namespace Distillate
     private:
         //basic display stuff
         DState* _state;
-        SDL::Sprite* _screen;
+//        SDL::Sprite* _screen;
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
-        SDL::Point* _zeroPoint;
+//        SDL::Point* _zeroPoint;
 
         //basic update stuff
         float _elapsed;

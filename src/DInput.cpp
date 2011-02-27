@@ -1,9 +1,9 @@
-#include "Distillate/Data/DInput.hpp"
+#include "DInput.hpp"
 
-namespace Distillate 
+namespace Distillate
 {
     DInput::DInput():
-        _lookup(new SDL::Object),
+//        _lookup(new SDL::Object),
         _t(256) {}
 
 
@@ -12,8 +12,8 @@ namespace Distillate
         unsigned int i =0;
         while(i < _t)
         {
-            SDL::Object* o = _map[i++];
-            if(!o) continue;
+//            SDL::Object* o = _map[i++];
+//            if(!o) continue;
             /*TODO: WHATs goes HERE ?! */
         }
     }
@@ -23,8 +23,8 @@ namespace Distillate
         unsigned int i =0;
         while(i < _t)
         {
-            SDL::Object* o = _map[i++];
-            if(!o) continue;
+//            SDL::Object* o = _map[i++];
+///            if(!o) continue;
         }
     }
 }

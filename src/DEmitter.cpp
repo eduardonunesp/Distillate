@@ -1,16 +1,14 @@
-#include "Distillate/DEmitter.hpp"
+#include "DEmitter.hpp"
 
 namespace Distillate
 {
+    DEmitter::DEmitter()
+    {
+        //ctor
+    }
 
-DEmitter::DEmitter()
-{
-    //ctor
-}
-
-DEmitter::~DEmitter()
-{
-    //dtor
-}
-
+    DEmitter::~DEmitter()
+    {
+        //dtor
+    }
 }

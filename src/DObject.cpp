@@ -1,8 +1,8 @@
-#include "Distillate/DObject.hpp"
-#include "Distillate/DGlobals.hpp"
-#include "Distillate/DUtils.hpp"
-#include "Distillate/DPoint.hpp"
-#include "Distillate/DSprite.hpp"
+#include "DObject.hpp"
+#include "DGlobals.hpp"
+#include "DUtils.hpp"
+#include "DPoint.hpp"
+#include "DSprite.hpp"
 
 namespace Distillate
 {
@@ -167,7 +167,7 @@ namespace Distillate
         getScreenXY(_point);
         int tx = _point->x;
         int ty = _point->y;
-      
+
         Object->getScreenXY(_point);
         if((_point->x <= tx-Object->width) || (_point->x >= tx+width) || (_point->y <=ty-Object->height) || (_point->y >= ty+height))
             return false;

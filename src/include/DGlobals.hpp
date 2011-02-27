@@ -4,9 +4,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Distillate/SDL/Object.hpp"
-#include "Distillate/SDL/Bitmap.hpp"
-#include "Distillate/SDL/BitmapData.hpp"
 
 namespace Distillate
 {
@@ -187,13 +184,13 @@ namespace Distillate
          * Reference to the active graphics buffer.
          * Can also be referenced via <code>FlxState.screen</code>.
          */
-        static SDL::Bitmap* buffer;
+//        static SDL::Bitmap* buffer;
 
     protected:
         /**
          * Internal storage system to prevent graphics from being used repeatedly in memory.
          */
-        static std::map<std::string, SDL::Object*> _cache;
+//        static std::map<std::string, SDL::Object*> _cache;
 
     public:
         /**
@@ -242,7 +239,7 @@ namespace Distillate
          *
          * @return  The <code>BitmapData</code> we just created.
          */
-        static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
+//        static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
 
     private:
 

@@ -5,9 +5,6 @@
 #include <vector>
 #include "DObject.hpp"
 #include "DUtils.hpp"
-#include "SDL/BitmapData.hpp"
-#include "SDL/Sprite.hpp"
-#include "SDL/Graphics.hpp"
 
 namespace Distillate
 {
@@ -111,14 +108,14 @@ namespace Distillate
 
         // Various rendering helpers
         DPoint* _flashPointZero;
-        SDL::BitmapData* _pixels;
-        SDL::BitmapData* _framePixels;
+//        SDL::BitmapData* _pixels;
+//        SDL::BitmapData* _framePixels;
         int _alpha;
         unsigned int _color;
-        SDL::BitmapData* _bbb;
+//        SDL::BitmapData* _bbb;
         bool _boundsVisible;
-        static SDL::Sprite* _gfxSprite;
-        static SDL::Graphics* _gfx;
+//        static SDL::Sprite* _gfxSprite;
+//        static SDL::Graphics* _gfx;
         /*
             TODO: NEED A PORT HERE
             _flashRect:Rectangle;

@@ -1,16 +1,14 @@
-#ifndef DPOINT_HPP
-#define DPOINT_HPP
+#ifndef __DPOINT_HPP__
+#define __DPOINT_HPP__
 
-#include <string>
-#include <sstream>
-#include "Distillate/SDL/Object.hpp"
+#include "DClass.hpp"
 
-namespace Distillate 
+namespace Distillate
 {
     /**
      * Stores a 2D floating point coordinate.
      */
-    class DPoint : public SDL::Object
+    class DPoint : public DClass
     {
         public:
         /**
@@ -30,18 +28,8 @@ namespace Distillate
          * @param Y The Y-coordinate of the point in space.
          *
          */
-        DPoint(float X=0, float Y=0):x(X),y(Y) {}
+        DPoint(float X=0, float Y=0) : DClass(), x(X), y(Y){};
         virtual ~DPoint() {}
-
-        /**
-         * Convert object to std::string, Usefulo for debugging, save games, etc.
-         */
-        virtual std::string toString() 
-        {
-            std::stringstream s;
-            s << "DPoint[X=" << x << ",Y=" << y << "]";
-            return s.str();
-        }
     };
 }
 #endif // DPOINT_HPP

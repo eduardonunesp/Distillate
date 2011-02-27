@@ -1,10 +1,9 @@
-#include "Distillate/DGame.hpp"
-#include "Distillate/DPoint.hpp"
-#include "Distillate/DGroup.hpp"
-#include "Distillate/DState.hpp"
-#include "Distillate/DGlobals.hpp"
-#include "Distillate/Data/DConsole.hpp"
-#include "Distillate/SDL/SDL.hpp"
+#include "include/DGame.hpp"
+#include "include/DPoint.hpp"
+#include "include/DGroup.hpp"
+#include "include/DState.hpp"
+#include "include/DGlobals.hpp"
+#include "include/DConsole.hpp"
 #include <stdexcept>
 
 namespace Distillate
@@ -15,11 +14,11 @@ namespace Distillate
     _iState(InitialState),
     _created(false),
     _state(NULL),
-    _screen(new SDL::Sprite()),
+//    _screen(new SDL::Sprite()),
     _zoom(Zoom),
     _gameXOffset(0),
     _gameYOffset(0),
-    _zeroPoint(new SDL::Point),
+//    _zeroPoint(new SDL::Point),
     _elapsed(0),
     _total(0),
     _paused(false),
@@ -39,8 +38,8 @@ namespace Distillate
     {
         //dtor
         delete pause;
-        delete _screen;
-        delete _zeroPoint;
+//        delete _screen;
+//        delete _zeroPoint;
         delete _iState;
         delete _soundTray;
         delete _console;
@@ -50,10 +49,9 @@ namespace Distillate
     {
     }
 
-    void onKeyUp(SDL::Event* e)
+    void onKeyUp()
     {
-        if(e->data)
-            DGlobals::log((char*) e->data);
+
     }
 
     void onFocus(/*event:Event=null*/)
@@ -68,9 +66,9 @@ namespace Distillate
 
     void DGame::create()
     {
-        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
-        _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
-        SDL::Event::addEvent(SDL::Event::KEY_UP, &onKeyUp);
+//        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
+//        _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
+//        SDL::Event::addEvent(SDL::Event::KEY_UP, &onKeyUp);
         update();
     }
 
@@ -99,17 +97,17 @@ namespace Distillate
         while(DGlobals::_running)
         {
             // Polling events
-            SDL::Event::pollEvent();
+//            SDL::Event::pollEvent();
 
             // Frame timing
-            unsigned int mark = SDL::getTimer();
-            unsigned int ems = mark-_total;
-            _elapsed = ems/1000;
-            _total = mark;
-            DGlobals::elapsed = _elapsed;
-            if(DGlobals::elapsed > DGlobals::maxElapsed)
-                DGlobals::elapsed = DGlobals::maxElapsed;
-            DGlobals::elapsed *= DGlobals::timeScale;
+//            unsigned int mark = SDL::getTimer();
+  //          unsigned int ems = mark-_total;
+  //          _elapsed = ems/1000;
+  //          _total = mark;
+  //          DGlobals::elapsed = _elapsed;
+  //          if(DGlobals::elapsed > DGlobals::maxElapsed)
+   //             DGlobals::elapsed = DGlobals::maxElapsed;
+   //         DGlobals::elapsed *= DGlobals::timeScale;
         }
     }
 }

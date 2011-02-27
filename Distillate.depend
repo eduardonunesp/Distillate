@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
-1298454126 source:d:\projects\distillate\src\demitter.cpp
-	"Distillate/DEmitter.hpp"
+1298828463 source:d:\projects\distillate\src\demitter.cpp
+	"DEmitter.hpp"
 
 1298454128 d:\projects\distillate\includes\distillate\demitter.hpp
 	"DGroup.hpp"
@@ -25,11 +25,11 @@
 1298454131 d:\projects\distillate\includes\distillate\sdl\object.hpp
 	<string>
 
-1298679101 source:d:\projects\distillate\src\dglobals.cpp
-	"Distillate/DGlobals.hpp"
-	"Distillate/DGame.hpp"
-	"Distillate/DPoint.hpp"
-	"Distillate/Data/DConsole.hpp"
+1298828992 source:d:\projects\distillate\src\dglobals.cpp
+	"DGlobals.hpp"
+	"DGame.hpp"
+	"DPoint.hpp"
+	"DConsole.hpp"
 
 1298679101 d:\projects\distillate\includes\distillate\dglobals.hpp
 	<string>
@@ -61,11 +61,11 @@
 	<iostream>
 	"Distillate/SDL/Object.hpp"
 
-1298454126 source:d:\projects\distillate\src\dgroup.cpp
-	"Distillate/DGroup.hpp"
+1298829004 source:d:\projects\distillate\src\dgroup.cpp
+	"DGroup.hpp"
 	<algorithm>
-	"Distillate/DPoint.hpp"
-	"Distillate/DUtils.hpp"
+	"DPoint.hpp"
+	"DUtils.hpp"
 
 1298679101 d:\projects\distillate\includes\distillate\dutils.hpp
 	<cmath>
@@ -74,12 +74,12 @@
 	<utility>
 	<string>
 
-1298454126 source:d:\projects\distillate\src\dobject.cpp
-	"Distillate/DObject.hpp"
-	"Distillate/DGlobals.hpp"
-	"Distillate/DUtils.hpp"
-	"Distillate/DPoint.hpp"
-	"Distillate/DSprite.hpp"
+1298829075 source:d:\projects\distillate\src\dobject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+	"DPoint.hpp"
+	"DSprite.hpp"
 
 1298454128 d:\projects\distillate\includes\distillate\dsprite.hpp
 	<string>
@@ -92,10 +92,10 @@
 
 1298510974 d:\projects\distillate\includes\distillate\sdl\graphics.hpp
 
-1298454126 source:d:\projects\distillate\src\dquadtree.cpp
-	"Distillate/DQuadTree.hpp"
-	"Distillate/Data/DList.hpp"
-	"Distillate/DRect.hpp"
+1298829086 source:d:\projects\distillate\src\dquadtree.cpp
+	"DQuadTree.hpp"
+	"DList.hpp"
+	"DRect.hpp"
 	<vector>
 
 1298454128 d:\projects\distillate\includes\distillate\dquadtree.hpp
@@ -105,25 +105,25 @@
 1298454131 d:\projects\distillate\includes\distillate\data\dlist.hpp
 	"Distillate/DObject.hpp"
 
-1298454126 source:d:\projects\distillate\src\dsprite.cpp
-	"Distillate/DSprite.hpp"
-	"Distillate/DPoint.hpp"
-	"Distillate/Data/DAnim.hpp"
-	"Distillate/DGlobals.hpp"
+1298829146 source:d:\projects\distillate\src\dsprite.cpp
+	"DSprite.hpp"
+	"DPoint.hpp"
+	"DAnim.hpp"
+	"DGlobals.hpp"
 
 1298454131 d:\projects\distillate\includes\distillate\data\danim.hpp
 	<string>
 	<vector>
 
-1298454126 source:d:\projects\distillate\src\dutils.cpp
+1298829183 source:d:\projects\distillate\src\dutils.cpp
 	<cmath>
 	<cstdlib>
-	"Distillate/DUtils.hpp"
-	"Distillate/DGlobals.hpp"
-	"Distillate/DObject.hpp"
-	"Distillate/DPoint.hpp"
-	"Distillate/DQuadTree.hpp"
-	"Distillate/DRect.hpp"
+	"DUtils.hpp"
+	"DGlobals.hpp"
+	"DObject.hpp"
+	"DPoint.hpp"
+	"DQuadTree.hpp"
+	"DRect.hpp"
 
 1298454128 source:d:\projects\distillate\src\data\dinput.cpp
 	"Distillate/Data/DInput.hpp"
@@ -333,14 +333,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1298680010 source:d:\projects\distillate\src\dgame.cpp
-	"Distillate/DGame.hpp"
-	"Distillate/DPoint.hpp"
-	"Distillate/DGroup.hpp"
-	"Distillate/DState.hpp"
-	"Distillate/DGlobals.hpp"
-	"Distillate/Data/DConsole.hpp"
-	"Distillate/SDL/SDL.hpp"
+1298828949 source:d:\projects\distillate\src\dgame.cpp
+	"include/DGame.hpp"
+	"include/DPoint.hpp"
+	"include/DGroup.hpp"
+	"include/DState.hpp"
+	"include/DGlobals.hpp"
+	"include/DConsole.hpp"
 	<stdexcept>
 
 1298510974 d:\projects\distillate\includes\distillate\dstate.hpp
@@ -351,11 +350,11 @@
 	"SDL/SDL_mixer.h"
 	<map>
 
-1298510974 source:d:\projects\distillate\src\dstate.cpp
-	"Distillate/DState.hpp"
-	"Distillate/DGroup.hpp"
-	"Distillate/DObject.hpp"
-	"Distillate/DUtils.hpp"
+1298829164 source:d:\projects\distillate\src\dstate.cpp
+	"DState.hpp"
+	"DGroup.hpp"
+	"DObject.hpp"
+	"DUtils.hpp"
 
 1298510974 source:d:\projects\distillate\src\sdl\graphics.cpp
 	"Distillate/SDL/Graphics.hpp"
@@ -367,11 +366,8 @@
 1298510974 source:d:\projects\distillate\src\sdl\surface.cpp
 	"Distillate/SDL/Surface.hpp"
 
-1298679101 source:d:\projects\distillate\test\main.cpp
+1298829331 source:d:\projects\distillate\test\main.cpp
 	<iostream>
-	<stdexcept>
-	"Distillate/DState.hpp"
-	"Distillate/DGame.hpp"
 
 1298588998 d:\projects\distillate\includes\distillate\sdl\point.hpp
 	"Object.hpp"
@@ -387,4 +383,83 @@
 
 1255800450 d:\projects\sdl\include\sdl\sdl_types.h
 	"SDL_stdinc.h"
+
+1298828709 source:d:\projects\distillate\src\dclass.cpp
+	"DClass.hpp"
+
+1298828669 d:\projects\distillate\src\include\dclass.hpp
+
+1298454128 d:\projects\distillate\src\include\demitter.hpp
+	"DGroup.hpp"
+
+1298454128 d:\projects\distillate\src\include\dgroup.hpp
+	<vector>
+	<string>
+	"DObject.hpp"
+
+1298454128 d:\projects\distillate\src\include\dobject.hpp
+	<vector>
+	"DRect.hpp"
+
+1298828386 d:\projects\distillate\src\include\drect.hpp
+	"DPoint.hpp"
+
+1298828350 d:\projects\distillate\src\include\dpoint.hpp
+	"DClass.hpp"
+
+1298828865 d:\projects\distillate\src\include\dgame.hpp
+
+1298510974 d:\projects\distillate\src\include\dstate.hpp
+	"DSprite.hpp"
+
+1298828881 d:\projects\distillate\src\include\dsprite.hpp
+	<string>
+	<vector>
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1298679101 d:\projects\distillate\src\include\dutils.hpp
+	<cmath>
+	<algorithm>
+	<functional>
+	<utility>
+	<string>
+
+1298828897 d:\projects\distillate\src\include\dglobals.hpp
+	<string>
+	<vector>
+	<map>
+
+1298828840 d:\projects\distillate\src\include\dconsole.hpp
+	<string>
+	<iostream>
+
+1298829038 source:d:\projects\distillate\src\dinput.cpp
+	"DInput.hpp"
+
+1298829023 d:\projects\distillate\src\include\dinput.hpp
+	<vector>
+	<string>
+
+1298829045 source:d:\projects\distillate\src\dkeyboard.cpp
+	"DKeyboard.hpp"
+
+1298454131 d:\projects\distillate\src\include\dkeyboard.hpp
+
+1298829055 source:d:\projects\distillate\src\dmouse.cpp
+	"DMouse.hpp"
+	"DSprite.hpp"
+
+1298454131 d:\projects\distillate\src\include\dmouse.hpp
+
+1298454128 d:\projects\distillate\src\include\dquadtree.hpp
+	"DRect.hpp"
+	"DUtils.hpp"
+
+1298829095 d:\projects\distillate\src\include\dlist.hpp
+	"DObject.hpp"
+
+1298454131 d:\projects\distillate\src\include\danim.hpp
+	<string>
+	<vector>
 

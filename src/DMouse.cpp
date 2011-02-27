@@ -1,5 +1,5 @@
-#include "Distillate/Data/DMouse.hpp"
-#include "Distillate/DSprite.hpp"
+#include "DMouse.hpp"
+#include "DSprite.hpp"
 
 namespace Distillate
 {
@@ -13,7 +13,7 @@ namespace Distillate
         _last(0),
         _out(false)
     {}
-    
+
     void DMouse::show(void *Graphic, int XOffset, int YOffset)
     {
         _out = true;
@@ -29,7 +29,7 @@ namespace Distillate
     void DMouse::load(void* Graphic, int XOffset, int YOffset)
     {
         /* TODO: MUST SET DEFAULT
-        if(!Graphic) 
+        if(!Graphic)
             Graphic = ImgDefaultCursor;
         */
         cursor = new DSprite(screenX, screenY, Graphic);
@@ -68,7 +68,7 @@ namespace Distillate
                 cursor = NULL;
         }
     }
-   
+
     void DMouse::hide()
     {
         if(cursor)

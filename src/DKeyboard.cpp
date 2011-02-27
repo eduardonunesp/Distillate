@@ -1,4 +1,4 @@
-#include "Distillate/Data/DKeyboard.hpp"
+#include "DKeyboard.hpp"
 
 namespace Distillate
 {

@@ -1,7 +1,7 @@
 #ifndef DLIST_HPP
 #define DLIST_HPP
 
-#include "Distillate/DObject.hpp"
+#include "DObject.hpp"
 
 namespace Distillate
 {
