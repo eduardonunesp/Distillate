@@ -14,11 +14,10 @@ namespace Distillate
     _iState(InitialState),
     _created(false),
     _state(NULL),
-//    _screen(new SDL::Sprite()),
+    _screen(NULL),
     _zoom(Zoom),
     _gameXOffset(0),
     _gameYOffset(0),
-//    _zeroPoint(new SDL::Point),
     _elapsed(0),
     _total(0),
     _paused(false),
@@ -38,8 +37,7 @@ namespace Distillate
     {
         //dtor
         delete pause;
-//        delete _screen;
-//        delete _zeroPoint;
+        delete _screen;
         delete _iState;
         delete _soundTray;
         delete _console;
@@ -66,8 +64,9 @@ namespace Distillate
 
     void DGame::create()
     {
-//        if(!SDL::initSDL()) throw std::runtime_error("Cannot initialize SDL");
-//        _screen->buffer(SDL::setVideoMode(DGlobals::width, DGlobals::height));
+        if(!Backend::Video::init(DGlobals::width, DGlobals::height)) 
+            throw std::runtime_error("Cannot initialize SDL");
+        _screen = Backend::Video::getScreen();
 //        SDL::Event::addEvent(SDL::Event::KEY_UP, &onKeyUp);
         update();
     }

@@ -1,6 +1,8 @@
 #ifndef DGAME_HPP
 #define DGAME_HPP
 
+#include "Video.hpp"
+
 namespace Distillate
 {
     /* Forwards */
@@ -44,11 +46,10 @@ namespace Distillate
     private:
         //basic display stuff
         DState* _state;
-//        SDL::Sprite* _screen;
+        Backend::Video::Surface* _screen;
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
-//        SDL::Point* _zeroPoint;
 
         //basic update stuff
         float _elapsed;

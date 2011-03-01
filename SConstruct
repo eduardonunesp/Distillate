@@ -1,6 +1,6 @@
 libname = 'Distillate';
 
-IncludePath = ['src','src/sdl','src/data','includes']
+IncludePath = ['src','src/include','backend','backend/include']
 LibsPath = []   
 Libs = ['SDL','SDL_mixer']
 
@@ -9,19 +9,16 @@ CommonFlags = ' -Wall -pedantic'
 debug  = ARGUMENTS.get('debug', 1)
 shared = ARGUMENTS.get('shared', 0)
 libenv = Environment(CPPFLAGS = CommonFlags)
+libenv.Append(CPPDEFINES = 'SDL_BACKEND')
 if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
 
 files = Split("""
-src/SDL/SDL.cpp
-src/SDL/Surface.cpp
-src/SDL/Sprite.cpp
-src/SDL/Bitmap.cpp
-src/SDL/BitmapData.cpp
-src/SDL/Graphics.cpp
-src/Data/DMouse.cpp
-src/Data/DInput.cpp
-src/Data/DKeyboard.cpp
+backend/Video.cpp
+src/DClass.cpp
+src/DMouse.cpp
+src/DInput.cpp
+src/DKeyboard.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp
