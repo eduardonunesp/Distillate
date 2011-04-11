@@ -463,3 +463,334 @@
 	<string>
 	<vector>
 
+1298828709 source:c:\users\eduardo_2\documents\projects\distillate\src\dclass.cpp
+	"DClass.hpp"
+
+1298828669 c:\users\eduardo_2\documents\projects\distillate\src\include\dclass.hpp
+
+1298828463 source:c:\users\eduardo_2\documents\projects\distillate\src\demitter.cpp
+	"DEmitter.hpp"
+
+1298454128 c:\users\eduardo_2\documents\projects\distillate\src\include\demitter.hpp
+	"DGroup.hpp"
+
+1298454128 c:\users\eduardo_2\documents\projects\distillate\src\include\dgroup.hpp
+	<vector>
+	<string>
+	"DObject.hpp"
+
+1298454128 c:\users\eduardo_2\documents\projects\distillate\src\include\dobject.hpp
+	<vector>
+	"DRect.hpp"
+
+1298828386 c:\users\eduardo_2\documents\projects\distillate\src\include\drect.hpp
+	"DPoint.hpp"
+
+1298828350 c:\users\eduardo_2\documents\projects\distillate\src\include\dpoint.hpp
+	"DClass.hpp"
+
+1298828992 source:c:\users\eduardo_2\documents\projects\distillate\src\dglobals.cpp
+	"DGlobals.hpp"
+	"DGame.hpp"
+	"DPoint.hpp"
+	"DConsole.hpp"
+
+1298828897 c:\users\eduardo_2\documents\projects\distillate\src\include\dglobals.hpp
+	<string>
+	<vector>
+	<map>
+
+1299634019 c:\users\eduardo_2\documents\projects\distillate\src\include\dgame.hpp
+	"Video.hpp"
+
+1298828840 c:\users\eduardo_2\documents\projects\distillate\src\include\dconsole.hpp
+	<string>
+	<iostream>
+
+1298829004 source:c:\users\eduardo_2\documents\projects\distillate\src\dgroup.cpp
+	"DGroup.hpp"
+	<algorithm>
+	"DPoint.hpp"
+	"DUtils.hpp"
+
+1298679101 c:\users\eduardo_2\documents\projects\distillate\src\include\dutils.hpp
+	<cmath>
+	<algorithm>
+	<functional>
+	<utility>
+	<string>
+
+1298829038 source:c:\users\eduardo_2\documents\projects\distillate\src\dinput.cpp
+	"DInput.hpp"
+
+1298829023 c:\users\eduardo_2\documents\projects\distillate\src\include\dinput.hpp
+	<vector>
+	<string>
+
+1298829045 source:c:\users\eduardo_2\documents\projects\distillate\src\dkeyboard.cpp
+	"DKeyboard.hpp"
+
+1298454131 c:\users\eduardo_2\documents\projects\distillate\src\include\dkeyboard.hpp
+
+1298829055 source:c:\users\eduardo_2\documents\projects\distillate\src\dmouse.cpp
+	"DMouse.hpp"
+	"DSprite.hpp"
+
+1298454131 c:\users\eduardo_2\documents\projects\distillate\src\include\dmouse.hpp
+
+1298828881 c:\users\eduardo_2\documents\projects\distillate\src\include\dsprite.hpp
+	<string>
+	<vector>
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1298829075 source:c:\users\eduardo_2\documents\projects\distillate\src\dobject.cpp
+	"DObject.hpp"
+	"DGlobals.hpp"
+	"DUtils.hpp"
+	"DPoint.hpp"
+	"DSprite.hpp"
+
+1298829086 source:c:\users\eduardo_2\documents\projects\distillate\src\dquadtree.cpp
+	"DQuadTree.hpp"
+	"DList.hpp"
+	"DRect.hpp"
+	<vector>
+
+1298454128 c:\users\eduardo_2\documents\projects\distillate\src\include\dquadtree.hpp
+	"DRect.hpp"
+	"DUtils.hpp"
+
+1298829095 c:\users\eduardo_2\documents\projects\distillate\src\include\dlist.hpp
+	"DObject.hpp"
+
+1298829146 source:c:\users\eduardo_2\documents\projects\distillate\src\dsprite.cpp
+	"DSprite.hpp"
+	"DPoint.hpp"
+	"DAnim.hpp"
+	"DGlobals.hpp"
+
+1298454131 c:\users\eduardo_2\documents\projects\distillate\src\include\danim.hpp
+	<string>
+	<vector>
+
+1298829164 source:c:\users\eduardo_2\documents\projects\distillate\src\dstate.cpp
+	"DState.hpp"
+	"DGroup.hpp"
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1298510974 c:\users\eduardo_2\documents\projects\distillate\src\include\dstate.hpp
+	"DSprite.hpp"
+
+1298829183 source:c:\users\eduardo_2\documents\projects\distillate\src\dutils.cpp
+	<cmath>
+	<cstdlib>
+	"DUtils.hpp"
+	"DGlobals.hpp"
+	"DObject.hpp"
+	"DPoint.hpp"
+	"DQuadTree.hpp"
+	"DRect.hpp"
+
+1299634019 c:\users\eduardo_2\documents\projects\distillate\backend\include\video.hpp
+	"SDL/SDL.h"
+
+1302462182 source:c:\users\eduardo_2\documents\projects\distillate\backend\video.cpp
+	"Video.hpp"
+
+1299634019 source:c:\users\eduardo_2\documents\projects\distillate\src\dgame.cpp
+	"include/DGame.hpp"
+	"include/DPoint.hpp"
+	"include/DGroup.hpp"
+	"include/DState.hpp"
+	"include/DGlobals.hpp"
+	"include/DConsole.hpp"
+	<stdexcept>
+
+1299634020 source:c:\users\eduardo_2\documents\projects\distillate\test\main.cpp
+	<iostream>
+	<stdexcept>
+	"DState.hpp"
+	"DGame.hpp"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255800464 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_platform.h
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\begin_code.h
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\close_code.h
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_keysym.h
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\users\eduardo_2\documents\projects\sdl\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+

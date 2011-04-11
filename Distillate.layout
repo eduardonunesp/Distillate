@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="backend\Video.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="191" topLine="0" />
+	</File>
+	<File name="backend\include\Video.hpp" open="0" top="0" tabpos="3">
+		<Cursor position="210" topLine="0" />
+	</File>
 	<File name="src\DClass.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="86" topLine="0" />
 	</File>
 	<File name="src\DGame.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2651" topLine="73" />
+		<Cursor position="752" topLine="7" />
 	</File>
 	<File name="src\DGlobals.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="2613" topLine="65" />
@@ -43,8 +49,8 @@
 	<File name="src\include\DConsole.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="89" topLine="0" />
 	</File>
-	<File name="src\include\DGame.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="1296" topLine="36" />
+	<File name="src\include\DGame.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="1244" topLine="24" />
 	</File>
 	<File name="src\include\DGlobals.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="6398" topLine="221" />

@@ -30,10 +30,14 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DSDL_BACKEND" />
 			<Add directory="src\include" />
+			<Add directory="src" />
+			<Add directory="backend\include" />
+			<Add directory="..\SDL\include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32" />
+			<Add option="-lmingw32 -lSDLMain -lSDL" />
 			<Add directory="..\SDL\lib" />
 		</Linker>
 		<Unit filename=".gitignore" />
@@ -44,6 +48,8 @@
 		<Unit filename="README" />
 		<Unit filename="SConstruct" />
 		<Unit filename="TODO" />
+		<Unit filename="backend\Video.cpp" />
+		<Unit filename="backend\include\Video.hpp" />
 		<Unit filename="src\DClass.cpp" />
 		<Unit filename="src\DEmitter.cpp" />
 		<Unit filename="src\DGame.cpp" />

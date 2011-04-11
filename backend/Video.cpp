@@ -2,7 +2,7 @@
 
 namespace Distillate
 {
-    Backend::Video::Surface* Backend::Video::_screen = NULL;
+    Backend::Video::Surface* Backend::Video::_screen = 0;
 
     bool Backend::Video::init(unsigned int w, unsigned int h)
     {
