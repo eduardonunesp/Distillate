@@ -5,6 +5,8 @@
 #include "include/DGlobals.hpp"
 #include "include/DConsole.hpp"
 #include <stdexcept>
+#include <functional>
+#include <algorithm>
 
 namespace Distillate
 {
@@ -14,7 +16,6 @@ namespace Distillate
     _iState(InitialState),
     _created(false),
     _state(NULL),
-    _screen(NULL),
     _zoom(Zoom),
     _gameXOffset(0),
     _gameYOffset(0),
@@ -30,14 +31,13 @@ namespace Distillate
         DGlobals::log("CREATE");
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
-        create();
+        addEventListener(Backend::Event::ENTER_APP, DGame::create);
     }
 
     DGame::~DGame()
     {
         //dtor
         delete pause;
-        delete _screen;
         delete _iState;
         delete _soundTray;
         delete _console;
@@ -62,13 +62,11 @@ namespace Distillate
 
     }
 
-    void DGame::create()
+    void DGame::create(const Backend::Event &e)
     {
-        if(!Backend::Video::init(DGlobals::width, DGlobals::height)) 
+        if(!init(DGlobals::width, DGlobals::height)) 
             throw std::runtime_error("Cannot initialize SDL");
-        _screen = Backend::Video::getScreen();
-//        SDL::Event::addEvent(SDL::Event::KEY_UP, &onKeyUp);
-        update();
+        addEventListener(Backend::Event::RUNNING_APP, DGame::update);
     }
 
     void DGame::showSoundTray(bool Silent)
@@ -91,7 +89,7 @@ namespace Distillate
         */
     }
 
-    void DGame::update()
+    void DGame::update(const Backend::Event &e)
     {
         while(DGlobals::_running)
         {

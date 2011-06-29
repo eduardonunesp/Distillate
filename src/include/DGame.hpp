@@ -1,7 +1,7 @@
 #ifndef DGAME_HPP
 #define DGAME_HPP
 
-#include "Video.hpp"
+#include "App.hpp"
 
 namespace Distillate
 {
@@ -19,7 +19,7 @@ namespace Distillate
      * It is basically only used to create your game object in the first place,
      * after that DGlobals and DState have all the useful stuff you actually need.
      */
-    class DGame
+    class DGame : public Backend::App
     {
         /* Internal */
         friend class DGlobals;
@@ -46,7 +46,6 @@ namespace Distillate
     private:
         //basic display stuff
         DState* _state;
-        Backend::Video::Surface* _screen;
         unsigned int _zoom;
         int _gameXOffset;
         int _gameYOffset;
@@ -116,13 +115,13 @@ namespace Distillate
         /**
          * Used to instantiate the guts of flixel once we have a valid pointer to the root.
          */
-        void create(/*event:Event*/);
+        static void create(const Backend::Event &e);
 
     protected:
         /**
          * This is the main game loop.  It controls all the updating and rendering.
          */
-        void update(/*event:Event*/);
+        static void update(const Backend::Event &e);
 
     };
 }

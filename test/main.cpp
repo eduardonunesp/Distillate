@@ -18,14 +18,16 @@ public:
 
 int main(int argc, char* argv[])
 {
+    Test* test = NULL;
     try
     {
-        Test* test = new Test();
+        test = new Test();
     }
     catch(std::exception &e)
     {
         std::cout << "Ops: " << e.what() << std::endl;
     }
-
+    
+    delete test;
     return 0;
 }
