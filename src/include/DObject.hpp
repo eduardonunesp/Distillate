@@ -25,7 +25,7 @@ namespace Distillate
         friend class DUtils;
         friend class DGroup;
 
-        public:
+    public:
         /**
          * Kind of a global on/off switch for any objects 
          * descended from <code>DObject</code>.
@@ -43,7 +43,7 @@ namespace Distillate
          */
         bool visible;
 
-        protected:
+    protected:
         /**
          * If an object is dead, the functions that automate collisions 
          * will skip it (see <code>DG.overlapArrays()</code> and <code>
@@ -63,7 +63,7 @@ namespace Distillate
          */
         bool _is_sprite;
 
-        public:
+    public:
         /**
          * The basic speed of this object.
          */
@@ -143,7 +143,7 @@ namespace Distillate
          */
         DPoint* scrollFactor;
 
-        protected:
+    protected:
         /**
          * Internal helper used for retro-style flickering.
          */
@@ -154,7 +154,7 @@ namespace Distillate
          */
         int _flickerTimer;
 
-        public:
+    public:
         /**
          * Handy for storing health percentage or armor points or whatever.
          */
@@ -165,7 +165,7 @@ namespace Distillate
          */
         bool dead;
 
-        protected:
+    protected:
         /**
          * This is just a pre-allocated x-y point container to be 
          * used however you like
@@ -184,7 +184,7 @@ namespace Distillate
          */
         DPoint* _flashPoint;
 
-        public:
+    public:
         /**
          * Set this to false if you want to skip the automatic 
          * motion/movement stuff (see <code>updateMotion()</code>).
@@ -214,14 +214,14 @@ namespace Distillate
          */
         std::vector<DPoint*> colOffsets;
 
-        protected:
+    protected:
         /**
          * Dedicated internal flag for whether or not this class is a DGroup.
          * Internal use only !!!
          */
         bool _group;
 
-        public:
+    public:
         /**
          * Flag that indicates whether or not you just hit the floor.
          * Primarily useful for platformers, this flag is reset during 
@@ -467,6 +467,5 @@ namespace Distillate
          */
         unsigned int getBoundingColor();
     };
-
 }
 #endif // DOBJECT_HPP

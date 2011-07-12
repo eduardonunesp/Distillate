@@ -25,7 +25,7 @@ namespace Distillate
         /**
          * A list of frames stored as <code>uint</code> objects
          */
-        std::vector<unsigned int> frames;
+        std::vector<int> frames;
 
         /**
          * Whether or not the animation is looped
@@ -40,7 +40,7 @@ namespace Distillate
          * @param   FrameRate   The speed in frames per second that the animation should play at (e.g. 40)
          * @param   Looped      Whether or not the animation is looped or just plays once
          */
-        DAnim(const std::string &Name, std::vector<unsigned int> Frames, int FrameRate = 0, bool Looped = true)
+        DAnim(const std::string &Name, std::vector<int> &Frames, int FrameRate = 0, bool Looped = true)
         {
             name = Name;
             delay = 0;

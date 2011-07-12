@@ -75,7 +75,7 @@ namespace Distillate
 
     protected:
 
-        // Animation helpers
+        /* Animation helpers */
         std::vector<DAnim*> _animations;
         unsigned int _flipped;
         DAnim* _curAnim;
@@ -85,6 +85,8 @@ namespace Distillate
         callbackFunctionSprite *_callback;
         unsigned int _facing;
         int _bakedRotation;
+
+        /* Surface stuff */
         SDL_Surface *_pixels;
         int _alpha;
         unsigned int _color;
@@ -117,9 +119,87 @@ namespace Distillate
          */
         DSprite *loadGraphic(const std::string &Graphic, bool Animated = false, bool Reverse = false, unsigned int Width = 0, unsigned int Height = 0, bool Unique = false);
 
+        /** 
+         * This function creates a flat colored square image dynamically.
+         * 
+         * @param   Width       The width of the sprite you want to generate.
+         * @param   Height      The height of the sprite you want to generate.
+         * @param   Color       Specifies the color of the generated block.
+         * @param   Unique      Whether the graphic should be a unique instance in the graphics cache.
+         * @param   Key         Optional parameter - specify a string key to identify this graphic in the cache.  Trumps Unique flag.
+         * 
+         * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
+         */
+        DSprite *createGraphic(unsigned int Width, unsigned int Height, unsigned int Color = 0xffffffff, bool Unique = false, const std::string &Key = "");
+
+    protected:
+        /**
+         * Resets some important variables for sprite optimization and rendering.
+         */
+        void resetHelpers();
+
+    public:
+        /** 
+         * Main game loop update function.  Override this to create your own sprite logic!
+         * Just don't forget to call super.update() or any of the helper functions.
+         */
         virtual void update();
 
+        /**
+         * Called by game loop, updates then blits or renders current frame of animation to the screen
+         */
         virtual void render();
+
+        /** 
+         * Checks to see if a point in 2D space overlaps this FlxCore object.
+         * 
+         * @param   X           The X coordinate of the point.
+         * @param   Y           The Y coordinate of the point.
+         * @param   PerPixel    Whether or not to use per pixel collision checking.
+         * 
+         * @return  Whether or not the point overlaps this object.
+         */
+        bool overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel = false);
+        
+        /** 
+         * Adds a new animation to the sprite.
+         * 
+         * @param   Name        What this animation should be called (e.g. "run").
+         * @param   Frames      An array of numbers indicating what frames to play in what order (e.g. 1, 2, 3).
+         * @param   FrameRate   The speed in frames per second that the animation should play at (e.g. 40 fps).
+         * @param   Looped      Whether or not the animation is looped or just plays once.
+         */
+        void addAnimation(const std::string &Name, std::vector<int> &Frames, int FrameRate, bool Looped = true);
+
+        /** 
+         * Plays an existing animation (e.g. "run").
+         * If you call an animation that is already playing it will be ignored.
+         * 
+         * @param   AnimName    The string name of the animation you want to play.
+         * @param   Force       Whether to force the animation to restart.
+         */
+        void play(const std::string &AnimName, bool Boolean = false);
+
+        /** 
+         * Call this function to figure out the on-screen position of the object.
+         * 
+         * @param   P   Takes a <code>Point</code> object and assigns the post-scrolled X and Y values of this object to it.
+         * 
+         * @return  The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
+         */
+        virtual DPoint * getScreenXY(DPoint *Point=NULL);
+
+        /** 
+         * Internal function to update the current animation frame.
+         */
+        void calcFrame();
+
+        /** 
+         * Internal function for updating the sprite's animation.
+         * Useful for cases when you need to update this but are buried down in too many supers.
+         * This function is called automatically by <code>FlxSprite.update()</code>.
+         */
+        void  updateAnimation();
     };
 }
 #endif
