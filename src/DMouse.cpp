@@ -1,76 +1,31 @@
 #include "DMouse.hpp"
 #include "DSprite.hpp"
+#include <SDL/SDL.h>
 
 namespace Distillate
 {
-    DMouse::DMouse():
-        x(0),
-        y(0),
-        screenX(0),
-        screenY(0),
-        cursor(false),
-        _current(0),
-        _last(0),
-        _out(false)
-    {}
+    DMouse::DMouse() {}
+    DMouse::~DMouse() {}
 
-    void DMouse::show(void *Graphic, int XOffset, int YOffset)
+    void DMouse::setMousePos(int x, int y)
     {
-        _out = true;
-        if(Graphic)
-            load(Graphic, XOffset, YOffset);
-        else if(cursor)
-            cursor->visible = true;
-        else
-            load(NULL);
+        _x = x; _y = y;
     }
 
-
-    void DMouse::load(void* Graphic, int XOffset, int YOffset)
+    void DMouse::showCursor(bool show) 
     {
-        cursor = new DSprite(screenX, screenY, Graphic);
-        cursor->solid(false);
-        cursor->offset->x = XOffset;
-        cursor->offset->y = YOffset;
+        SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
     }
 
-    void DMouse::update(int X, int Y, float XScroll, float YScroll)
+    void DMouse::setButtonState(int state, int b)
     {
-        screenX = X;
-        screenY = Y;
-        x = screenX-DUtils::floorValue(XScroll);
-        y = screenY-DUtils::floorValue(YScroll);
-
-        if(cursor)
-        {
-            cursor->x = x;
-            cursor->y = y;
-        }
-
-        if((_last == -1) && (_current == -1))
-            _current = 0;
-        else if((_last == 2) && (_current == 2))
-            _current = 1;
-        _last = _current;
+        _buttons[b] = state;
     }
 
-    void DMouse::unload()
+    bool DMouse::checkButtonState(int state, int b)
     {
-        if(cursor)
-        {
-            if(cursor->visible)
-                load(NULL);
-            else
-                cursor = NULL;
-        }
-    }
-
-    void DMouse::hide()
-    {
-        if(cursor)
-        {
-            cursor->visible = false;
-            _out = false;
-        }
+        bool ret = (_buttons[b] == state);
+        if(ret) _buttons[b] = 0;
+        return ret;
     }
 }

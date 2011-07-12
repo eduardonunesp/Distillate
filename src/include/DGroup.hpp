@@ -17,11 +17,13 @@ namespace Distillate
      */
     class DGroup : public DObject
     {
-        public:
+        friend class DState;
+
+    public:
         static const int ASCENDING = -1;
         static const int DESCENDING = 1;
 
-        protected:
+    protected:
         /**
          * Array of all the <code>DObject</code>s that exist in this layer.
          */
@@ -60,7 +62,7 @@ namespace Distillate
          */
         void destroyMembers();
 
-        public:
+    public:
         DGroup();
         virtual ~DGroup();
 

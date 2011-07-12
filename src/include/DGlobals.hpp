@@ -1,6 +1,7 @@
 #ifndef __DGLOBALS_HPP__
 #define __DGLOBALS_HPP__
 
+#include <SDL/SDL.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -22,7 +23,11 @@ namespace Distillate
     {
         /* Internal */
         friend class DGame;
+        friend class DSprite;
 
+    protected:
+        static SDL_Surface *_buffer;
+    
     public:
         /**
          * If you build and maintain your own version of flixel,
@@ -165,6 +170,11 @@ namespace Distillate
          */
         static DPoint *_scrollTarget;
 
+        /**
+         * Internal storage system to prevent graphics from being used repeatedly in memory.
+         */
+        static std::map<std::string, SDL_Surface*> _cache;
+
     public:
         /**
          * Stores the basic parallax scrolling values.
@@ -191,6 +201,8 @@ namespace Distillate
         {
             _running = false;
         }
+
+        static SDL_Surface * addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
     private:
 
         /**

@@ -4,6 +4,8 @@
 #include "DConsole.hpp"
 #include "DKeyboard.hpp"
 #include "DMouse.hpp"
+#include <iostream>
+#include <SDL/SDL_image.h>
 
 namespace Distillate
 {
@@ -18,11 +20,13 @@ namespace Distillate
     bool DGlobals::_pause = false;
     bool DGlobals::_running = false;
     DKeyboard *DGlobals::keys = new DKeyboard();
+    DMouse *DGlobals::mouse = new DMouse();
+    std::map<std::string, SDL_Surface*> DGlobals::_cache;
+    SDL_Surface *DGlobals::_buffer = NULL;
 
     void DGlobals::log(const std::string& log)
     {
-        if(_game && _game->_console)
-            _game->_console->log(log);
+        std::cout << log << "\n";
     }
 
     bool DGlobals::pause()
@@ -36,5 +40,39 @@ namespace Distillate
         _game = Game;
         width = Width;
         height = Height;
+        _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
+        if(!_buffer) std::cerr << "Cannot create buffer \n";
+    }
+
+    SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
+    {
+        const std::string &key = Key;            
+            
+        if(key.empty())
+        {   
+            if(Unique && !_cache[key])
+            {   
+            }       
+        }       
+        
+        SDL_Surface *pixels = NULL;
+
+        if(!_cache[key])
+        {   
+            pixels = IMG_Load(GraphicFile.c_str());
+            if(!pixels)
+            {
+                std::cerr << "IMG_Load:" << IMG_GetError() << std::endl;
+                return NULL;
+            }
+
+            _cache.insert(std::make_pair<std::string, SDL_Surface*>(key, pixels));
+        }       
+
+        if(Reverse)
+        {   
+        } 
+
+        return pixels;
     }
 }

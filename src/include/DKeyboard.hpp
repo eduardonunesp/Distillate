@@ -14,7 +14,7 @@ namespace Distillate
         typedef std::map<int, int> KeyMap ;
 
         void setKeyState(int state, int k);
-        int checkKeyState(int state, int k);
+        bool checkKeyState(int state, int k);
 
     private:
         KeyMap _keys;

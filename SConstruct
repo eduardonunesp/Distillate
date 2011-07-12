@@ -2,7 +2,7 @@ libname = 'Distillate';
 
 IncludePath = ['src','src/include','backend','backend/include']
 LibsPath = []   
-Libs = ['SDL','SDL_mixer']
+Libs = ['SDL','SDL_mixer', 'SDL_image']
 
 CommonFlags = ' -Wall -pedantic'
 
@@ -16,7 +16,6 @@ if int(debug):
 files = Split("""
 backend/App.cpp
 backend/EventDispatcher.cpp
-backend/Event.cpp
 src/DClass.cpp
 src/DMouse.cpp
 src/DInput.cpp

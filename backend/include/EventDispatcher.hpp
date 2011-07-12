@@ -8,24 +8,27 @@
 #include "Object.hpp"
 #include "Event.hpp"
 
-namespace Distillate
+class EventDispatcher : public Object
 {
-    namespace Backend
+private:
+    std::map<const std::string, std::map<int, std::list<eventFunctionPtr > > > eventHandlerList;
+
+public:
+    EventDispatcher();
+    virtual ~EventDispatcher();
+
+    void addEventListener(const std::string &type, eventFunctionPtr listener, int priority = 0);
+    bool hasEventListener(const std::string &type);
+    void dispatchEvent(const Event *event);
+    void removeEventListener(const std::string &type, eventFunctionPtr listener);
+
+    virtual std::string toString(const std::string &more = "EventDispatcher") const
     {
-        class EventDispatcher : public Object
-        {
-        private:
-            std::map<const std::string, std::map<int, std::list<eventFunctionPtr > > > eventHandlerList;
-
-        public:
-            void addEventListener(const std::string &type, eventFunctionPtr listener, 
-                    bool useCapture = false, int priority = 0, bool useWeakReference = false);
-            bool hasEventListener(const std::string &type);
-            void dispatchEvent(const Event &event);
-            void removeEventListener(const std::string &type, eventFunctionPtr listener, bool useCapture = false);
-        };
-
+        std::stringstream ss;
+        ss << Object::toString(more) << "\n";
+        ss << "\teventHandlerList.size: " << eventHandlerList.size();
+        return ss.str();
     }
-}
+};
 
 #endif // EVENTDISPATCHER_HPP

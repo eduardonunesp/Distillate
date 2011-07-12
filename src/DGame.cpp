@@ -6,29 +6,16 @@
 #include "include/DConsole.hpp"
 #include "include/DKeyboard.hpp"
 #include "include/DSprite.hpp"
+#include "include/Event.hpp"
+#include "include/DMouse.hpp"
 #include <stdexcept>
+#include <functional>
 
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
-    useDefaultHotKeys(true),
-    pause(new DGroup()),
-    _created(false),
-    _state(InitialState),
-    _screen(NULL),
-    _zoom(Zoom),
-    _gameXOffset(0),
-    _gameYOffset(0),
-    _elapsed(0),
-    _total(0),
-    _paused(false),
-    _framerate(0),
-    _frameratePaused(false),
-    _soundTray(new DSprite()),
-    _soundTrayTimer(0),
-    _console(new DConsole())
+    _state(InitialState)
     {
-        DGlobals::log("CREATE");
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
         create();
@@ -36,12 +23,8 @@ namespace Distillate
 
     DGame::~DGame()
     {
-        //dtor
-        delete pause;
         delete _screen;
         delete _state;
-        delete _soundTray;
-        delete _console;
     }
 
     void DGame::switchState(DState* State)
@@ -60,7 +43,8 @@ namespace Distillate
         if(SDL_Init(SDL_INIT_VIDEO) < 0)
             throw std::runtime_error("Cannot initialize SDL");
 
-        _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, SDL_HWSURFACE);
+        _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 32, SDL_SWSURFACE);
+        switchState(_state);
         update();
     }
 
@@ -72,23 +56,35 @@ namespace Distillate
             {
                 switch(_event.type) 
                 {
+                    case SDL_QUIT:
+                        DGlobals::quit();
+                        break;
                     case SDL_KEYUP:
                         DGlobals::keys->setKeyState(SDL_KEYUP, _event.key.keysym.sym);
                         break;
                     case SDL_KEYDOWN:
                         DGlobals::keys->setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
                         break;
+                    case SDL_MOUSEMOTION:
+                        DGlobals::mouse->setMousePos(_event.motion.x, _event.motion.y);
+                        break;
+                    case SDL_MOUSEBUTTONUP:
+                        DGlobals::mouse->setButtonState(SDL_MOUSEBUTTONUP, _event.button.button);
+                        break;
+                    case SDL_MOUSEBUTTONDOWN:
+                        DGlobals::mouse->setButtonState(SDL_MOUSEBUTTONDOWN, _event.button.button);
+                        break;
                 }
             }
 
-            if(_paused)
+            if(_state)
             {
-                pause->update();
+               _state->update();
+               _state->render();
+               SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
             }
-            else
-            {
-                _state->update();
-            }
+
+            SDL_UpdateRect(_screen, 0,0,0,0);
         }
     }
 }

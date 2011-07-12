@@ -3,6 +3,7 @@
 #include "DObject.hpp"
 #include "DUtils.hpp"
 #include "DSprite.hpp"
+#include <iostream>
 
 namespace Distillate
 {
@@ -10,12 +11,12 @@ namespace Distillate
 
     DState::DState()
     {
-        //ctor
+        defaultGroup = new DGroup();
     }
 
     DState::~DState()
     {
-        //dtor
+        delete defaultGroup;
     }
 
     DObject *DState::add(DObject* Core)

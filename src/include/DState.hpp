@@ -1,6 +1,7 @@
 #ifndef DSTATE_HPP
 #define DSTATE_HPP
 
+#include <SDL/SDL.h>
 
 namespace Distillate
 {
@@ -23,11 +24,6 @@ namespace Distillate
     class DState
     {
     public:
-        /**
-         * This static variable holds the screen buffer,
-         * so you can draw to it directly if you want.
-         */
-        static DSprite* screen;
 
         /**
          * This static variable indicates the "clear color"

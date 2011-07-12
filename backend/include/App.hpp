@@ -11,10 +11,13 @@ namespace Distillate
         class App : public EventDispatcher 
         {
         public:
-            App() { dispatchEvent(Event(Event::ENTER_APP)); }
+            static const std::string ENTER_APP;
+            static const std::string RUNNING_APP;
+
+            App() { /* dispatchEvent(new Event(ENTER_APP)); */ }
+
             static bool init(unsigned int w, unsigned int h);
-            static SDL_Surface* getScreen() { return _screen; }
-        private:
+            static void Flip();
             static SDL_Surface* _screen;
             static SDL_Event    _event;
         };

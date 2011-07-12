@@ -2,15 +2,13 @@
 #define __DGAME_HPP__
 
 #include <SDL/SDL.h>
+#include "App.hpp"
 
 namespace Distillate
 {
     /* Forwards */
     class DPoint;
     class DState;
-    class DGroup;
-    class DConsole;
-    class DSprite;
 
     /**
      * DGame is the heart of Distillate
@@ -19,50 +17,18 @@ namespace Distillate
      * It is basically only used to create your game object in the first place,
      * after that DGlobals and DState have all the useful stuff you actually need.
      */
-    class DGame
+    class DGame 
     {
         /* Internal */
         friend class DGlobals;
-
-    public:
-        /**
-         * Sets 0, -, and + to control the global volume and P to pause.
-         * @default true
-         */
-        bool useDefaultHotKeys;
-
-        /**
-         * Displayed whenever the game is paused.
-         * Override with your own <code>DLayer</code> for hot custom pause action!
-         * Defaults to <code>data.DPause</code>.
-         */
-        DGroup *pause;
-
     protected:
         //startup
-        bool _created;
+        SDL_Surface* _screen;
+        SDL_Event _event;
 
     private:
         //basic display stuff
         DState* _state;
-        SDL_Surface *_screen;
-        SDL_Event _event;
-        unsigned int _zoom;
-        int _gameXOffset;
-        int _gameYOffset;
-
-        //basic update stuff
-        float _elapsed;
-        unsigned int _total;
-        bool _paused;
-        unsigned int _framerate;
-        unsigned int _frameratePaused;
-
-        //Pause screen, sound tray, support panel, dev console, and special effects objects
-        DSprite *_soundTray;
-        float _soundTrayTimer;
-        //std::vector<???*> _soundTrayBars;
-        DConsole *_console;
 
     public:
         /**
@@ -77,13 +43,6 @@ namespace Distillate
         virtual ~DGame();
 
         /**
-         * Makes the little volume tray slide out.
-         *
-         * @param	Silent	Whether or not it should beep.
-         */
-        void showSoundTray(bool Silent=false);
-
-        /**
          * Switch from one <code>DState</code> to another.
          * Usually called from <code>DG</code>.
          *
@@ -91,38 +50,16 @@ namespace Distillate
          */
         void switchState(DState *State);
 
-    protected:
-        /**
-         * Internal event handler for input and focus.
-         */
-        void onFocus(/*event:Event=null*/);
-
-        /**
-         * Internal event handler for input and focus.
-         */
-        void onFocusLost(/*event:Event=null*/);
-
-    private:
-        /**
-         * Internal function to help with basic pause game functionality.
-         */
-        void unpauseGame();
-
-        /**
-         * Internal function to help with basic pause game functionality.
-         */
-        void pauseGame();
-
         /**
          * Used to instantiate the guts of flixel once we have a valid pointer to the root.
          */
-        void create(/*event:Event*/);
+        void create();
 
     protected:
         /**
          * This is the main game loop.  It controls all the updating and rendering.
          */
-        void update(/*event:Event*/);
+        void update();
 
     };
 }

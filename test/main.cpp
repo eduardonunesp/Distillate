@@ -1,33 +1,48 @@
 #include <iostream>
 #include <stdexcept>
-#include "DState.hpp"
-#include "DGame.hpp"
+#include "Distillate.hpp"
 
-class State : public Distillate::DState
+using namespace Distillate;
+
+class State : public DState
 {
 public:
-    State() : Distillate::DState() {};
+    State() : DState() {};
+    void update() 
+    {
+        DState::update();
+        if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
+        {
+            DGlobals::quit();
+        }
+    }
+
+    void create() 
+    {
+        DGlobals::log("create");
+        DSprite *player = new DSprite(10,100, "player.png");
+        add(player);
+    }
 };
 
-class Test : public Distillate::DGame
+class Test : public DGame
 {
 public:    
-    Test() : Distillate::DGame(640, 480, new State()) {};
+    Test() : DGame(640, 480, new State()) {};
 };
 
 
 int main(int argc, char* argv[])
 {
-    Test* test = NULL;
     try
     {
-        test = new Test();
+        Test* test = new Test();
+        delete test;
     }
     catch(std::exception &e)
     {
         std::cout << "Ops: " << e.what() << std::endl;
     }
-    
-    delete test;
+
     return 0;
 }

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <SDL/SDL.h>
 #include "DObject.hpp"
 #include "DUtils.hpp"
 
@@ -17,6 +18,7 @@ namespace Distillate
      */
     class DSprite : public DObject
     {
+        friend class DState;
     public:
         /**
          * Callback function for DSprite
@@ -48,28 +50,6 @@ namespace Distillate
          * you might need to offset the new bounding box from the top-left corner of the sprite.
          */
         DPoint* offset;
-
-        /**
-         * Change the size of your sprite's graphic.
-         * NOTE: Scale doesn't currently affect collisions automatically,
-         * you will need to adjust the width, height and offset manually.
-         * WARNING: scaling sprites decreases rendering performance for this sprite by a factor of 10x!
-         */
-        DPoint* scale;
-
-        /**
-         * Blending modes, just like Photoshop
-         * Eg. "multiply", "screen", etc;
-         * @default NULL
-         */
-        std::string blend;
-
-        /**
-         * Blending modes, just like Photoshop!
-         * E.g. "multiply", "screen", etc.
-         * @default null
-         */
-        bool antialiasing;
 
         /**
          * Whether the current animation has finished its first (or only) loop.
@@ -105,9 +85,7 @@ namespace Distillate
         callbackFunctionSprite *_callback;
         unsigned int _facing;
         int _bakedRotation;
-
-        // Various rendering helpers
-        DPoint* _flashPointZero;
+        SDL_Surface *_pixels;
         int _alpha;
         unsigned int _color;
         bool _boundsVisible;
@@ -122,7 +100,7 @@ namespace Distillate
          * @param   Y               The initial Y position of the sprite.
          * @param   SimpleGraphic   The graphic you want to display (OPTIONAL - for simple stuff only, do NOT use for animated images!).
          */
-        DSprite(unsigned int X = 0, unsigned int Y = 0, void* SimpleGraphics = NULL);
+        DSprite(unsigned int X = 0, unsigned int Y = 0, const std::string &SimpleGraphic = "");
         virtual ~DSprite();
 
         /**
@@ -137,35 +115,11 @@ namespace Distillate
          *
          * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
          */
-        DSprite *loadGraphic(void *Graphic, bool Animated = false, bool Reverse = false, unsigned int Width = 0, unsigned int Height = 0, bool Unique = false);
+        DSprite *loadGraphic(const std::string &Graphic, bool Animated = false, bool Reverse = false, unsigned int Width = 0, unsigned int Height = 0, bool Unique = false);
 
-        /**
-         * Create a pre-rotated sprite sheet from a simple sprite.
-         * This can make a huge difference in graphical performance!
-         *
-         * @param   Graphic         The image you want to rotate & stamp.
-         * @param   Frames          The number of frames you want to use (more == smoother rotations).
-         * @param   Offset          Use this to select a specific frame to draw from the graphic.
-         * @param   AntiAliasing    Whether to use high quality rotations when creating the graphic.
-         * @param   AutoBuffer      Whether to automatically increase the image size to accomodate rotated corners.
-         *
-         * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
-         */
-        DSprite *loadRotatedGraphic(void *Graphic, unsigned int Rotations = 16, int Frame = -1, bool AntiAliasing = false, bool AutoBuffer = false);
+        virtual void update();
 
-        /**
-         * This function creates a flat colored square image dynamically.
-         *
-         * @param   Width       The width of the sprite you want to generate.
-         * @param   Height      The height of the sprite you want to generate.
-         * @param   Color       Specifies the color of the generated block.
-         * @param   Unique      Whether the graphic should be a unique instance in the graphics cache.
-         * @param   Key         Optional parameter - specify a string key to identify this graphic in the cache.  Trumps Unique flag.
-         *
-         * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
-         */
-        DSprite *createGraphic(unsigned int Width, unsigned int Height, unsigned int Color = 0xffffffff, bool Unique = false, const std::string &Key = "");
+        virtual void render();
     };
-
 }
 #endif
