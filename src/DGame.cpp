@@ -4,18 +4,18 @@
 #include "include/DState.hpp"
 #include "include/DGlobals.hpp"
 #include "include/DConsole.hpp"
+#include "include/DKeyboard.hpp"
+#include "include/DSprite.hpp"
 #include <stdexcept>
-#include <functional>
-#include <algorithm>
 
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
     useDefaultHotKeys(true),
     pause(new DGroup()),
-    _iState(InitialState),
     _created(false),
-    _state(NULL),
+    _state(InitialState),
+    _screen(NULL),
     _zoom(Zoom),
     _gameXOffset(0),
     _gameYOffset(0),
@@ -31,80 +31,64 @@ namespace Distillate
         DGlobals::log("CREATE");
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
-        addEventListener(Backend::Event::ENTER_APP, DGame::create);
+        create();
     }
 
     DGame::~DGame()
     {
         //dtor
         delete pause;
-        delete _iState;
+        delete _screen;
+        delete _state;
         delete _soundTray;
         delete _console;
     }
 
     void DGame::switchState(DState* State)
     {
-    }
-
-    void onKeyUp()
-    {
-
-    }
-
-    void onFocus(/*event:Event=null*/)
-    {
-
-    }
-
-    void onFocusLost(/*event:Event=null*/)
-    {
-
-    }
-
-    void DGame::create(const Backend::Event &e)
-    {
-        if(!init(DGlobals::width, DGlobals::height)) 
-            throw std::runtime_error("Cannot initialize SDL");
-        addEventListener(Backend::Event::RUNNING_APP, DGame::update);
-    }
-
-    void DGame::showSoundTray(bool Silent)
-    {
-        /*
-        if(!Silent)
-            DGlobals::play(SndBeep);
-        _soundTrayTimer = 1;
-        _sonndTray.y = _gameYOffset;
-        _sonndTray.visible = true;
-
-        unsigned int gv = DUtils::roundValue(DGlobals::volume*10);
-        if(DGlobals::mute)
-            gv = 0;
-        for(unsigned int i = 0; i < _sonndTrayBars.length; i++)
+        if(_state)
         {
-            if(i < gv) _sonndTrayBars[i].alpha = 1;
-            else _sonndTrayBars[i].alpha = 0.5;
+            _state->destroy();
         }
-        */
+
+        _state = State;
+        _state->create();
     }
 
-    void DGame::update(const Backend::Event &e)
+    void DGame::create()
+    {
+        if(SDL_Init(SDL_INIT_VIDEO) < 0)
+            throw std::runtime_error("Cannot initialize SDL");
+
+        _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, SDL_HWSURFACE);
+        update();
+    }
+
+    void DGame::update()
     {
         while(DGlobals::_running)
         {
-            // Polling events
-//            SDL::Event::pollEvent();
+            while(SDL_PollEvent(&_event))
+            {
+                switch(_event.type) 
+                {
+                    case SDL_KEYUP:
+                        DGlobals::keys->setKeyState(SDL_KEYUP, _event.key.keysym.sym);
+                        break;
+                    case SDL_KEYDOWN:
+                        DGlobals::keys->setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
+                        break;
+                }
+            }
 
-            // Frame timing
-//            unsigned int mark = SDL::getTimer();
-  //          unsigned int ems = mark-_total;
-  //          _elapsed = ems/1000;
-  //          _total = mark;
-  //          DGlobals::elapsed = _elapsed;
-  //          if(DGlobals::elapsed > DGlobals::maxElapsed)
-   //             DGlobals::elapsed = DGlobals::maxElapsed;
-   //         DGlobals::elapsed *= DGlobals::timeScale;
+            if(_paused)
+            {
+                pause->update();
+            }
+            else
+            {
+                _state->update();
+            }
         }
     }
 }

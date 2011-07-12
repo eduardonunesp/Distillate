@@ -1,5 +1,5 @@
-#ifndef DEMITTER_HPP
-#define DEMITTER_HPP
+#ifndef __DEMITTER_HPP__
+#define __DEMITTER_HPP__
 
 #include "DGroup.hpp"
 

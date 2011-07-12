@@ -28,10 +28,6 @@ namespace Distillate
 
     void DMouse::load(void* Graphic, int XOffset, int YOffset)
     {
-        /* TODO: MUST SET DEFAULT
-        if(!Graphic)
-            Graphic = ImgDefaultCursor;
-        */
         cursor = new DSprite(screenX, screenY, Graphic);
         cursor->solid(false);
         cursor->offset->x = XOffset;

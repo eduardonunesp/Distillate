@@ -26,11 +26,6 @@ DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
     _se(NULL),
     _sw(NULL)
 {
-    /*DEBUG: draw a randomly colored rectangle indicating this quadrant (may induce seizures)
-    var brush:FlxSprite = new FlxSprite().createGraphic(Width,Height,0xffffffff*FlxU.random());
-    FlxState.screen.draw(brush,X+FlxG.scroll.x,Y+FlxG.scroll.y);//*/
-
-    //Copy the parent's children (if there are any)
     if(Parent != NULL)
     {
         DList *itr = NULL;
@@ -69,8 +64,6 @@ DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
     else
         _min = (width + height)/(2*DUtils::quadTreeDivisions);
     _canSubdivide = (width > _min) || (height > _min);
-
-    //Set up comparison/sort helpers
 
     _l = x;
     _r = x+width;
@@ -141,7 +134,6 @@ void DQuadTree::addObject()
         return;
     }
 
-    //See if the selected object fits completely inside any of the quadrants
     if((_ol > _l) && (_or < _mx))
     {
         if((_ot > _t) && (_ob < _my))
@@ -178,7 +170,6 @@ void DQuadTree::addObject()
         }
     }
 
-    //If it wasn't completely contained we have to check out the partial overlaps
     if((_or > _l) && (_ol < _mx) && (_ob > _t) && (_ot < _my))
     {
         if(_nw == NULL)
@@ -247,7 +238,6 @@ bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
     DList* itr;
     if(BothLists)
     {
-        //An A-B list comparison
         _oa = B_LIST;
         if(_headA->object != NULL)
         {
@@ -284,7 +274,6 @@ bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
     }
     else
     {
-        //Just checking the A list against itself
         if(_headA->object != NULL)
         {
             itr = _headA;
@@ -298,7 +287,6 @@ bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
         }
     }
 
-    //Advance through the tree by calling overlap on each child
     if((_nw != NULL) && _nw->overlap(BothLists,_oc))
         c = true;
     if((_ne != NULL) && _ne->overlap(BothLists,_oc))
@@ -313,7 +301,6 @@ bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
 
 bool DQuadTree::overlapNode(DList *Iterator)
 {
-    //member list setup
     bool c = false;
     DObject* co;
     DList* itr = Iterator;
@@ -325,10 +312,8 @@ bool DQuadTree::overlapNode(DList *Iterator)
             itr = _headB;
     }
 
-    //Make sure this is a valid list to walk first!
     if(itr->object != NULL)
     {
-        //Walk the list and check for overlaps
         while(itr != NULL)
         {
             co = itr->object;

@@ -1,12 +1,12 @@
 #ifndef DSTATE_HPP
 #define DSTATE_HPP
 
-#include "DSprite.hpp"
 
 namespace Distillate
 {
     class DObject;
     class DGroup;
+    class DSprite;
 
     /**
      * This is the basic game "state" object - e.g. in a simple game
@@ -20,7 +20,7 @@ namespace Distillate
      * This means you can load it up with regular stuff
      * or with Distillate elements, whatever works!
      */
-    class DState : public DSprite
+    class DState
     {
     public:
         /**

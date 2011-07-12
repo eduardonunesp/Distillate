@@ -1,5 +1,5 @@
-#ifndef DGROUP_HPP
-#define DGROUP_HPP
+#ifndef __DGROUP_HPP__
+#define __DGROUP_HPP__
 
 #include <vector>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef DANIM_HPP
-#define DANIM_HPP
+#ifndef __DANIM_HPP__
+#define __DANIM_HPP__
 
 #include <string>
 #include <vector>

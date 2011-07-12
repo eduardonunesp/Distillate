@@ -25,11 +25,6 @@ namespace Distillate
         pointer_values_equal<DObject*> eq = { Object };
         if(std::find_if(members.begin(), members.end(), eq) == members.end())
             members.push_back(Object);
-        /*
-        TODO: WHERE scrollfactor ?
-        if(ShareScroll)
-            Object->scrollfactor = scrollfactor;
-        */
         return Object;
     }
 

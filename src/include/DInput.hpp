@@ -12,16 +12,6 @@ namespace Distillate
         /**
          * @private
          */
-//        SDL::Object* _lookup;
-
-        /**
-         * @private
-         */
-//        std::vector<SDL::Object*> _map;
-
-        /**
-         * @private
-         */
         const unsigned int _t;
 
         /**
@@ -67,35 +57,6 @@ namespace Distillate
          * @return  Whether the key is just released.
          */
         bool justReleased(const std::string& Key) { /* return _map[_lookup[Key]].current == -1; */ return false; }
-
-        /**
-         * Event handler so DGame can toggle keys.
-         *
-         * @param   event   A <code>KeyboardEvent</code> object.
-         */
-        /*
-        void handleKeyDown(event:KeyboardEvent);
-        */
-
-        /**
-         * Event handler so DGame can toggle keys.
-         *
-         * @param   event   A <code>KeyboardEvent</code> object.
-         */
-        /*
-        void handleKeyUp(event:KeyboardEvent)
-        */
-
-    protected:
-        /**
-         * An internal helper function used to build the key array.
-         *
-         * @param   KeyName     String name of the key (e.g. "LEFT" or "A")
-         * @param   KeyCode     The numeric Flash code for this key.
-         */
-        /*
-        void addKey(const std::string& KeyName, unsigned int KeyCode);
-        */
     };
 }
 #endif

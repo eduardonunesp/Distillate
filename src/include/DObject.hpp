@@ -4,6 +4,10 @@
 #include <vector>
 #include "DRect.hpp"
 
+#ifndef NULL
+#define NULL 0
+#endif
+
 namespace Distillate
 {
     /* Forwards */

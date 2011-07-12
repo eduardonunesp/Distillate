@@ -2,6 +2,7 @@
 #include "DGroup.hpp"
 #include "DObject.hpp"
 #include "DUtils.hpp"
+#include "DSprite.hpp"
 
 namespace Distillate
 {
@@ -24,7 +25,6 @@ namespace Distillate
 
     void DState::preProcess()
     {
-        //screen->fill(bgColor);   //Default behavior - just overwrite buffer with background color
     }
 
     void DState::update()

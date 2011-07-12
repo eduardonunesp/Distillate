@@ -108,25 +108,9 @@ namespace Distillate
 
         // Various rendering helpers
         DPoint* _flashPointZero;
-//        SDL::BitmapData* _pixels;
-//        SDL::BitmapData* _framePixels;
         int _alpha;
         unsigned int _color;
-//        SDL::BitmapData* _bbb;
         bool _boundsVisible;
-//        static SDL::Sprite* _gfxSprite;
-//        static SDL::Graphics* _gfx;
-        /*
-            TODO: NEED A PORT HERE
-            _flashRect:Rectangle;
-            _flashRect2:Rectangle;
-            _flashPointZero:Point;
-            _pixels:BitmapData;
-            _framePixels:BitmapData;
-            _ct:ColorTransform;
-            _mtx:Matrix;
-            _bbb:BitmapData;
-        */
 
     public:
 
@@ -181,59 +165,6 @@ namespace Distillate
          * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
          */
         DSprite *createGraphic(unsigned int Width, unsigned int Height, unsigned int Color = 0xffffffff, bool Unique = false, const std::string &Key = "");
-
-        /**
-         * Set <code>pixels</code> to any <code>BitmapData</code> object.
-         * Automatically adjust graphic size and render helpers.
-         */
-        /*
-           BitmapData *pixels()
-           {
-           return _pixels;
-           }
-           */
-
-        /**
-         * @private
-         */
-        /*
-           void pixels(BitmapData *Pixels)
-           {
-           _pixels = Pixels;
-           width = frameWidth = _pixels.width;
-           height = frameHeight = _pixels.height;
-           resetHelpers();
-           }
-           */
-
-    protected:
-        /**
-         * Resets some important variables for sprite optimization and rendering.
-         */
-        void resetHelpers()
-        {
-            /*
-               _flashRect.x = 0;
-               _flashRect.y = 0;
-               _flashRect.width = frameWidth;
-               _flashRect.height = frameHeight;
-               _flashRect2.x = 0;
-               _flashRect2.y = 0;
-               _flashRect2.width = _pixels.width;
-               _flashRect2.height = _pixels.height;
-               if((_framePixels == null) || (_framePixels.width != width) || (_framePixels.height != height))
-               _framePixels = new BitmapData(width,height);
-               if((_bbb == null) || (_bbb.width != width) || (_bbb.height != height))
-               _bbb = new BitmapData(width,height);
-               origin.x = frameWidth/2;
-               origin.y = frameHeight/2;
-               _framePixels.copyPixels(_pixels,_flashRect,_flashPointZero);
-               if(FlxG.showBounds)
-               drawBounds();
-               _caf = 0;
-               refreshHulls();
-               */
-        }
     };
 
 }

@@ -1,5 +1,5 @@
-#ifndef DGLOBALS_HPP
-#define DGLOBALS_HPP
+#ifndef __DGLOBALS_HPP__
+#define __DGLOBALS_HPP__
 
 #include <string>
 #include <vector>
@@ -120,15 +120,6 @@ namespace Distillate
          */
         static DKeyboard *keys;
 
-        /**
-         * A handy container for a background music object.
-         */
-        //static DSound *music;
-
-        /**
-         * A list of all the sounds being played in the game.
-         */
-        //static std<DSounds*> sounds;
 
     protected:
         /**
@@ -181,44 +172,6 @@ namespace Distillate
         static DPoint *scroll;
 
         /**
-         * Reference to the active graphics buffer.
-         * Can also be referenced via <code>FlxState.screen</code>.
-         */
-//        static SDL::Bitmap* buffer;
-
-    protected:
-        /**
-         * Internal storage system to prevent graphics from being used repeatedly in memory.
-         */
-//        static std::map<std::string, SDL::Object*> _cache;
-
-    public:
-        /**
-         * Access to the Kongregate high scores and achievements API.
-         */
-        //static public var kong:DKong;
-
-        /**
-         * The support panel (twitter, reddit, stumbleupon, paypal, etc) visor thing
-         */
-        //static DPanel *panel;
-
-        /**
-         * A special effect that shakes the screen.  Usage: DG.quake.start();
-         */
-        //static DQuake *quake;
-
-        /**
-         * A special effect that flashes a color on the screen.  Usage: DG.flash.start();
-         */
-        //static DFlash *flash;
-
-        /**
-         * A special effect that fades a color onto the screen.  Usage: DG.fade.start();
-         */
-        //static DFade *fade;
-
-        /**
          * Log data to the developer console.
          *
          * @param	Data		Anything you want to log to the console.
@@ -232,15 +185,12 @@ namespace Distillate
         static void pause(bool Pause);
 
         /**
-         * Loads a bitmap from a file, caches it, and generates a horizontally flipped version if necessary.
-         *
-         * @param   Graphic     The image file that you want to load.
-         * @param   Reverse     Whether to generate a flipped version.
-         *
-         * @return  The <code>BitmapData</code> we just created.
+         * Setting running to false
          */
-//        static SDL::BitmapData* addBitmap(void* Graphic, bool Reverse=false, bool Unique=false, const std::string& Key="");
-
+        static void quit()
+        {
+            _running = false;
+        }
     private:
 
         /**
