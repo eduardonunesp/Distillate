@@ -14,9 +14,9 @@
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
-    _state(InitialState),
+    _max_frame_count(10),
     _elapsed(0),
-    _total(0)
+    _state(InitialState)
     {
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
@@ -78,16 +78,6 @@ namespace Distillate
                         break;
                 }
             }
-            
-            unsigned int mark = SDL_GetTicks();
-            unsigned int ems = mark - _total;
-            _elapsed = ems/1000;
-            _total = mark;
-
-            DGlobals::elapsed = _elapsed;
-            if(DGlobals::elapsed > DGlobals::maxElapsed)
-                DGlobals::elapsed = DGlobals::maxElapsed;
-            DGlobals::elapsed *= DGlobals::timeScale;
 
             if(_state)
             {
@@ -97,6 +87,37 @@ namespace Distillate
             }
 
             SDL_UpdateRect(_screen, 0,0,0,0);
+
+            SDL_Delay(15);
+            unsigned int frametimesindex;
+            unsigned int getticks;
+            unsigned int count;
+            unsigned int i;
+            
+            frametimesindex = _framecount % _max_frame_count;
+
+            getticks = SDL_GetTicks();
+            _frametimes[frametimesindex] = getticks - _frametimelast;
+            _frametimelast = getticks;
+            _framecount++;
+            
+            if (_framecount < _max_frame_count) 
+                count = _framecount;
+            else
+                count = _max_frame_count;
+
+            _framespersecond = 0;
+            for (i = 0; i < count; i++) 
+                _framespersecond += _frametimes[i];
+
+            _framespersecond /= count;
+            _framespersecond = 1000.f / _framespersecond;
+
+            DGlobals::elapsed = _framecount;
+
+            if(DGlobals::elapsed > DGlobals::maxElapsed)
+                DGlobals::elapsed = DGlobals::maxElapsed;
+            DGlobals::elapsed *= DGlobals::timeScale;
         }
     }
 }

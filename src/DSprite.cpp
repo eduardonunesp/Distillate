@@ -3,10 +3,11 @@
 #include "DAnim.hpp"
 #include "DGlobals.hpp"
 #include <cmath>
+#include <iostream>
 
 namespace Distillate
 {
-    DSprite::DSprite(unsigned int X, unsigned int Y, const std::string &SimpleGraphics):
+    DSprite::DSprite(float X, float Y, const std::string &SimpleGraphics):
         DObject(X, Y),
         offset(new DPoint()),
         finished(false),
@@ -93,19 +94,20 @@ namespace Distillate
 
     void DSprite::render()
     {
-        DObject::render();
-
+        getScreenXY(_point);
+        
         SDL_Rect rect_dst;
-        rect_dst.x = x;
-        rect_dst.y = y;
+        rect_dst.x = _point->x;
+        rect_dst.y = _point->y;
 
         SDL_Rect rect_src;
         rect_src.x = 0;
         rect_src.y = 0;
         rect_src.h = height;
         rect_src.w = width;
-        
-        SDL_BlitSurface(_pixels, &rect_src, DGlobals::_buffer, &rect_dst);
+       
+        if((angle == 0) || (_bakedRotation > 0))
+            SDL_BlitSurface(_pixels, &rect_src, DGlobals::_buffer, &rect_dst);
     }
 
     bool DSprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
@@ -120,7 +122,7 @@ namespace Distillate
         return true;
     }   
         
-    void DSprite::addAnimation(const std::string &Name, std::vector<int> &Frames, int FrameRate, bool Looped)
+    void DSprite::addAnimation(const std::string &Name, std::vector<int> &Frames, float FrameRate, bool Looped)
     {   
         _animations.push_back(new DAnim(Name, Frames, FrameRate, Looped));
     }   

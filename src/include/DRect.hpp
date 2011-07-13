@@ -5,65 +5,68 @@
 
 namespace Distillate
 {
+
+/**
+ * Stores a rectangle
+ */
+class DRect : public DPoint
+{
+public:
     /**
-     * Stores a rectangle
+     * @default 0
      */
-    class DRect : public DPoint
+    float width;
+
+    /**
+     * @default 0
+     */
+    float height;
+
+    /**
+     * Instantiate a new rectangle.
+     *
+     * @param   X       The X-coordinate of the point in space.
+     * @param   Y       The Y-coordinate of the point in space.
+     * @param   Width   Desired width of the rectangle.
+     * @param   Height  Desired height of the rectangle.
+     */
+    DRect(float X=0, float Y=0, float Width=0, float Height=0)
+        : DPoint(X,Y), width(Width), height(Height) {}
+    virtual ~DRect() {}
+
+    /**
+     * The X coordinate of the left side of the rectangle.  Read-only.
+     */
+    unsigned int getLeft()
     {
-        public:
-        /**
-         * @default 0
-         */
-        float width;
+        return x;
+    }
 
-        /**
-         * @default 0
-         */
-        float height;
+    /**
+     * The X coordinate of the right side of the rectangle.  Read-only.
+     */
+    unsigned int getRight()
+    {
+        return x + width;
+    }
 
-        /**
-         * Instantiate a new rectangle.
-         *
-         * @param   X       The X-coordinate of the point in space.
-         * @param   Y       The Y-coordinate of the point in space.
-         * @param   Width   Desired width of the rectangle.
-         * @param   Height  Desired height of the rectangle.
-         */
-        DRect(float X=0, float Y=0, float Width=0, float Height=0)
-            : DPoint(X,Y), width(Width), height(Height) {}
-        virtual ~DRect() {}
+    /**
+     * The Y coordinate of the top of the rectangle.  Read-only.
+     */
+    unsigned int getTop()
+    {
+        return y;
+    }
 
-        /**
-         * The X coordinate of the left side of the rectangle.  Read-only.
-         */
-        unsigned int getLeft()
-        {
-            return x;
-        }
+    /**
+     * The Y coordinate of the bottom of the rectangle.  Read-only.
+     */
+    unsigned int getBottom()
+    {
+        return y + height;
+    }
+};
 
-        /**
-         * The X coordinate of the right side of the rectangle.  Read-only.
-         */
-        unsigned int getRight()
-        {
-            return x + width;
-        }
-
-        /**
-         * The Y coordinate of the top of the rectangle.  Read-only.
-         */
-        unsigned int getTop()
-        {
-            return y;
-        }
-
-        /**
-         * The Y coordinate of the bottom of the rectangle.  Read-only.
-         */
-        unsigned int getBottom()
-        {
-            return y + height;
-        }
-    };
 }
+
 #endif // DRECT_HPP

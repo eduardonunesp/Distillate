@@ -3,6 +3,7 @@
 #include "DUtils.hpp"
 #include "DPoint.hpp"
 #include "DSprite.hpp"
+#include <iostream>
 
 namespace Distillate
 {

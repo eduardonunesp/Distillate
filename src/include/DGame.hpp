@@ -22,11 +22,17 @@ namespace Distillate
         /* Internal */
         friend class DGlobals;
     protected:
-        //startup
+        /* startup */
         SDL_Surface* _screen;
         SDL_Event _event;
+
+        /* FPS stuff */
+        const unsigned int _max_frame_count;
         float _elapsed;
-        unsigned int _total;
+        unsigned int _frametimes[10];
+        unsigned int _frametimelast;
+        unsigned int _framecount;
+        float _framespersecond;
 
     private:
         //basic display stuff

@@ -7,45 +7,46 @@
 
 namespace Distillate
 {
-    unsigned int DState::bgColor;
 
-    DState::DState()
-    {
-        defaultGroup = new DGroup();
-    }
+unsigned int DState::bgColor;
 
-    DState::~DState()
-    {
-        delete defaultGroup;
-    }
+DState::DState()
+{
+    defaultGroup = new DGroup();
+}
 
-    DObject *DState::add(DObject* Core)
-    {
-        return defaultGroup->add(Core);
-    }
+DState::~DState()
+{
+    delete defaultGroup;
+}
 
-    void DState::preProcess()
-    {
-    }
+DObject *DState::add(DObject* Core)
+{
+    return defaultGroup->add(Core);
+}
 
-    void DState::update()
-    {
-        defaultGroup->update();
-    }
+void DState::preProcess()
+{
+}
 
-    void DState::collide()
-    {
-        DUtils::collide(defaultGroup,defaultGroup);
-    }
+void DState::update()
+{
+    defaultGroup->update();
+}
 
-    void DState::render()
-    {
-        defaultGroup->render();
-    }
+void DState::collide()
+{
+    DUtils::collide(defaultGroup,defaultGroup);
+}
 
-    void DState::destroy()
-    {
-        defaultGroup->destroy();
-    }
+void DState::render()
+{
+    defaultGroup->render();
+}
+
+void DState::destroy()
+{
+    defaultGroup->destroy();
+}
 
 }

@@ -152,13 +152,13 @@ namespace Distillate
         /**
          * Internal helper used for retro-style flickering.
          */
-        int _flickerTimer;
+        float _flickerTimer;
 
     public:
         /**
          * Handy for storing health percentage or armor points or whatever.
          */
-        int health;
+        float health;
 
         /**
          * Handy for tracking gameplay or animations.

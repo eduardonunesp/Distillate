@@ -81,14 +81,14 @@ namespace Distillate
         DAnim* _curAnim;
         unsigned int _curFrame;
         unsigned int _caf;
-        int _frameTimer;
+        float _frameTimer;
         callbackFunctionSprite *_callback;
         unsigned int _facing;
         int _bakedRotation;
 
         /* Surface stuff */
         SDL_Surface *_pixels;
-        int _alpha;
+        float _alpha;
         unsigned int _color;
         bool _boundsVisible;
 
@@ -102,7 +102,7 @@ namespace Distillate
          * @param   Y               The initial Y position of the sprite.
          * @param   SimpleGraphic   The graphic you want to display (OPTIONAL - for simple stuff only, do NOT use for animated images!).
          */
-        DSprite(unsigned int X = 0, unsigned int Y = 0, const std::string &SimpleGraphic = "");
+        DSprite(float X = 0, float Y = 0, const std::string &SimpleGraphic = "");
         virtual ~DSprite();
 
         /**
@@ -169,7 +169,7 @@ namespace Distillate
          * @param   FrameRate   The speed in frames per second that the animation should play at (e.g. 40 fps).
          * @param   Looped      Whether or not the animation is looped or just plays once.
          */
-        void addAnimation(const std::string &Name, std::vector<int> &Frames, int FrameRate, bool Looped = true);
+        void addAnimation(const std::string &Name, std::vector<int> &Frames, float FrameRate, bool Looped = true);
 
         /** 
          * Plays an existing animation (e.g. "run").
