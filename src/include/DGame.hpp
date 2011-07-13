@@ -29,10 +29,9 @@ namespace Distillate
         /* FPS stuff */
         const unsigned int _max_frame_count;
         float _elapsed;
-        unsigned int _frametimes[10];
-        unsigned int _frametimelast;
-        unsigned int _framecount;
-        float _framespersecond;
+        unsigned int _lasttime;
+        unsigned int _frametime;
+
 
     private:
         //basic display stuff

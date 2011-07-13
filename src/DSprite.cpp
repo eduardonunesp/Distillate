@@ -188,10 +188,7 @@ namespace Distillate
         if(_bakedRotation)
         {   
             unsigned int oc = _caf;
-            int ta = fmod(angle,360);
-            if(ta < 0)
-                ta += 360;
-            _caf = ta/_bakedRotation;
+            _caf = fmod(angle,360) / _bakedRotation;
             if(oc != _caf)
                 calcFrame();
             return;

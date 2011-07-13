@@ -17,7 +17,7 @@ public:
         if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
             DGlobals::quit();
 
-        if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_RIGHT))
+        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_RIGHT))
             player->velocity->x += 100;
     }
 

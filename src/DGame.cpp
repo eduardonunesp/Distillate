@@ -14,6 +14,7 @@ namespace Distillate
 DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
 _max_frame_count(10),
 _elapsed(0),
+_lasttime(0),
 _state(InitialState)
 {
     DState::bgColor = 0xff000000;
@@ -45,6 +46,7 @@ void DGame::create()
 
     _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 32, SDL_SWSURFACE);
     switchState(_state);
+    _lasttime = SDL_GetTicks();
     update();
 }
 
@@ -86,35 +88,32 @@ void DGame::update()
 
         SDL_UpdateRect(_screen, 0,0,0,0);
 
-        SDL_Delay(15);
-        unsigned int frametimesindex;
-        unsigned int getticks;
-        unsigned int count;
-        unsigned int i;
+        SDL_Rect rect;
+        rect.h = DGlobals::_buffer->h;
+        rect.w = DGlobals::_buffer->w;
+        rect.x = 0;
+        rect.y = 0;
+        SDL_FillRect(DGlobals::_buffer, &rect, 0);
+
+        unsigned int now;
+        _frametime = 0;
         
-        frametimesindex = _framecount % _max_frame_count;
+        do
+        {
+            now = SDL_GetTicks();
+            _frametime = (now > _lasttime) ? now - _lasttime : 0;
+            _lasttime  = (now >= _lasttime) ? _lasttime : now;
+        }
+        while(!(_frametime >= 30));
 
-        getticks = SDL_GetTicks();
-        _frametimes[frametimesindex] = getticks - _frametimelast;
-        _frametimelast = getticks;
-        _framecount++;
-        
-        if (_framecount < _max_frame_count) 
-            count = _framecount;
-        else
-            count = _max_frame_count;
+        _elapsed = (float) _frametime * 0.001f;
 
-        _framespersecond = 0;
-        for (i = 0; i < count; i++) 
-            _framespersecond += _frametimes[i];
-
-        _framespersecond /= count;
-        _framespersecond = 1000.f / _framespersecond;
-
-        DGlobals::elapsed = _frametimelast;
+        DGlobals::elapsed = _elapsed;
         if(DGlobals::elapsed > DGlobals::maxElapsed)
             DGlobals::elapsed = DGlobals::maxElapsed;
         DGlobals::elapsed *= DGlobals::timeScale;
+
+        _lasttime = now;
     }
 }
 

@@ -3,6 +3,7 @@
 #include "DUtils.hpp"
 #include "DPoint.hpp"
 #include "DSprite.hpp"
+#include <cmath>
 
 namespace Distillate
 {
@@ -82,6 +83,7 @@ void DObject::refreshHulls()
 
 void DObject::updateMotion()
 {
+
     if(!moves)
         return;
 
@@ -93,7 +95,7 @@ void DObject::updateMotion()
     vc = (DUtils::computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity)/2;
 
     angularVelocity += vc;
-    angle += angularVelocity*DGlobals::elapsed;
+    angle = fmod(angle + angularVelocity*DGlobals::elapsed, 360);
     angularVelocity += vc;
 
     DPoint* thrustComponents;

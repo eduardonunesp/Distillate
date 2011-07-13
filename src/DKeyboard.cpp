@@ -16,7 +16,6 @@ void DKeyboard::setKeyState(int state, int k)
 bool DKeyboard::checkKeyState(int state, int k)
 {
     bool ret = (_keys[k] == state);
-    if(ret) _keys[k] = 0;
     return ret;
 }
     
