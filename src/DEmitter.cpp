@@ -2,13 +2,15 @@
 
 namespace Distillate
 {
-    DEmitter::DEmitter()
-    {
-        //ctor
-    }
 
-    DEmitter::~DEmitter()
-    {
-        //dtor
-    }
+DEmitter::DEmitter()
+{
+    //ctor
+}
+
+DEmitter::~DEmitter()
+{
+    //dtor
+}
+
 }

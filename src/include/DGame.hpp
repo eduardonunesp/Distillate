@@ -2,7 +2,7 @@
 #define __DGAME_HPP__
 
 #include <SDL/SDL.h>
-#include "App.hpp"
+#include <stdexcept>
 
 namespace Distillate
 {

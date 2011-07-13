@@ -25,6 +25,7 @@ public:
     {
         player = new DSprite(10,10);
         player->loadGraphic("player.png", true, false, 52, 21, false);
+       // player->visible = false;
         add(player);
     }
 };

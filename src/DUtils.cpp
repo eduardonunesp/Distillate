@@ -28,10 +28,12 @@ float DUtils::random(bool UseGlobalSeed)
 float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, float Max)
 {
     if(Acceleration != 0)
+    {
         Velocity += Acceleration*DGlobals::elapsed;
+    }
     else if(Drag != 0)
     {
-        int d = Drag*DGlobals::elapsed;
+        float d = Drag*DGlobals::elapsed;
         if(Velocity - d > 0)
             Velocity -= d;
         else if(Velocity + d < 0)
@@ -46,6 +48,7 @@ float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, fl
         else if(Velocity < -Max)
             Velocity = -Max;
     }
+
     return Velocity;
 }
 

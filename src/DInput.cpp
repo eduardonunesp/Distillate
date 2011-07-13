@@ -2,15 +2,17 @@
 
 namespace Distillate
 {
-    DInput::DInput():
-        _t(256) {}
+
+DInput::DInput():
+    _t(256) {}
 
 
-    void DInput::update()
-    {
-    }
+void DInput::update()
+{
+}
 
-    void DInput::reset()
-    {
-    }
+void DInput::reset()
+{
+}
+
 }

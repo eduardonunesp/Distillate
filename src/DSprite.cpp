@@ -3,7 +3,6 @@
 #include "DAnim.hpp"
 #include "DGlobals.hpp"
 #include <cmath>
-#include <iostream>
 
 namespace Distillate
 {

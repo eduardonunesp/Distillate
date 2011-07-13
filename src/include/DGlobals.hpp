@@ -182,13 +182,6 @@ namespace Distillate
         static DPoint *scroll;
 
         /**
-         * Log data to the developer console.
-         *
-         * @param	Data		Anything you want to log to the console.
-         */
-        static void log(const std::string& log);
-
-        /**
          * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.
          */
         static bool pause();
