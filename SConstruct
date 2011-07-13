@@ -14,8 +14,6 @@ if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
 
 files = Split("""
-backend/App.cpp
-backend/EventDispatcher.cpp
 src/DClass.cpp
 src/DMouse.cpp
 src/DInput.cpp
