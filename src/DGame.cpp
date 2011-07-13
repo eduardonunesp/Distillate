@@ -14,7 +14,9 @@
 namespace Distillate
 {
     DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
-    _state(InitialState)
+    _state(InitialState),
+    _elapsed(0),
+    _total(0)
     {
         DState::bgColor = 0xff000000;
         DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
@@ -76,6 +78,16 @@ namespace Distillate
                         break;
                 }
             }
+            
+            unsigned int mark = SDL_GetTicks();
+            unsigned int ems = mark - _total;
+            _elapsed = ems/1000;
+            _total = mark;
+
+            DGlobals::elapsed = _elapsed;
+            if(DGlobals::elapsed > DGlobals::maxElapsed)
+                DGlobals::elapsed = DGlobals::maxElapsed;
+            DGlobals::elapsed *= DGlobals::timeScale;
 
             if(_state)
             {

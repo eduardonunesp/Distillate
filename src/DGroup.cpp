@@ -30,9 +30,8 @@ namespace Distillate
 
     DObject* DGroup::replace(DObject* OldObject, DObject* NewObject)
     {
-        /*TODO: DO IT BETTER */
-        std::vector<DObject*>::const_iterator it;
         pointer_values_equal<DObject*> eq = { OldObject };
+        std::vector<DObject*>::const_iterator it;
         it = std::find_if(members.begin(), members.end(), eq);
         if(it == members.end())
             return NULL;
@@ -42,19 +41,18 @@ namespace Distillate
 
     DObject* DGroup::remove(DObject* Object, bool Splice)
     {
-        /*TODO: DO IT BETTER */
-        std::vector<DObject*>::const_iterator it;
         pointer_values_equal<DObject*> eq = { Object };
+        std::vector<DObject*>::iterator it;
         it = std::find_if(members.begin(), members.end(), eq);
         if(it == members.end())
             return NULL;
-        /* members.erase(it); */
+        members.erase(it);
         return Object;
     }
 
-    void DGroup::sort(int Order)
+    void DGroup::sort(SortType Order)
     {
-        /* HOW TO */
+        //TODO: Must doing a sort here
     }
 
     DObject* DGroup::getFirstAvail()

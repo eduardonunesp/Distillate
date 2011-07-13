@@ -49,6 +49,33 @@ float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, fl
     return Velocity;
 }
 
+void DUtils::setWorldBounds(float X, float Y, float Width, float Height, unsigned int Divisions)
+{
+    if(!DQuadTree::bounds)
+        DQuadTree::bounds = new DRect();
+    DQuadTree::bounds->x = X;
+    DQuadTree::bounds->y = Y;
+    if(Width > 0)
+        DQuadTree::bounds->width = Width;
+    if(Height > 0)
+        DQuadTree::bounds->height = Height;
+    if(Divisions > 0)
+        DQuadTree::divisions = Divisions;
+}         
+
+bool DUtils::overlap(DObject *Object1,DObject *Object2, callbackFunctionQuadTree *Callback)
+{
+    if((!Object1) || !Object1->exists ||
+       (!Object2) || !Object2->exists )
+        return false;
+    quadTree = new DQuadTree(DQuadTree::bounds->x,DQuadTree::bounds->y,DQuadTree::bounds->width,DQuadTree::bounds->height);
+    quadTree->add(Object1, DQuadTree::A_LIST);
+    if(Object1 == Object2)
+        return quadTree->overlap(false,Callback);
+    quadTree->add(Object2,DQuadTree::B_LIST);
+    return quadTree->overlap(true,Callback);
+}
+
 DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P)
 {
     if(!P) P = new DPoint();
@@ -60,11 +87,23 @@ DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float 
     return P;
 }
 
+float DUtils::getAngle(float X, float Y)
+{
+    float c1 = 3.14159265 / 4;
+    float c2 = 3 * c1;
+    float ay = (Y < 0)?-Y:Y;
+    float angle = 0;
+    if (X >= 0)
+        angle = c1 - c1 * ((X - ay) / (X + ay));
+    else
+        angle = c2 - c1 * ((X + ay) / (ay - X));
+    return ((Y < 0)?-angle:angle)*57.2957796;
+}
 
 bool DUtils::collide(DObject *Object1, DObject *Object2)
 {
     if( (Object1 == NULL) || !Object1->exists ||
-            (Object2 == NULL) || !Object2->exists )
+        (Object2 == NULL) || !Object2->exists )
         return false;
     quadTree = new DQuadTree(quadTreeBounds->x,quadTreeBounds->y,quadTreeBounds->width,quadTreeBounds->height);
     quadTree->add(Object1,DQuadTree::A_LIST);
@@ -292,9 +331,9 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
     int sv1;
     int sv2;
 
-    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || //the obvious cases
-             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || //both moving up, obj2 overtakes obj1
-             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) ); //both moving down, obj1 overtakes obj2
+    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || 
+             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || 
+             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) );
 
     if(p1hn2?(!Object1->collideBottom || !Object2->collideTop):(!Object1->collideTop || !Object2->collideBottom))
         return false;
@@ -446,7 +485,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
 
     return false;
 }
-
 
 }
 

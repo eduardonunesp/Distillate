@@ -4,6 +4,7 @@
 #include "DConsole.hpp"
 #include "DKeyboard.hpp"
 #include "DMouse.hpp"
+#include "DUtils.hpp"
 #include <iostream>
 #include <SDL/SDL_image.h>
 
@@ -11,8 +12,8 @@ namespace Distillate
 {
     const std::string DGlobals::LIBRARY_NAME = "Distillate";
     float DGlobals::elapsed;
-    float DGlobals::maxElapsed;
-    float DGlobals::timeScale;
+    float DGlobals::maxElapsed = 0.333333f;
+    float DGlobals::timeScale = 1.0f;
     DPoint *DGlobals::scroll = new DPoint();
     unsigned int DGlobals::width  = 0;
     unsigned int DGlobals::height = 0;
@@ -41,7 +42,13 @@ namespace Distillate
         width = Width;
         height = Height;
         _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
-        if(!_buffer) std::cerr << "Cannot create buffer \n";
+        if(!_buffer) 
+        {
+            std::cerr << "Cannot create buffer \n";
+            DGlobals::quit();
+        }
+
+        DUtils::setWorldBounds(0,0,Width, Height);
     }
 
     SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)

@@ -20,8 +20,10 @@ namespace Distillate
         friend class DState;
 
     public:
-        static const int ASCENDING = -1;
-        static const int DESCENDING = 1;
+        typedef enum {
+            ASCENDING = -1,
+            DESCENDING = 1
+        } SortType;
 
     protected:
         /**
@@ -113,7 +115,7 @@ namespace Distillate
          * the sort order.  Possible values are <code>ASCENDING</code> 
          * and <code>DESCENDING</code>.  Default value is <code>ASCENDING</code>.  
          */
-        void sort(int Order=ASCENDING);
+        void sort(SortType Order=ASCENDING);
 
         /**
          * Call this function to retrieve the first object with exists == false in the group.

@@ -20,9 +20,20 @@ namespace Distillate
     {
     public:
         /**
-         * Callback function for QuadTree
+         * Set this to null to force it to refresh on the next collide.
          */
-        typedef bool (callbackFunctionQuadTree)(DObject*, DObject*);
+        static DQuadTree *quadTree;
+
+        /**
+         * This variable stores the dimensions of the root of the quad tree.
+         * This is the eligible game collision space.
+         */
+        static DRect *bounds;
+
+        /** 
+         * Controls the granularity of the quad tree.  Default is 3 (decent performance on large and small worlds).
+         */  
+        static unsigned int divisions;
 
         /**
          * Flag for specifying that you want to add an object to the A list.
@@ -75,7 +86,7 @@ namespace Distillate
         static int _or;
         static int _ob;
         static unsigned int _oa;
-        static callbackFunctionQuadTree* _oc;
+        static DUtils::callbackFunctionQuadTree* _oc;
 
     public:
         /**
@@ -122,7 +133,7 @@ namespace Distillate
          *
          * @return	Whether or not any overlaps were found.
          */
-        bool overlap(bool BothLists = true, callbackFunctionQuadTree *Callback = NULL);
+        bool overlap(bool BothLists = true, DUtils::callbackFunctionQuadTree *Callback = NULL);
 
     protected:
         /**

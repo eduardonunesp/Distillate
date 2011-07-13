@@ -6,6 +6,9 @@
 namespace Distillate
 {
 
+DQuadTree *DQuadTree::quadTree = NULL;
+DRect     *DQuadTree::bounds = NULL;
+unsigned int DQuadTree::divisions = 3;
 unsigned int DQuadTree::_min = 0;
 DObject *DQuadTree::_o = NULL;
 int DQuadTree::_ol = 0;
@@ -13,7 +16,7 @@ int DQuadTree::_ot = 0;
 int DQuadTree::_or = 0;
 int DQuadTree::_ob = 0;
 unsigned int DQuadTree::_oa = 0;
-DQuadTree::callbackFunctionQuadTree *DQuadTree::_oc;
+DUtils::callbackFunctionQuadTree *DQuadTree::_oc;
 
 DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
     DRect(X,Y,Width,Height),
@@ -62,7 +65,7 @@ DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
         }
     }
     else
-        _min = (width + height)/(2*DUtils::quadTreeDivisions);
+        _min = (width + height)/(2*divisions);
     _canSubdivide = (width > _min) || (height > _min);
 
     _l = x;
@@ -231,7 +234,7 @@ void DQuadTree::addToList()
         _sw->addToList();
 }
 
-bool DQuadTree::overlap(bool BothLists, callbackFunctionQuadTree *Callback)
+bool DQuadTree::overlap(bool BothLists, DUtils::callbackFunctionQuadTree *Callback)
 {
     _oc = Callback;
     bool c = false;

@@ -25,6 +25,8 @@ namespace Distillate
         //startup
         SDL_Surface* _screen;
         SDL_Event _event;
+        float _elapsed;
+        unsigned int _total;
 
     private:
         //basic display stuff

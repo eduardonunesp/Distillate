@@ -7,20 +7,26 @@ using namespace Distillate;
 class State : public DState
 {
 public:
+    DSprite *player;
+
     State() : DState() {};
     void update() 
     {
-        DState::update();
+        player->velocity->x = 0;     
         if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
         {
             DGlobals::quit();
         }
+
+            player->velocity->x += 100;
+
+        DState::update();
     }
 
     void create() 
     {
         DGlobals::log("create");
-        DSprite *player = new DSprite(10,10);
+        player = new DSprite(10,10);
         player->loadGraphic("player.png", true, false, 52, 21, false);
         add(player);
     }
