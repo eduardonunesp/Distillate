@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 #include "Distillate.hpp"
 
 using namespace Distillate;
@@ -25,7 +26,16 @@ public:
     {
         player = new DSprite(10,10);
         player->loadGraphic("player.png", true, false, 52, 21, false);
-       // player->visible = false;
+
+        std::vector<int> anim_frame;
+        anim_frame.push_back(0);
+        anim_frame.push_back(1);
+        anim_frame.push_back(2);
+
+        player->addAnimation("flying", anim_frame, 3, true);
+        player->play("flying");
+
+
         add(player);
     }
 };

@@ -91,6 +91,7 @@ namespace Distillate
         float _alpha;
         unsigned int _color;
         bool _boundsVisible;
+        SDL_Rect _rendering_rect;
 
     public:
 

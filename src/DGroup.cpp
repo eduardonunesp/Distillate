@@ -12,13 +12,11 @@ DGroup::DGroup():
 {
     _group = true;
     _solid = false;
-    delete_all(members);
 }
 
 DGroup::~DGroup()
 {
     delete _last;
-    delete_all(members);
 }
 
 DObject* DGroup::add(DObject* Object, bool ShareScroll)

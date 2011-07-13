@@ -1,6 +1,7 @@
 #ifndef __DANIM_HPP__
 #define __DANIM_HPP__
 
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -20,7 +21,7 @@ namespace Distillate
         /**
          * Seconds between frames (basically the framerate)
          */
-        int delay;
+        float delay;
 
         /**
          * A list of frames stored as <code>uint</code> objects
@@ -40,7 +41,7 @@ namespace Distillate
          * @param   FrameRate   The speed in frames per second that the animation should play at (e.g. 40)
          * @param   Looped      Whether or not the animation is looped or just plays once
          */
-        DAnim(const std::string &Name, std::vector<int> &Frames, int FrameRate = 0, bool Looped = true)
+        DAnim(const std::string &Name, std::vector<int> &Frames, float FrameRate = 0, bool Looped = true)
         {
             name = Name;
             delay = 0;

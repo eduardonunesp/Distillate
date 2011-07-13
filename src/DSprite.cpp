@@ -29,7 +29,6 @@ namespace Distillate
     DSprite::~DSprite()
     {
         delete _curAnim;
-        delete_all(_animations);
     }
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
@@ -99,14 +98,14 @@ namespace Distillate
         rect_dst.x = _point->x;
         rect_dst.y = _point->y;
 
-        SDL_Rect rect_src;
-        rect_src.x = 0;
-        rect_src.y = 0;
-        rect_src.h = height;
-        rect_src.w = width;
+        _rendering_rect.h = height;
+        _rendering_rect.w = width;
        
         if((angle == 0) || (_bakedRotation > 0))
-            SDL_BlitSurface(_pixels, &rect_src, DGlobals::_buffer, &rect_dst);
+            SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+
+        _rendering_rect.x = 0;
+        _rendering_rect.y = 0;
     }
 
     bool DSprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
@@ -128,7 +127,7 @@ namespace Distillate
 
     void DSprite::play(const std::string &AnimName, bool Force)
     {
-        if(!Force && _curAnim && (AnimName == _curAnim->name)) return;
+        if(!Force && (_curAnim != NULL) && (AnimName == _curAnim->name) && (_curAnim->looped || !finished)) return;
         _curFrame = 0;
         _caf = 0;
         _frameTimer = 0;
@@ -167,12 +166,15 @@ namespace Distillate
         if(rx >= w)
         {   
             ry = (rx/w)*frameHeight;
-            rx = fmod(rx,w);
+            rx = rx % w;
         }   
 
         /* handle reversed sprites */
         if(_flipped && (_facing == LEFT))
             rx = (_flipped<<1)-rx-frameWidth;
+
+        _rendering_rect.x = rx;
+        _rendering_rect.y = ry;
 
         /* Update display bitmap */
         if(_callback) _callback(_curAnim, _caf);
@@ -193,7 +195,7 @@ namespace Distillate
                 calcFrame();
             return;
         }   
-
+        
         if((_curAnim) && (_curAnim->delay > 0) && (_curAnim->looped || !finished))
         {   
             _frameTimer += DGlobals::elapsed;
@@ -206,7 +208,10 @@ namespace Distillate
                     finished = true;
                 }   
                 else
+                {
                     _curFrame++;
+                }
+
                 _caf = _curAnim->frames[_curFrame];
                 calcFrame();
             }   
