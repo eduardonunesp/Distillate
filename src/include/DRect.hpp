@@ -1,5 +1,5 @@
-#ifndef DRECT_HPP
-#define DRECT_HPP
+#ifndef __DRECT_HPP__
+#define __DRECT_HPP__
 
 #include "DPoint.hpp"
 
@@ -7,13 +7,20 @@ namespace Distillate
 {
 
 /**
-* Stores a rectangle
-*/
+ * Stores a rectangle
+ */
 class DRect : public DPoint
 {
 public:
-    unsigned int width;
-    unsigned int height;
+    /**
+     * @default 0
+     */
+    float width;
+
+    /**
+     * @default 0
+     */
+    float height;
 
     /**
      * Instantiate a new rectangle.
@@ -23,37 +30,37 @@ public:
      * @param   Width   Desired width of the rectangle.
      * @param   Height  Desired height of the rectangle.
      */
-    DRect(int X = 0, unsigned int Y = 0, unsigned int Width = 0, int Height = 0)
+    DRect(float X=0, float Y=0, float Width=0, float Height=0)
         : DPoint(X,Y), width(Width), height(Height) {}
     virtual ~DRect() {}
 
     /**
-    * The X coordinate of the left side of the rectangle.  Read-only.
-    */
+     * The X coordinate of the left side of the rectangle.  Read-only.
+     */
     unsigned int getLeft()
     {
         return x;
     }
 
     /**
-    * The X coordinate of the right side of the rectangle.  Read-only.
-    */
+     * The X coordinate of the right side of the rectangle.  Read-only.
+     */
     unsigned int getRight()
     {
         return x + width;
     }
 
     /**
-    * The Y coordinate of the top of the rectangle.  Read-only.
-    */
+     * The Y coordinate of the top of the rectangle.  Read-only.
+     */
     unsigned int getTop()
     {
         return y;
     }
 
     /**
-    * The Y coordinate of the bottom of the rectangle.  Read-only.
-    */
+     * The Y coordinate of the bottom of the rectangle.  Read-only.
+     */
     unsigned int getBottom()
     {
         return y + height;
@@ -61,4 +68,5 @@ public:
 };
 
 }
+
 #endif // DRECT_HPP

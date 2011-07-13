@@ -1,11 +1,14 @@
-#ifndef DGROUP_HPP
-#define DGROUP_HPP
+#ifndef __DGROUP_HPP__
+#define __DGROUP_HPP__
 
 #include <vector>
+#include <string>
 #include "DObject.hpp"
 
 namespace Distillate
 {
+
+/* Forward */
 class DPoint;
 
 /**
@@ -15,6 +18,14 @@ class DPoint;
  */
 class DGroup : public DObject
 {
+    friend class DState;
+
+public:
+    typedef enum {
+        ASCENDING = -1,
+        DESCENDING = 1
+    } SortType;
+
 protected:
     /**
      * Array of all the <code>DObject</code>s that exist in this layer.
@@ -27,6 +38,12 @@ protected:
     DPoint* _last;
     bool _first;
 
+    /**
+     * Helpers for sorting members
+     */
+    std::string _sortIndex;
+    int _sortOrder;
+        
     /**
      * Internal function, helps with the moving/updating of group members.
      */
@@ -76,11 +93,30 @@ public:
      * Removes an object from the group.
      *
      * @param   Object  The <code>DObject</code> you want to remove.
-     * @param   Splice  Whether the object should be cut from the array entirely or not.
+     * @param   Splice  Whether the object should be cut from the 
+     * array entirely or not.
      *
      * @return  The removed object.
      */
     DObject* remove(DObject *Object, bool Splice=false);
+
+    /** 
+     * Call this function to sort the group according to a particular 
+     * value and order.     
+     * For example, to sort game objects for Zelda-style overlaps you might call
+     * <code>myGroup.sort("y",ASCENDING)</code> at the bottom of your
+     * <code>DState.update()</code> override.  
+     * To sort all existing objects after
+     * a big explosion or bomb attack, you might call 
+     * <code>myGroup.sort("exists",DESCENDING)</code>.
+     * 
+     * @param   Index   The <code>String</code> name of the member 
+     * variable you want to sort on.  Default value is "y".
+     * @param   Order   A <code>DGroup</code> constant that defines 
+     * the sort order.  Possible values are <code>ASCENDING</code> 
+     * and <code>DESCENDING</code>.  Default value is <code>ASCENDING</code>.  
+     */
+    void sort(SortType Order=ASCENDING);
 
     /**
      * Call this function to retrieve the first object with exists == false in the group.
@@ -166,7 +202,6 @@ public:
      */
     void update();
 
-
     /**
      * Internal function that actually loops through and renders all the group members.
      */
@@ -196,6 +231,8 @@ public:
      * @param   Y   The new Y position of this object.
      */
     void reset(float X, float Y);
+
+    int sortHandler(DObject* Obj1, DObject* Obj2);
 };
 
 }

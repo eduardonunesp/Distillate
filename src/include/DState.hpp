@@ -1,12 +1,14 @@
 #ifndef DSTATE_HPP
 #define DSTATE_HPP
 
-#include "DSprite.hpp"
+#include <SDL/SDL.h>
 
 namespace Distillate
 {
+
 class DObject;
 class DGroup;
+class DSprite;
 
 /**
  * This is the basic game "state" object - e.g. in a simple game
@@ -20,14 +22,9 @@ class DGroup;
  * This means you can load it up with regular stuff
  * or with Distillate elements, whatever works!
  */
-class DState : public DSprite
+class DState
 {
 public:
-    /**
-     * This static variable holds the screen buffer,
-     * so you can draw to it directly if you want.
-     */
-    static DSprite* screen;
 
     /**
      * This static variable indicates the "clear color"
@@ -105,7 +102,6 @@ public:
      * might need (such as removing traditional Flash children like Sprite objects).
      */
     virtual void destroy();
-
 };
 
 }

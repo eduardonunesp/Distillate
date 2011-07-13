@@ -2,18 +2,21 @@
 #include "DGroup.hpp"
 #include "DObject.hpp"
 #include "DUtils.hpp"
+#include "DSprite.hpp"
 
 namespace Distillate
 {
 
+unsigned int DState::bgColor;
+
 DState::DState()
 {
-    //ctor
+    defaultGroup = new DGroup();
 }
 
 DState::~DState()
 {
-    //dtor
+    delete defaultGroup;
 }
 
 DObject *DState::add(DObject* Core)
@@ -23,7 +26,6 @@ DObject *DState::add(DObject* Core)
 
 void DState::preProcess()
 {
-    //screen->fill(bgColor);   //Default behavior - just overwrite buffer with background color
 }
 
 void DState::update()

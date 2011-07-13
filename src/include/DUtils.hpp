@@ -1,7 +1,7 @@
 #ifndef DUTILS_HPP
 #define DUTILS_HPP
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <functional>
 #include <utility>
@@ -24,7 +24,7 @@ struct dtor : public std::unary_function <T, void>
 
 template<typename T1, typename T2>
 struct dtor<std::pair<T1, T2> > :
-    public std::unary_function <std::pair<T1, T2>, void>
+public std::unary_function <std::pair<T1, T2>, void>
 {
     void operator()(std::pair<T1, T2> &pair)
     {
@@ -44,6 +44,18 @@ inline void delete_all(Container &c)
     std::for_each(c.begin(), c.end(), make_dtor(c));
 }
 
+/* Functor to compare if exists */
+template <typename T>
+struct pointer_values_equal
+{
+    T to_find;
+    bool operator()(T other) const
+    {
+        return to_find == other;
+    }
+};
+
+/* Forward */
 class DObject;
 class DPoint;
 class DQuadTree;
@@ -66,9 +78,9 @@ protected:
 
 public:
     /**
-    * Callback function for Distillate
-    */
-    typedef bool (callbackFunction)(DObject*, DObject*);
+     * Callback function for QuadTree
+     */
+    typedef bool (callbackFunctionQuadTree)(DObject*, DObject*);
 
     /**
      * Helps to eliminate false collisions and/or rendering glitches caused by rounding errors
@@ -86,11 +98,6 @@ public:
      * This is the eligible game collision space.
      */
     static DRect* quadTreeBounds;
-
-    /**
-     * Controls the granularity of the quad tree.  Default is 3 (decent performance on large and small worlds).
-     */
-    static const unsigned int quadTreeDivisions = 3;
 
     /**
      * Opens a web page in a new tab or window.
@@ -113,6 +120,11 @@ public:
     static float ceilValue(float N)
     {
         return ceil(N);
+    }
+
+    static float roundValue(float N)
+    {
+        return round(N);
     }
 
     /**
@@ -164,26 +176,7 @@ public:
     {
         _seed = Seed;
         _originalSeed = _seed;
-
     }
-
-    /**
-     * Useful for finding out how long it takes to execute specific blocks of code.
-     *
-     * @return  A <code>uint</code> to be passed to <code>DU.endProfile()</code>.
-     */
-    static unsigned int startProfile();
-
-    /**
-     * Useful for finding out how long it takes to execute specific blocks of code.
-     *
-     * @param   Start   A <code>uint</code> created by <code>DU.startProfile()</code>.
-     * @param   Name    Optional tag (for debug console display).  Default value is "Profiler".
-     * @param   Log     Whether or not to log this elapsed time in the debug console.
-     *
-     * @return  A <code>uint</code> to be passed to <code>DU.endProfile()</code>.
-     */
-    static unsigned int endProfile(unsigned int Start, const std::string &Name="Profiler",bool Log=true);
 
     /**
      * Rotates a point in 2D space around another point by the given angle.
@@ -210,25 +203,6 @@ public:
     static float getAngle(float X, float Y);
 
     /**
-     * Get the <code>String</code> name of any <code>Object</code>.
-     *
-     * @param   Obj     The <code>Object</code> object in question.
-     * @param   Simple  Returns only the class name, not the package or packages.
-     *
-     * @return  The name of the <code>Class</code> as a <code>String</code> object.
-     */
-    static std::string getClassName(void *Obj,bool Simple=false);
-
-    /**
-     * Look up a <code>Class</code> object by its string name.
-     *
-     * @param   Name    The <code>String</code> name of the <code>Class</code> you are interested in.
-     *
-     * @return  A <code>Class</code> object.
-     */
-    static void* getClass(const std::string &Name);
-
-    /**
      * A tween-like function that takes a starting velocity
      * and some other factors and returns an altered velocity.
      *
@@ -241,13 +215,13 @@ public:
      */
     static float computeVelocity(float Velocity, float Acceleration=0, float Drag=0, float Max=10000);
 
-    /**
+    /** 
      * Call this function to specify a more efficient boundary for your game world.
-     * This boundary is used by <code>overlap()</code> and <code>collide()</code>, so it
+     * This boundary is used by <code>overlap()</code> and <code>collide()</code>, so it         
      * can't hurt to have it be the right size!  Flixel will invent a size for you, but
      * it's pretty huge - 256x the size of the screen, whatever that may be.
-     * Leave width and height empty if you want to just update the game world's position.
-     *
+     * Leave width and height empty if you want to just update the game world's position.        
+     * 
      * @param   X           The X-coordinate of the left side of the game world.
      * @param   Y           The Y-coordinate of the top of the game world.
      * @param   Width       Desired width of the game world.
@@ -268,7 +242,7 @@ public:
      * @param   Object2     The second object or group you want to check.  If it is the same as the first, flixel knows to just do a comparison within that group.
      * @param   Callback    A function with two <code>DObject</code> parameters - e.g. <code>myOverlapFunction(Object1:DObject,Object2:DObject);</code>  If no function is provided, <code>DQuadTree</code> will call <code>kill()</code> on both objects.
      */
-    static bool overlap(DObject *Object1,DObject *Object2,void* callback=NULL);
+    static bool overlap(DObject *Object1,DObject *Object2, callbackFunctionQuadTree *Callback = NULL);
 
     /**
      * Call this function to see if one <code>DObject</code> collides with another.

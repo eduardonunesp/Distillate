@@ -1,0 +1,16 @@
+*~
+*.o
+*.os
+*.so
+*.lo
+*.a
+*.la
+*.loT
+*.orig
+*.rej
+.libs
+.deps
+.sconsign.dblite
+test/test
+bin
+

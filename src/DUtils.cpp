@@ -19,12 +19,6 @@ float DUtils::random(bool UseGlobalSeed)
 {
     if(UseGlobalSeed && _seed)
     {
-        //TODO: Fix here
-        /*
-        int random = rand(_seed);
-        _seed = mutate(_seed,random);
-        return random;
-        */
         return 0.0f;
     }
     else
@@ -34,10 +28,12 @@ float DUtils::random(bool UseGlobalSeed)
 float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, float Max)
 {
     if(Acceleration != 0)
+    {
         Velocity += Acceleration*DGlobals::elapsed;
+    }
     else if(Drag != 0)
     {
-        int d = Drag*DGlobals::elapsed;
+        float d = Drag*DGlobals::elapsed;
         if(Velocity - d > 0)
             Velocity -= d;
         else if(Velocity + d < 0)
@@ -52,7 +48,35 @@ float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, fl
         else if(Velocity < -Max)
             Velocity = -Max;
     }
+
     return Velocity;
+}
+
+void DUtils::setWorldBounds(float X, float Y, float Width, float Height, unsigned int Divisions)
+{
+    if(!DQuadTree::bounds)
+        DQuadTree::bounds = new DRect();
+    DQuadTree::bounds->x = X;
+    DQuadTree::bounds->y = Y;
+    if(Width > 0)
+        DQuadTree::bounds->width = Width;
+    if(Height > 0)
+        DQuadTree::bounds->height = Height;
+    if(Divisions > 0)
+        DQuadTree::divisions = Divisions;
+}         
+
+bool DUtils::overlap(DObject *Object1,DObject *Object2, callbackFunctionQuadTree *Callback)
+{
+    if((!Object1) || !Object1->exists ||
+       (!Object2) || !Object2->exists )
+        return false;
+    quadTree = new DQuadTree(DQuadTree::bounds->x,DQuadTree::bounds->y,DQuadTree::bounds->width,DQuadTree::bounds->height);
+    quadTree->add(Object1, DQuadTree::A_LIST);
+    if(Object1 == Object2)
+        return quadTree->overlap(false,Callback);
+    quadTree->add(Object2,DQuadTree::B_LIST);
+    return quadTree->overlap(true,Callback);
 }
 
 DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P)
@@ -66,11 +90,23 @@ DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float 
     return P;
 }
 
+float DUtils::getAngle(float X, float Y)
+{
+    float c1 = 3.14159265 / 4;
+    float c2 = 3 * c1;
+    float ay = (Y < 0)?-Y:Y;
+    float angle = 0;
+    if (X >= 0)
+        angle = c1 - c1 * ((X - ay) / (X + ay));
+    else
+        angle = c2 - c1 * ((X + ay) / (ay - X));
+    return ((Y < 0)?-angle:angle)*57.2957796;
+}
 
 bool DUtils::collide(DObject *Object1, DObject *Object2)
 {
     if( (Object1 == NULL) || !Object1->exists ||
-            (Object2 == NULL) || !Object2->exists )
+        (Object2 == NULL) || !Object2->exists )
         return false;
     quadTree = new DQuadTree(quadTreeBounds->x,quadTreeBounds->y,quadTreeBounds->width,quadTreeBounds->height);
     quadTree->add(Object1,DQuadTree::A_LIST);
@@ -84,22 +120,18 @@ bool DUtils::collide(DObject *Object1, DObject *Object2)
 
 bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
 {
-    //Avoid messed up collisions ahead of time
     int o1 = Object1->colVector->x;
     int o2 = Object2->colVector->x;
     if(o1 == o2)
         return false;
 
-    //Give the objects a heads up that we're about to resolve some collisions
     Object1->preCollide(Object2);
     Object2->preCollide(Object1);
 
-    //Basic resolution variables
     int  overlap;
     bool hit = false;
     bool p1hn2;
 
-    //Directional variables
     bool obj1Stopped = (o1 == 0);
     bool obj1MoveNeg = (o1 < 0);
     bool obj1MovePos = (o1 > 0);
@@ -108,7 +140,6 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
     bool obj2MovePos = (o2 > 0);
 
 
-    //Offset loop variables
     unsigned int i1;
     unsigned int i2;
     DRect* obj1Hull = Object1->colHullX;
@@ -126,16 +157,13 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
     int sv1;
     int sv2;
 
-    //Decide based on object's movement patterns if it was a right-side or left-side collision
-    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || //the obvious cases
-             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || //both moving left, obj2 overtakes obj1
-             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) ); //both moving right, obj1 overtakes obj2
+    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || 
+             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || 
+             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) ); 
 
-    //Check to see if these objects allow these collisions
     if(p1hn2?(!Object1->collideRight || !Object2->collideLeft):(!Object1->collideLeft || !Object2->collideRight))
         return false;
 
-    //this looks insane, but we're just looping through collision offsets on each object
     for(i1 = 0; i1 < l1; i1++)
     {
         ox1 = co1[i1]->x;
@@ -148,8 +176,7 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
             oy2 = co2[i2]->y;
             obj2Hull->x += ox2;
             obj2Hull->y += oy2;
-
-            //See if it's a actually a valid collision
+            
             if( (obj1Hull->x + obj1Hull->width  < obj2Hull->x + roundingError) ||
                     (obj1Hull->x + roundingError > obj2Hull->x + obj2Hull->width) ||
                     (obj1Hull->y + obj1Hull->height < obj2Hull->y + roundingError) ||
@@ -159,7 +186,7 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
                 obj2Hull->y -= oy2;
                 continue;
             }
-            //Calculate the overlap between the objects
+
             if(p1hn2)
             {
                 if(obj1MoveNeg)
@@ -184,7 +211,6 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
             }
             overlap = r1 - r2;
 
-            //Last chance to skip out on a bogus collision resolution
             if( (overlap == 0) ||
                     ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull->width*0.8)) ||
                     ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull->width*0.8)) )
@@ -195,7 +221,6 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
             }
             hit = true;
 
-            //Adjust the objects according to their flags and stuff
             sv1 = Object2->velocity->x;
             sv2 = Object1->velocity->x;
             if(!Object1->fixed() && Object2->fixed())
@@ -237,7 +262,6 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
                 Object2->hitRight(Object1,sv2);
             }
 
-            //Adjust collision hulls if necessary
             if(!Object1->fixed() && (overlap != 0))
             {
                 if(p1hn2)
@@ -274,22 +298,18 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
 
 bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
 {
-    //Avoid messed up collisions ahead of time
     int o1 = Object1->colVector->y;
     int o2 = Object2->colVector->y;
     if(o1 == o2)
         return false;
 
-    //Give the objects a heads up that we're about to resolve some collisions
     Object1->preCollide(Object2);
     Object2->preCollide(Object1);
 
-    //Basic resolution variables
     int overlap;
     bool hit = false;
     bool p1hn2;
 
-    //Directional variables
     bool obj1Stopped = (o1 == 0);
     bool obj1MoveNeg = (o1 < 0);
     bool obj1MovePos = (o1 > 0);
@@ -297,7 +317,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
     bool obj2MoveNeg = (o2 < 0);
     bool obj2MovePos = (o2 > 0);
 
-    //Offset loop variables
     unsigned int i1;
     unsigned int i2;
     DRect* obj1Hull = Object1->colHullY;
@@ -315,16 +334,13 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
     int sv1;
     int sv2;
 
-    //Decide based on object's movement patterns if it was a top or bottom collision
-    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || //the obvious cases
-             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || //both moving up, obj2 overtakes obj1
-             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) ); //both moving down, obj1 overtakes obj2
+    p1hn2 = ((obj1Stopped && obj2MoveNeg) || (obj1MovePos && obj2Stopped) || (obj1MovePos && obj2MoveNeg) || 
+             (obj1MoveNeg && obj2MoveNeg && (((o1>0)?o1:-o1) < ((o2>0)?o2:-o2))) || 
+             (obj1MovePos && obj2MovePos && (((o1>0)?o1:-o1) > ((o2>0)?o2:-o2))) );
 
-    //Check to see if these objects allow these collisions
     if(p1hn2?(!Object1->collideBottom || !Object2->collideTop):(!Object1->collideTop || !Object2->collideBottom))
         return false;
 
-    //this looks insane, but we're just looping through collision offsets on each object
     for(i1 = 0; i1 < l1; i1++)
     {
         ox1 = co1[i1]->x;
@@ -338,7 +354,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
             obj2Hull->x += ox2;
             obj2Hull->y += oy2;
 
-            //See if it's a actually a valid collision
             if( (obj1Hull->x + obj1Hull->width  < obj2Hull->x + roundingError) ||
                     (obj1Hull->x + roundingError > obj2Hull->x + obj2Hull->width) ||
                     (obj1Hull->y + obj1Hull->height < obj2Hull->y + roundingError) ||
@@ -349,7 +364,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
                 continue;
             }
 
-            //Calculate the overlap between the objects
             if(p1hn2)
             {
                 if(obj1MoveNeg)
@@ -374,7 +388,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
             }
             overlap = r1 - r2;
 
-            //Last chance to skip out on a bogus collision resolution
             if( (overlap == 0) ||
                     ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull->height*0.8)) ||
                     ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull->height*0.8)) )
@@ -385,7 +398,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
             }
             hit = true;
 
-            //Adjust the objects according to their flags and stuff
             sv1 = Object2->velocity->y;
             sv2 = Object1->velocity->y;
             if(!Object1->fixed() && Object2->fixed())
@@ -427,14 +439,12 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
                 Object2->hitBottom(Object1,sv2);
             }
 
-            //Adjust collision hulls if necessary
             if(!Object1->fixed() && (overlap != 0))
             {
                 if(p1hn2)
                 {
                     obj1Hull->y -= overlap;
 
-                    //This code helps stuff ride horizontally moving platforms.
                     if(Object2->fixed() && Object2->moves)
                     {
                         sv1 = Object2->colVector->x;
@@ -460,7 +470,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
                 {
                     obj2Hull->height += overlap;
 
-                    //This code helps stuff ride horizontally moving platforms.
                     if(Object1->fixed() && Object1->moves)
                     {
                         sv2 = Object1->colVector->x;
@@ -479,7 +488,6 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
 
     return false;
 }
-
 
 }
 

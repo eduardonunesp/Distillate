@@ -3,6 +3,7 @@
 #include "DUtils.hpp"
 #include "DPoint.hpp"
 #include "DSprite.hpp"
+#include <cmath>
 
 namespace Distillate
 {
@@ -82,17 +83,19 @@ void DObject::refreshHulls()
 
 void DObject::updateMotion()
 {
+
     if(!moves)
         return;
 
     if(_solid)
         refreshHulls();
     onFloor = false;
-    int vc;
+    float vc;
 
-    vc = (DUtils::computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular) - angularVelocity)/2;
+    vc = (DUtils::computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity)/2;
+
     angularVelocity += vc;
-    angle += angularVelocity*DGlobals::elapsed;
+    angle = fmod(angle + angularVelocity*DGlobals::elapsed, 360);
     angularVelocity += vc;
 
     DPoint* thrustComponents;
@@ -100,7 +103,7 @@ void DObject::updateMotion()
     {
         thrustComponents = DUtils::rotatePoint(-thrust,0,0,0,angle);
         DPoint* maxComponents = DUtils::rotatePoint(-maxThrust,0,0,0,angle);
-        int max = ((maxComponents->x>0)?maxComponents->x:-maxComponents->x);
+        float max = ((maxComponents->x>0)?maxComponents->x:-maxComponents->x);
         if(max > ((maxComponents->y>0)?maxComponents->y:-maxComponents->y))
             maxComponents->y = max;
         else
@@ -112,18 +115,17 @@ void DObject::updateMotion()
 
     vc = (DUtils::computeVelocity(velocity->x,acceleration->x+thrustComponents->x,drag->x,maxVelocity->x) - velocity->x)/2;
     velocity->x += vc;
-    int xd = velocity->x*DGlobals::elapsed;
+    float xd = velocity->x*DGlobals::elapsed;
     velocity->x += vc;
 
     vc = (DUtils::computeVelocity(velocity->y,acceleration->y+thrustComponents->y,drag->y,maxVelocity->y) - velocity->y)/2;
     velocity->y += vc;
-    int yd = velocity->y*DGlobals::elapsed;
+    float yd = velocity->y*DGlobals::elapsed;
     velocity->y += vc;
 
     x += xd;
     y += yd;
 
-    //Update collision data with new movement results
     if(!_solid)
         return;
     colVector->x = xd;
@@ -166,32 +168,11 @@ void DObject::update()
 bool DObject::overlaps(DObject *Object)
 {
     getScreenXY(_point);
-    int tx = _point->x;
-    int ty = _point->y;
-    int tw = width;
-    int th = height;
-
-    if(_is_sprite)
-    {
-        DSprite *ts = static_cast<DSprite*>(this);
-        tw = ts->frameWidth;
-        th = ts->frameHeight;
-    }
+    float tx = _point->x;
+    float ty = _point->y;
 
     Object->getScreenXY(_point);
-    int ox = _point->x;
-    int oy = _point->y;
-    int ow = Object->width;
-    int oh = Object->height;
-
-    if(_is_sprite)
-    {
-        DSprite *os = static_cast<DSprite*>(Object);
-        ow = os->frameWidth;
-        oh = os->frameHeight;
-    }
-
-    if((ox <= tx-ow) || (ox >= tx+tw) || (oy <= ty-oh) || (oy >= ty+th))
+    if((_point->x <= tx-Object->width) || (_point->x >= tx+width) || (_point->y <=ty-Object->height) || (_point->y >= ty+height))
         return false;
     return true;
 }
