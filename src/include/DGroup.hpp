@@ -189,6 +189,11 @@ public:
      */
     int countOnScreen();
 
+    /*
+     * Count
+     */
+    int count() { return members.size(); };
+
     /**
      * Returns a member at random from the group.
      *

@@ -6,6 +6,7 @@
 #include "DPoint.hpp"
 #include "DQuadTree.hpp"
 #include "DRect.hpp"
+#include <bsd/stdlib.h>
 
 namespace Distillate
 {
@@ -21,8 +22,8 @@ float DUtils::random(bool UseGlobalSeed)
     {
         return 0.0f;
     }
-    else
-        return rand();
+    
+    return (arc4random()%((unsigned)RAND_MAX+1))/((float)(RAND_MAX)+1);
 }
 
 float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, float Max)

@@ -7,6 +7,10 @@ using namespace Distillate;
 
 class MenuState : public DState
 {
+protected:
+    DEmitter* _flames;
+    static const unsigned int _max_particles = 20;
+
 public:
     MenuState() {};
     ~MenuState() {};

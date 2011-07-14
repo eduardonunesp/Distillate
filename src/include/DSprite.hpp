@@ -161,7 +161,12 @@ namespace Distillate
          * @return  Whether or not the point overlaps this object.
          */
         bool overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel = false);
-        
+
+       /** 
+        * Triggered whenever this sprite is launched by a <code>FlxEmitter</code>.
+        */
+        virtual void onEmit() {};
+
         /** 
          * Adds a new animation to the sprite.
          * 
@@ -201,6 +206,13 @@ namespace Distillate
          * This function is called automatically by <code>FlxSprite.update()</code>.
          */
         void  updateAnimation();
+
+        void frame(unsigned int Frame) 
+        { 
+            _curAnim = NULL; 
+            _caf = Frame;
+            calcFrame();
+        }
     };
 }
 #endif

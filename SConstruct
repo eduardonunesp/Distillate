@@ -2,7 +2,7 @@ libname = 'Distillate';
 
 IncludePath = ['src','src/include','backend','backend/include']
 LibsPath = []   
-Libs = ['SDL','SDL_mixer', 'SDL_image', 'SDL_ttf']
+Libs = ['SDL','SDL_mixer', 'SDL_image', 'SDL_ttf', 'bsd']
 
 CommonFlags = ' -Wall -pedantic'
 
