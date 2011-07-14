@@ -11,14 +11,14 @@
 namespace Distillate
 {
 
-DGame::DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
+DGame::DGame(const std::string &GameTitle, unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
 _max_frame_count(10),
 _elapsed(0),
 _lasttime(0),
 _state(InitialState)
 {
     DState::bgColor = 0xff000000;
-    DGlobals::setGameData(this, GameSizeX, GameSizeY, Zoom);
+    DGlobals::setGameData(this, GameTitle, GameSizeX, GameSizeY, Zoom);
     create();
 }
 
@@ -45,6 +45,11 @@ void DGame::create()
         throw std::runtime_error("Cannot initialize SDL");
 
     _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 32, SDL_SWSURFACE);
+
+    if(!_screen)
+        throw std::runtime_error("Cannot initialize screen");
+
+    SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
     switchState(_state);
     _lasttime = SDL_GetTicks();
     update();

@@ -90,6 +90,11 @@ namespace Distillate
         static float timeScale;
 
         /**
+         * Game name
+         */
+        static std::string gameTitle;
+
+        /**
          * The width of the screen in game pixels.
          */
         static unsigned int width;
@@ -221,7 +226,7 @@ namespace Distillate
         /**
          * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
          */
-        static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom);
+        static void setGameData(DGame* Game, const std::string &GameTitle, unsigned int Width, unsigned int Height, unsigned int Zoom);
 
         DGlobals() {};
         virtual ~DGlobals() {};

@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stdexcept>
-#include <vector>
 #include "Distillate.hpp"
 
 using namespace Distillate;

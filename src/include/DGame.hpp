@@ -46,7 +46,7 @@ namespace Distillate
          * @param	InitialState	The class name of the state you want to create and switch to first (e.g. MenuState).
          * @param	Zoom			The level of zoom (e.g. 2 means all pixels are now rendered twice as big).
          */
-        DGame(unsigned int GameSizeX, unsigned int GameSizeY, DState *InitialState, unsigned int Zoom = 2);
+        DGame(const std::string &GameTitle, unsigned int GameSizeX, unsigned int GameSizeY, DState *InitialState, unsigned int Zoom = 2);
         virtual ~DGame();
 
         /**

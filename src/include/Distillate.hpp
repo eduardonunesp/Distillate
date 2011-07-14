@@ -1,6 +1,15 @@
 #ifndef __DISTILLATE_HPP__
 #define __DISTILLATE_HPP__
 
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_ttf.h>
+#include <cstdio>
+#include <vector>
+#include <stdexcept>
+#include <string>
+#include <map>
 #include "DAnim.hpp"
 #include "DClass.hpp"
 #include "DConsole.hpp"

@@ -6,13 +6,13 @@
 #include "DMouse.hpp"
 #include "DUtils.hpp"
 #include "DState.hpp"
-#include <iostream>
 #include <SDL/SDL_image.h>
 
 namespace Distillate
 {
 
 const std::string DGlobals::LIBRARY_NAME = "Distillate";
+std::string DGlobals::gameTitle = "Distillate Game";
 float DGlobals::elapsed;
 float DGlobals::maxElapsed = 0.333333f;
 float DGlobals::timeScale = 1.0f;
@@ -32,16 +32,17 @@ bool DGlobals::pause()
     return _pause;
 }
 
-void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
+void DGlobals::setGameData(DGame* Game, const std::string &GameTitle, unsigned int Width, unsigned int Height, unsigned int Zoom)
 {
     _running = true;
     _game = Game;
+    gameTitle = GameTitle;
     width = Width;
     height = Height;
     _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
     if(!_buffer) 
     {
-        std::cerr << "Cannot create buffer \n";
+        fprintf(stderr, "%s", "Cannot create buffer \n");
         DGlobals::quit();
     }
 
@@ -66,7 +67,7 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
         pixels = IMG_Load(GraphicFile.c_str());
         if(!pixels)
         {
-            std::cerr << "IMG_Load:" << IMG_GetError() << std::endl;
+            fprintf(stderr, "IMG_Load: %s", IMG_GetError());
             return NULL;
         }
 
