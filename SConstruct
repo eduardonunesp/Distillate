@@ -6,11 +6,16 @@ Libs = ['SDL','SDL_mixer', 'SDL_image', 'SDL_ttf']
 
 CommonFlags = ' -Wall -pedantic'
 
-debug  = ARGUMENTS.get('debug', 1)
-shared = ARGUMENTS.get('shared', 0)
+debug    = ARGUMENTS.get('debug', 0)
+shared   = ARGUMENTS.get('shared', 0)
+glrender = ARGUMENTS.get('glrender', 0)
 libenv = Environment(CPPFLAGS = CommonFlags)
+
 if int(debug):
 	libenv.Append(CPPFLAGS = ' -g')
+
+if int(glrender):
+    libenv.Append(CPPDEFINES = 'GL_RENDER')
 
 files = Split("""
 src/DClass.cpp

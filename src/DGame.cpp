@@ -43,11 +43,32 @@ void DGame::create()
 {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
         throw std::runtime_error("Cannot initialize SDL");
+    
+    unsigned int flags;
 
-    _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 32, SDL_SWSURFACE);
+#ifdef GL_RENDER    
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+    flags = SDL_OPENGL;
+#else
+    flags = SDL_SWSURFACE;
+#endif
+
+    _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
 
     if(!_screen)
         throw std::runtime_error("Cannot initialize screen");
+
+#ifdef GL_RENDER
+    glEnable( GL_TEXTURE_2D );
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+    glViewport( 0, 0, 640, 480 );
+    glClear( GL_COLOR_BUFFER_BIT );
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho(0.0f, 640, 480, 0.0f, -1.0f, 1.0f);
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity()
+#endif
 
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
     switchState(_state);
@@ -84,21 +105,21 @@ void DGame::update()
             }
         }
 
-        if(_state)
-        {
-           _state->update();
-           _state->render();
-           SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
-        }
-
+        _state->update();
+        _state->render();
+        
+#ifdef GL_RENDER       
+        SDL_GL_SwapBuffers();
+#else
+        SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
-
         SDL_Rect rect;
         rect.h = DGlobals::_buffer->h;
         rect.w = DGlobals::_buffer->w;
         rect.x = 0;
         rect.y = 0;
         SDL_FillRect(DGlobals::_buffer, &rect, 0);
+#endif
 
         unsigned int now;
         _frametime = 0;

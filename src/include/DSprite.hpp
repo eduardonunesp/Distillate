@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 #include <SDL/SDL.h>
+
+#ifdef GL_RENDER
+#include "SDL_opengl.h"
+#endif
+
 #include "DObject.hpp"
 #include "DUtils.hpp"
 
@@ -87,11 +92,15 @@ namespace Distillate
         int _bakedRotation;
 
         /* Surface stuff */
+#ifdef GL_RENDER
+        GLuint texture;
+#else
         SDL_Surface *_pixels;
+        SDL_Rect _rendering_rect;
+#endif
         float _alpha;
         unsigned int _color;
         bool _boundsVisible;
-        SDL_Rect _rendering_rect;
 
     public:
 

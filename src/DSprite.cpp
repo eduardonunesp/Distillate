@@ -112,11 +112,30 @@ namespace Distillate
 
         _rendering_rect.h = height;
         _rendering_rect.w = width;
-       
+
+#ifdef GL_RENDER
+        glBindTexture( GL_TEXTURE_2D, texture );
+
+        glBegin( GL_QUADS );
+        glTexCoord2i( 0, 0 );
+        glVertex3f( 100.f, 100.f, 0.0f );
+
+        glTexCoord2i( 1, 0 );
+        glVertex3f( 228.f, 100.f, 0.f );
+
+        glTexCoord2i( 1, 1 );
+        glVertex3f( 228.f, 228.f, 0.f );
+
+        glTexCoord2i( 0, 1 );
+        glVertex3f( 100.f, 228.f, 0.f );
+        glEnd()
+#else
         if((angle == 0) || (_bakedRotation > 0))
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
         else
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+#endif
+
 
         _rendering_rect.x = 0;
         _rendering_rect.y = 0;
