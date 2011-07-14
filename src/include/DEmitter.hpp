@@ -163,7 +163,7 @@ public:
     void setYSpeed(float Min=0, float Max=0)
     {
         minParticleSpeed->y = Min;
-        minParticleSpeed->y = Max;
+        maxParticleSpeed->y = Max;
     }
 
     /**

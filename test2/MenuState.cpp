@@ -6,8 +6,8 @@ void MenuState::create()
     _flames->delay = 0;
     _flames->gravity = -10;
     _flames->maxRotation = 0;
-    _flames->setYSpeed(-20, -25);
-    _flames->setXSpeed(-20, 20);
+    _flames->setYSpeed(20, 25);
+    _flames->setXSpeed(20, -20);
 
     DSprite *particle = NULL;
     for(unsigned int i = 0;i < MenuState::_max_particles;i++) {

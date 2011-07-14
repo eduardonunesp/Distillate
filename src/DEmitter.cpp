@@ -148,6 +148,7 @@ void DEmitter::emitParticle()
     s->visible = true;
     s->exists  = true;
     s->active  = true;
+    s->dead    = false;
     s->x = x - ((int) s->width>>1) + DUtils::random() * width;
     s->y = y - ((int) s->height>>1) + DUtils::random() * height;
     s->velocity->x = minParticleSpeed->x;

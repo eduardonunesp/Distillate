@@ -114,9 +114,9 @@ namespace Distillate
         _rendering_rect.w = width;
        
         if((angle == 0) || (_bakedRotation > 0))
-        {
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
-        }
+        else
+            SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
 
         _rendering_rect.x = 0;
         _rendering_rect.y = 0;
