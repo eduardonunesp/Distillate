@@ -14,6 +14,7 @@ namespace Distillate
     class DGame;
     class DMouse;
     class DKeyboard;
+    class DState;
 
     /**
      * This is a global helper class full of useful functions for audio,
@@ -195,7 +196,21 @@ namespace Distillate
             _running = false;
         }
 
+        /** 
+         * Loads a bitmap from a file, caches it, and generates a horizontally flipped version if necessary.
+         *   
+         * @param   Graphic     The image file that you want to load.
+         * @param   Reverse     Whether to generate a flipped version.
+         *   
+         * @return  The <code>BitmapData</code> we just created.
+         */  
         static SDL_Surface * addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
+    
+        /**
+         * Sets a new state
+         */
+        static void setState(DState *state);
+
     private:
 
         /**

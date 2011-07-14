@@ -62,14 +62,26 @@ namespace Distillate
     DSprite *DSprite::createGraphic(unsigned int Width, unsigned int Height, unsigned int Color, bool Unique, const std::string &Key)
     {
         unsigned int rmask, gmask, bmask, amask;
-        rmask = (Color>>0);
-        gmask = (Color>>2);
-        bmask = (Color>>4);
-        amask = (Color>>6);
 
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xff000000;
+        gmask = 0x00ff0000;
+        bmask = 0x0000ff00;
+        amask = 0x000000ff;
+#else
+        rmask = 0x000000ff;
+        gmask = 0x0000ff00;
+        bmask = 0x00ff0000;
+        amask = 0xff000000;
+#endif
         _bakedRotation = 0;
         _pixels = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,rmask, gmask, bmask, amask);
-        
+        SDL_Rect rect;
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = Width;
+        rect.h = Height;
+        SDL_FillRect(_pixels, &rect, Color);
         width = frameWidth = _pixels->w;
         height = frameHeight = _pixels->h;
         resetHelpers();

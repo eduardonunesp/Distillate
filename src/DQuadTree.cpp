@@ -2,6 +2,7 @@
 #include "DList.hpp"
 #include "DRect.hpp"
 #include <vector>
+#include <cstdio>
 
 namespace Distillate
 {
@@ -21,14 +22,17 @@ DUtils::callbackFunctionQuadTree *DQuadTree::_oc;
 DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
     DRect(X,Y,Width,Height),
     _headA(new DList()),
-    _tailA(new DList()),
+    _tailA(NULL),
     _headB(new DList()),
-    _tailB(new DList()),
+    _tailB(NULL),
     _nw(NULL),
     _ne(NULL),
     _se(NULL),
     _sw(NULL)
 {
+    _tailA = _headA;
+    _tailB = _headB;
+
     if(Parent != NULL)
     {
         DList *itr = NULL;

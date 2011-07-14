@@ -5,21 +5,60 @@
 
 using namespace Distillate;
 
+class StateWin : public DState
+{
+public:
+    StateWin() : DState() {};
+    ~StateWin() {}
+
+    void update() 
+    {
+        DState::update();
+        printf("OK\n");
+        sleep(2);
+        DGlobals::quit();
+    }
+};
+
 class State : public DState
 {
 public:
     DSprite *player;
+    DSprite *enemy;
 
     State() : DState() {};
+    ~State() { destroy(); }
+
     void update() 
     {
         DState::update();
+
         player->velocity->x = 0;     
+        player->velocity->y = 0;     
+
         if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
             DGlobals::quit();
 
         if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_RIGHT))
             player->velocity->x += 100;
+        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_LEFT))
+            player->velocity->x -= 100;
+        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_UP))
+            player->velocity->y -= 100;
+        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_DOWN))
+            player->velocity->y += 100;
+
+        DUtils::overlap(enemy, player, State::Collide); 
+
+        if(enemy->health <= 0)
+            DGlobals::setState(new StateWin());
+    }
+
+    static bool Collide(DObject* e, DObject* p)
+    {
+        printf("Enemy energy: %f\n", e->health);
+        e->health--;
+        return true;
     }
 
     void create() 
@@ -35,8 +74,12 @@ public:
         player->addAnimation("flying", anim_frame, 3, true);
         player->play("flying");
 
-
         add(player);
+
+        enemy = new DSprite(50,50);
+        enemy->createGraphic(20, 20);
+        enemy->health = 10;
+        add(enemy);
     }
 };
 

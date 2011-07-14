@@ -5,6 +5,7 @@
 #include "DKeyboard.hpp"
 #include "DMouse.hpp"
 #include "DUtils.hpp"
+#include "DState.hpp"
 #include <iostream>
 #include <SDL/SDL_image.h>
 
@@ -77,6 +78,11 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
     } 
 
     return pixels;
+}
+
+void DGlobals::setState(DState *state)
+{
+    _game->switchState(state);
 }
 
 }
