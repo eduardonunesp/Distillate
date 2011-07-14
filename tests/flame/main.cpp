@@ -1,28 +1,28 @@
 #include "Distillate.hpp"
-#include "MenuState.hpp"
+#include "FlameState.hpp"
 
 using namespace Distillate;
 
-class Mode : public DGame
+class Flame : public DGame
 {
 public:    
-    Mode() : DGame("Mode", 640, 480, new MenuState()) {};
+    Flame() : DGame("Flame", 640, 480, new FlameState()) {};
 };
 
 
 int main(int argc, char* argv[])
 {
-    Mode* mode = NULL;
+    Flame* flame = NULL;
 
     try
     {
-        mode = new Mode();
+        flame = new Flame();
     }
     catch(std::exception &e)
     {
         fprintf(stderr,"Ops: %s\n", e.what());
     }
 
-    delete mode;
+    delete flame;
     return 0;
 }

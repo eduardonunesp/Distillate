@@ -5,15 +5,20 @@
 
 using namespace Distillate;
 
-class MenuState : public DState
+class FlameState : public DState
 {
 protected:
-    DEmitter* _flames;
+    DEmitter* _flames_r;
+    DEmitter* _flames_y;
     static const unsigned int _max_particles = 20;
 
 public:
-    MenuState() {};
-    ~MenuState() {};
+    FlameState() {};
+    ~FlameState() 
+    {
+        delete _flames_r;
+        delete _flames_y;
+    };
 
     void create();
     void update();

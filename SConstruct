@@ -2,7 +2,7 @@ libname = 'Distillate';
 
 IncludePath = ['src','src/include','backend','backend/include']
 LibsPath = []   
-Libs = ['SDL','SDL_mixer', 'SDL_image', 'SDL_ttf', 'bsd']
+Libs = ['SDL','SDL_mixer', 'SDL_image', 'SDL_ttf']
 
 CommonFlags = ' -Wall -pedantic'
 
@@ -33,8 +33,8 @@ if int(shared):
     obj = libenv.Install("/usr/lib",lib)
     libenv.Alias('install',"/usr/lib")
 else:
-    files.append("test2/main.cpp")
-    files.append("test2/MenuState.cpp")
-    libenv.Program(target = 'test2/mode', source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+    files.append("tests/flame/main.cpp")
+    files.append("tests/flame/FlameState.cpp")
+    libenv.Program(target = 'tests/flame/flame', source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
 
 
