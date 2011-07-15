@@ -7,7 +7,6 @@ namespace Distillate
 {
 
 DGroup::DGroup():
-    _last(new DPoint()),
     _first(true)
 {
     _group = true;
@@ -16,7 +15,6 @@ DGroup::DGroup():
 
 DGroup::~DGroup()
 {
-    delete _last;
 }
 
 DObject* DGroup::add(DObject* Object, bool ShareScroll)
@@ -203,12 +201,12 @@ void DGroup::saveOldPosition()
     if(_first)
     {
         _first = false;
-        _last->x = 0;
-        _last->y = 0;
+        _last.x = 0;
+        _last.y = 0;
         return;
     }
-    _last->x = x;
-    _last->y = y;
+    _last.x = x;
+    _last.y = y;
 }
 
 void DGroup::updateMembers()
@@ -217,11 +215,11 @@ void DGroup::updateMembers()
     float my;
     bool moved = false;
 
-    if((x != _last->x) || (y != _last->y))
+    if((x != _last.x) || (y != _last.y))
     {
         moved = true;
-        mx = x - _last->x;
-        my = y - _last->y;
+        mx = x - _last.x;
+        my = y - _last.y;
     }
 
     unsigned int i=0;
@@ -249,15 +247,15 @@ void DGroup::updateMembers()
 
             if(moved && o->_solid)
             {
-                o->colHullX->width += ((mx>0) ? mx : -mx);
+                o->colHullX.width += ((mx>0) ? mx : -mx);
                 if(mx < 0)
-                    o->colHullX->x += mx;
-                o->colHullY->x = x;
-                o->colHullY->height += ((my>0) ? my : -my);
+                    o->colHullX.x += mx;
+                o->colHullY.x = x;
+                o->colHullY.height += ((my>0) ? my : -my);
                 if(my < 0)
-                    o->colHullY->y += mx;
-                o->colVector->x += mx;
-                o->colVector->y += my;
+                    o->colHullY.y += mx;
+                o->colVector.x += mx;
+                o->colVector.y += my;
             }
         }
     }
@@ -332,11 +330,11 @@ void DGroup::reset(float X, float Y)
     float my;
     bool moved = false;
 
-    if((x != _last->x) || (y != _last->y))
+    if((x != _last.x) || (y != _last.y))
     {
         moved = true;
-        mx = x - _last->x;
-        my = y - _last->y;
+        mx = x - _last.x;
+        my = y - _last.y;
     }
 
     unsigned int i=0;
@@ -358,15 +356,15 @@ void DGroup::reset(float X, float Y)
                     o->y += my;
                     if(_solid)
                     {
-                        o->colHullX->width += ((mx>0) ? mx : -mx);
+                        o->colHullX.width += ((mx>0) ? mx : -mx);
                         if(mx < 0)
-                            o->colHullX->x += mx;
-                        o->colHullY->x = x;
-                        o->colHullY->height += ((my>0) ? my : -my);
+                            o->colHullX.x += mx;
+                        o->colHullY.x = x;
+                        o->colHullY.height += ((my>0) ? my : -my);
                         if(my < 0)
-                            o->colHullY->y += mx;
-                        o->colVector->x += mx;
-                        o->colVector->y += my;
+                            o->colHullY.y += mx;
+                        o->colVector.x += mx;
+                        o->colVector.y += my;
                     }
                 }
             }

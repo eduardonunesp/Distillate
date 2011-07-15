@@ -1,7 +1,6 @@
 #include "DGlobals.hpp"
 #include "DGame.hpp"
 #include "DPoint.hpp"
-#include "DConsole.hpp"
 #include "DKeyboard.hpp"
 #include "DMouse.hpp"
 #include "DUtils.hpp"
@@ -16,15 +15,15 @@ std::string DGlobals::gameTitle = "Distillate Game";
 float DGlobals::elapsed;
 float DGlobals::maxElapsed = 0.333333f;
 float DGlobals::timeScale = 1.0f;
-DPoint *DGlobals::scroll = new DPoint();
+DPoint DGlobals::scroll;
 unsigned int DGlobals::width  = 0;
 unsigned int DGlobals::height = 0;
 unsigned int DGlobals::FPS = 0;
 DGame* DGlobals::_game = NULL;
 bool DGlobals::_pause = false;
 bool DGlobals::_running = false;
-DKeyboard *DGlobals::keys = new DKeyboard();
-DMouse *DGlobals::mouse = new DMouse();
+DKeyboard DGlobals::keys;
+DMouse DGlobals::mouse;
 std::map<std::string, SDL_Surface*> DGlobals::_cache;
 SDL_Surface *DGlobals::_buffer = NULL;
 

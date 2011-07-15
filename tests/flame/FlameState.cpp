@@ -44,7 +44,7 @@ void FlameState::update()
 {
     DState::update();
 
-    if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_ESCAPE))
+    if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_ESCAPE))
         DGlobals::quit();
 
     const std::string t = "FPS: " + DUtils::intToStr(DGlobals::FPS);;

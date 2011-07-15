@@ -50,7 +50,7 @@ namespace Distillate
          * If you changed the size of your sprite object to shrink the bounding box,
          * you might need to offset the new bounding box from the top-left corner of the sprite.
          */
-        DPoint* offset;
+        DPoint offset;
 
         /**
          * Whether the current animation has finished its first (or only) loop.
@@ -198,7 +198,7 @@ namespace Distillate
          * 
          * @return  The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
          */
-        virtual DPoint * getScreenXY(DPoint *Point=NULL);
+        virtual DPoint * getScreenXY(DPoint &Point);
 
         /** 
          * Internal function to update the current animation frame.

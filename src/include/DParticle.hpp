@@ -21,7 +21,7 @@ public:
     void hitSide(DObject* Contact, float Velocity)
     {  
         if (!Contact) return; 
-        velocity->x = -velocity->x * _bounce;
+        velocity.x = -velocity.x * _bounce;
         if(angularVelocity != 0)
             angularVelocity = -angularVelocity * _bounce;
     }   
@@ -31,9 +31,9 @@ public:
         if (!Contact) return;
 
         onFloor = true;
-        if(((velocity->y > 0) ? velocity->y : -velocity->y) > _bounce*100)
+        if(((velocity.y > 0) ? velocity.y : -velocity.y) > _bounce*100)
         {   
-            velocity->y = -velocity->y * _bounce;
+            velocity.y = -velocity.y * _bounce;
             if(angularVelocity != 0)
                 angularVelocity *= -_bounce;
         }   
@@ -43,7 +43,7 @@ public:
             DSprite::hitBottom(Contact, Velocity);
         }   
 
-        velocity->x *= _bounce;
+        velocity.x *= _bounce;
     }   
 };   
 

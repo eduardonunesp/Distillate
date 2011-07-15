@@ -8,7 +8,6 @@ namespace Distillate
 {
     DSprite::DSprite(float X, float Y, const std::string &SimpleGraphics):
         DObject(X, Y),
-        offset(new DPoint()),
         finished(false),
         _flipped(0),
         _curAnim(NULL),
@@ -29,6 +28,7 @@ namespace Distillate
     DSprite::~DSprite()
     {
         delete _curAnim;
+        delete_all(_animations);
     }
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
@@ -90,8 +90,8 @@ namespace Distillate
 
     void DSprite::resetHelpers()
     {
-        origin->x = frameWidth/2;
-        origin->y = frameHeight/2;
+        origin.x = frameWidth/2;
+        origin.y = frameHeight/2;
         _caf = 0;
         refreshHulls();
     }
@@ -107,8 +107,8 @@ namespace Distillate
         getScreenXY(_point);
         
         SDL_Rect rect_dst;
-        rect_dst.x = _point->x;
-        rect_dst.y = _point->y;
+        rect_dst.x = _point.x;
+        rect_dst.y = _point.y;
 
         _rendering_rect.h = height;
         _rendering_rect.w = width;
@@ -142,12 +142,12 @@ namespace Distillate
 
     bool DSprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
     {   
-        X -= DUtils::floorValue(DGlobals::scroll->x);
-        Y -= DUtils::floorValue(DGlobals::scroll->y);
+        X -= DUtils::floorValue(DGlobals::scroll.x);
+        Y -= DUtils::floorValue(DGlobals::scroll.y);
 
         getScreenXY(_point);
 
-        if((X <= _point->x) || (X >= _point->x+frameWidth) || (Y <= _point->y) || (Y >= _point->y+frameHeight))
+        if((X <= _point.x) || (X >= _point.x+frameWidth) || (Y <= _point.y) || (Y >= _point.y+frameHeight))
             return false;
         return true;
     }   
@@ -180,12 +180,11 @@ namespace Distillate
         }   
     }
 
-    DPoint * DSprite::getScreenXY(DPoint *Point)
+    DPoint * DSprite::getScreenXY(DPoint &Point)
     {   
-        if(!Point) Point = new DPoint();
-        Point->x = DUtils::floorValue(x + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll->x*scrollFactor->x) - offset->x;
-        Point->y = DUtils::floorValue(y + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll->y*scrollFactor->y) - offset->y;
-        return Point;
+        Point.x = DUtils::floorValue(x + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.x*scrollFactor.x) - offset.x;
+        Point.y = DUtils::floorValue(y + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.y*scrollFactor.y) - offset.y;
+        return &Point;
     }   
 
     void DSprite::calcFrame()

@@ -35,7 +35,7 @@ protected:
     /**
      * Helpers for moving/updating group members.
      */
-    DPoint* _last;
+    DPoint _last;
     bool _first;
 
     /**

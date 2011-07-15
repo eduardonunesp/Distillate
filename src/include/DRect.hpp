@@ -32,7 +32,7 @@ public:
      */
     DRect(float X=0, float Y=0, float Width=0, float Height=0)
         : DPoint(X,Y), width(Width), height(Height) {}
-    virtual ~DRect() {}
+    ~DRect() {}
 
     /**
      * The X coordinate of the left side of the rectangle.  Read-only.

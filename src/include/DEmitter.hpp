@@ -30,18 +30,18 @@ public:
      * The minimum possible velocity of a particle.
      * The default value is (-100,-100).
      */
-    DPoint *minParticleSpeed;
+    DPoint minParticleSpeed;
 
     /** 
      * The maximum possible velocity of a particle.
      * The default value is (100,100).
      */
-    DPoint *maxParticleSpeed;
+    DPoint maxParticleSpeed;
 
     /** 
      * The X and Y drag component of particles launched from the emitter.
      */
-    DPoint *particleDrag;
+    DPoint particleDrag;
 
     /** 
      * The minimum possible angular velocity of a particle.  The default value is -360.
@@ -150,8 +150,8 @@ public:
      */
     void setXSpeed(float Min=0, float Max=0)
     {
-        minParticleSpeed->x = Min;
-        maxParticleSpeed->x = Max;
+        minParticleSpeed.x = Min;
+        maxParticleSpeed.x = Max;
     }
 
     /**
@@ -162,8 +162,8 @@ public:
      */
     void setYSpeed(float Min=0, float Max=0)
     {
-        minParticleSpeed->y = Min;
-        maxParticleSpeed->y = Max;
+        minParticleSpeed.y = Min;
+        maxParticleSpeed.y = Max;
     }
 
     /**

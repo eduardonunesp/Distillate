@@ -92,13 +92,13 @@ public:
      * The global quad tree (stored here since it is used primarily by DU functions).
      * Set this to null to force it to refresh on the next collide.
      */
+    static DQuadTree quadTree;
 
-    static DQuadTree* quadTree;
     /**
      * This variable stores the dimensions of the root of the quad tree.
      * This is the eligible game collision space.
      */
-    static DRect* quadTreeBounds;
+    static DRect quadTreeBounds;
 
     static const std::string intToStr(int intVal)
     {

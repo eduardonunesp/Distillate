@@ -10,9 +10,8 @@ namespace Distillate
 
 DEmitter::DEmitter(float X, float Y):
 DGroup(),
-minParticleSpeed(new DPoint(-100,-100)),
-maxParticleSpeed(new DPoint(100,100)),
-particleDrag(new DPoint()),
+minParticleSpeed(-100,-100),
+maxParticleSpeed(100,100),
 minRotation(-360),
 maxRotation(360),
 gravity(400),
@@ -84,8 +83,8 @@ DEmitter * DEmitter::createSprites(const std::string &GraphicFile, unsigned int 
             sh = s->height;
             s->width *= Collide;
             s->height *= Collide;
-            s->offset->x = (sw-s->width)/2;
-            s->offset->y = (sh-s->height)/2;
+            s->offset.x = (sw-s->width)/2;
+            s->offset.y = (sh-s->height)/2;
             s->solid(true);
         }
         else
@@ -149,19 +148,20 @@ void DEmitter::emitParticle()
     s->exists  = true;
     s->active  = true;
     s->dead    = false;
-    s->x = x - ((int) s->width>>1) + DUtils::random() * width;
-    s->y = y - ((int) s->height>>1) + DUtils::random() * height;
+    s->x = x - ((int) s->width  >>1) + DUtils::random() * width;
+    s->y = y - ((int) s->height >>1) + DUtils::random() * height;
 
-    s->velocity->x = minParticleSpeed->x;
+    s->velocity.x = minParticleSpeed.x;
     
-    if(minParticleSpeed->x != maxParticleSpeed->x) 
-        s->velocity->x += DUtils::random()*(maxParticleSpeed->x - minParticleSpeed->x);
+    if(minParticleSpeed.x != maxParticleSpeed.x) 
+        s->velocity.x += DUtils::random()*(maxParticleSpeed.x - minParticleSpeed.x);
 
-    s->velocity->y = minParticleSpeed->y;
+    s->velocity.y = minParticleSpeed.y;
 
-    if(minParticleSpeed->y != maxParticleSpeed->y) 
-        s->velocity->y += DUtils::random()*(maxParticleSpeed->y - minParticleSpeed->y);
-    s->acceleration->y = gravity;
+    if(minParticleSpeed.y != maxParticleSpeed.y) 
+        s->velocity.y += DUtils::random()*(maxParticleSpeed.y - minParticleSpeed.y);
+
+    s->acceleration.y = gravity;
     s->angularVelocity = minRotation;
 
     if(minRotation != maxRotation)
@@ -170,8 +170,8 @@ void DEmitter::emitParticle()
     if(s->angularVelocity != 0) 
         s->angle = DUtils::random() * 360-180;        
 
-    s->drag->x = particleDrag->x;
-    s->drag->y = particleDrag->y;
+    s->drag.x = particleDrag.x;
+    s->drag.y = particleDrag.y;
 
     _particle++;
     if(_particle >= members.size())
@@ -235,8 +235,8 @@ void DEmitter::stop(float Delay)
 void DEmitter::at(DObject* Object)
 {
     if(!Object) return;
-    x = Object->x + Object->origin->x;
-    y = Object->y + Object->origin->y;
+    x = Object->x + Object->origin.x;
+    y = Object->y + Object->origin.y;
 }
 
 void DEmitter::kill()

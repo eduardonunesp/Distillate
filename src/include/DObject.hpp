@@ -68,26 +68,26 @@ public:
     /**
      * The basic speed of this object.
      */
-    DPoint* velocity;
+    DPoint velocity;
 
     /**
      * How fast the speed of this object is changing.
      * Useful for smooth movement and gravity.
      */
-    DPoint* acceleration;
+    DPoint acceleration;
 
     /**
      * This isn't drag exactly, more like deceleration that is only applied
      * when acceleration is not affecting the sprite.
      */
-    DPoint* drag;
+    DPoint drag;
 
     /**
      * If you are using <code>acceleration</code>, you can use 
      * <code>maxVelocity</code> with it
      * to cap the speed automatically (very useful!).
      */
-    DPoint* maxVelocity;
+    DPoint maxVelocity;
 
     /**
      * Set the angle of a sprite to rotate it.
@@ -122,7 +122,7 @@ public:
      * If you change this, the visuals and the collisions will likely be
      * pretty out-of-sync if you do any rotation.
      */
-    DPoint* origin;
+    DPoint origin;
 
     /**
      * If you want to do Asteroids style stuff, check out thrust,
@@ -142,7 +142,7 @@ public:
      * 1 means it scrolls along a the same speed as the foreground layer.
      * scrollFactor is initialized as (1,1) by default.
      */
-    DPoint* scrollFactor;
+    DPoint scrollFactor;
 
 protected:
     /**
@@ -171,19 +171,19 @@ protected:
      * This is just a pre-allocated x-y point container to be 
      * used however you like
      */
-    DPoint* _point;
+    DPoint _point;
 
     /**
      * This is just a pre-allocated rectangle container to be 
      * used however you like
      */
-    DRect* _rect;
+    DRect _rect;
 
     /**
      * This is a pre-allocated Flash Point object, which is
      * useful for certain graphics API calls
      */
-    DPoint* _flashPoint;
+    DPoint _flashPoint;
 
 public:
     /**
@@ -197,17 +197,17 @@ public:
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DRect* colHullX;
+    DRect colHullX;
 
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DRect* colHullY;
+    DRect colHullY;
 
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DPoint* colVector;
+    DPoint colVector;
 
     /**
      * An array of <code>DPoint</code> objects.  
@@ -445,7 +445,7 @@ public:
      * @return  The <code>Point</code> you passed in, or a new <code>Point</code> 
      * if you didn't pass one, containing the screen X and Y position of this object.
      */
-    DPoint* getScreenXY(DPoint *Point);
+    DPoint* getScreenXY(DPoint &Point);
 
     /**
      * Check and see if this object is currently on screen.

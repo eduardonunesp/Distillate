@@ -9,11 +9,10 @@
 
 namespace Distillate
 {
-
+DQuadTree   DUtils::quadTree;
+DRect       DUtils::quadTreeBounds;
 int         DUtils::_seed          = 0;
 const float DUtils::roundingError  = 0.0000001f;
-DQuadTree*  DUtils::quadTree       = NULL;
-DRect*      DUtils::quadTreeBounds = NULL;
 
 float DUtils::random(bool UseGlobalSeed)
 {
@@ -71,12 +70,12 @@ bool DUtils::overlap(DObject *Object1,DObject *Object2, callbackFunctionQuadTree
     if((!Object1) || !Object1->exists ||
        (!Object2) || !Object2->exists )
         return false;
-    quadTree = new DQuadTree(DQuadTree::bounds->x,DQuadTree::bounds->y,DQuadTree::bounds->width,DQuadTree::bounds->height);
-    quadTree->add(Object1, DQuadTree::A_LIST);
+    quadTree = DQuadTree(DQuadTree::bounds->x,DQuadTree::bounds->y,DQuadTree::bounds->width,DQuadTree::bounds->height);
+    quadTree.add(Object1, DQuadTree::A_LIST);
     if(Object1 == Object2)
-        return quadTree->overlap(false,Callback);
-    quadTree->add(Object2,DQuadTree::B_LIST);
-    return quadTree->overlap(true,Callback);
+        return quadTree.overlap(false,Callback);
+    quadTree.add(Object2,DQuadTree::B_LIST);
+    return quadTree.overlap(true,Callback);
 }
 
 DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P)
@@ -108,20 +107,20 @@ bool DUtils::collide(DObject *Object1, DObject *Object2)
     if( (Object1 == NULL) || !Object1->exists ||
         (Object2 == NULL) || !Object2->exists )
         return false;
-    quadTree = new DQuadTree(quadTreeBounds->x,quadTreeBounds->y,quadTreeBounds->width,quadTreeBounds->height);
-    quadTree->add(Object1,DQuadTree::A_LIST);
+    quadTree = DQuadTree(quadTreeBounds.x,quadTreeBounds.y,quadTreeBounds.width,quadTreeBounds.height);
+    quadTree.add(Object1,DQuadTree::A_LIST);
 
     bool match = (Object1 == Object2);
-    if(!match) quadTree->add(Object2,DQuadTree::B_LIST);
-    bool cx = quadTree->overlap(!match,&solveXCollision);
-    bool cy = quadTree->overlap(!match,&solveYCollision);
+    if(!match) quadTree.add(Object2,DQuadTree::B_LIST);
+    bool cx = quadTree.overlap(!match,&solveXCollision);
+    bool cy = quadTree.overlap(!match,&solveYCollision);
     return cx || cy;
 }
 
 bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
 {
-    int o1 = Object1->colVector->x;
-    int o2 = Object2->colVector->x;
+    int o1 = Object1->colVector.x;
+    int o2 = Object2->colVector.x;
     if(o1 == o2)
         return false;
 
@@ -142,8 +141,8 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
 
     unsigned int i1;
     unsigned int i2;
-    DRect* obj1Hull = Object1->colHullX;
-    DRect* obj2Hull = Object2->colHullX;
+    DRect obj1Hull = Object1->colHullX;
+    DRect obj2Hull = Object2->colHullX;
     std::vector<DPoint*> co1 = Object1->colOffsets;
     std::vector<DPoint*> co2 = Object2->colOffsets;
     unsigned int l1 = co1.size();
@@ -168,61 +167,61 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
     {
         ox1 = co1[i1]->x;
         oy1 = co1[i1]->y;
-        obj1Hull->x += ox1;
-        obj1Hull->y += oy1;
+        obj1Hull.x += ox1;
+        obj1Hull.y += oy1;
         for(i2 = 0; i2 < l2; i2++)
         {
             ox2 = co2[i2]->x;
             oy2 = co2[i2]->y;
-            obj2Hull->x += ox2;
-            obj2Hull->y += oy2;
+            obj2Hull.x += ox2;
+            obj2Hull.y += oy2;
             
-            if( (obj1Hull->x + obj1Hull->width  < obj2Hull->x + roundingError) ||
-                    (obj1Hull->x + roundingError > obj2Hull->x + obj2Hull->width) ||
-                    (obj1Hull->y + obj1Hull->height < obj2Hull->y + roundingError) ||
-                    (obj1Hull->y + roundingError > obj2Hull->y + obj2Hull->height) )
+            if( (obj1Hull.x + obj1Hull.width  < obj2Hull.x + roundingError) ||
+                    (obj1Hull.x + roundingError > obj2Hull.x + obj2Hull.width) ||
+                    (obj1Hull.y + obj1Hull.height < obj2Hull.y + roundingError) ||
+                    (obj1Hull.y + roundingError > obj2Hull.y + obj2Hull.height) )
             {
-                obj2Hull->x -= ox2;
-                obj2Hull->y -= oy2;
+                obj2Hull.x -= ox2;
+                obj2Hull.y -= oy2;
                 continue;
             }
 
             if(p1hn2)
             {
                 if(obj1MoveNeg)
-                    r1 = obj1Hull->x + Object1->colHullY->width;
+                    r1 = obj1Hull.x + Object1->colHullY.width;
                 else
-                    r1 = obj1Hull->x + obj1Hull->width;
+                    r1 = obj1Hull.x + obj1Hull.width;
                 if(obj2MoveNeg)
-                    r2 = obj2Hull->x;
+                    r2 = obj2Hull.x;
                 else
-                    r2 = obj2Hull->x + obj2Hull->width - Object2->colHullY->width;
+                    r2 = obj2Hull.x + obj2Hull.width - Object2->colHullY.width;
             }
             else
             {
                 if(obj2MoveNeg)
-                    r1 = -obj2Hull->x - Object2->colHullY->width;
+                    r1 = -obj2Hull.x - Object2->colHullY.width;
                 else
-                    r1 = -obj2Hull->x - obj2Hull->width;
+                    r1 = -obj2Hull.x - obj2Hull.width;
                 if(obj1MoveNeg)
-                    r2 = -obj1Hull->x;
+                    r2 = -obj1Hull.x;
                 else
-                    r2 = -obj1Hull->x - obj1Hull->width + Object1->colHullY->width;
+                    r2 = -obj1Hull.x - obj1Hull.width + Object1->colHullY.width;
             }
             overlap = r1 - r2;
 
             if( (overlap == 0) ||
-                    ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull->width*0.8)) ||
-                    ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull->width*0.8)) )
+                    ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull.width*0.8)) ||
+                    ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull.width*0.8)) )
             {
-                obj2Hull->x -= ox2;
-                obj2Hull->y -= oy2;
+                obj2Hull.x -= ox2;
+                obj2Hull.y -= oy2;
                 continue;
             }
             hit = true;
 
-            sv1 = Object2->velocity->x;
-            sv2 = Object1->velocity->x;
+            sv1 = Object2->velocity.x;
+            sv2 = Object1->velocity.x;
             if(!Object1->fixed() && Object2->fixed())
             {
                 if(Object1->_group)
@@ -265,32 +264,32 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
             if(!Object1->fixed() && (overlap != 0))
             {
                 if(p1hn2)
-                    obj1Hull->width -= overlap;
+                    obj1Hull.width -= overlap;
                 else
                 {
-                    obj1Hull->x -= overlap;
-                    obj1Hull->width += overlap;
+                    obj1Hull.x -= overlap;
+                    obj1Hull.width += overlap;
                 }
-                Object1->colHullY->x -= overlap;
+                Object1->colHullY.x -= overlap;
             }
             if(!Object2->fixed() && (overlap != 0))
             {
                 if(p1hn2)
                 {
-                    obj2Hull->x += overlap;
-                    obj2Hull->width -= overlap;
+                    obj2Hull.x += overlap;
+                    obj2Hull.width -= overlap;
                 }
                 else
-                    obj2Hull->width += overlap;
-                Object2->colHullY->x += overlap;
+                    obj2Hull.width += overlap;
+                Object2->colHullY.x += overlap;
             }
 
-            obj2Hull->x -= ox2;
-            obj2Hull->y -= oy2;
+            obj2Hull.x -= ox2;
+            obj2Hull.y -= oy2;
         }
 
-        obj1Hull->x -= ox1;
-        obj1Hull->y -= oy1;
+        obj1Hull.x -= ox1;
+        obj1Hull.y -= oy1;
     }
 
     return hit;
@@ -298,8 +297,8 @@ bool DUtils::solveXCollision(DObject* Object1, DObject* Object2)
 
 bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
 {
-    int o1 = Object1->colVector->y;
-    int o2 = Object2->colVector->y;
+    int o1 = Object1->colVector.y;
+    int o2 = Object2->colVector.y;
     if(o1 == o2)
         return false;
 
@@ -319,8 +318,8 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
 
     unsigned int i1;
     unsigned int i2;
-    DRect* obj1Hull = Object1->colHullY;
-    DRect* obj2Hull = Object2->colHullY;
+    DRect obj1Hull = Object1->colHullY;
+    DRect obj2Hull = Object2->colHullY;
     std::vector<DPoint*> co1 = Object1->colOffsets;
     std::vector<DPoint*> co2 = Object2->colOffsets;
     unsigned int l1 = co1.size();
@@ -345,61 +344,61 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
     {
         ox1 = co1[i1]->x;
         oy1 = co1[i1]->y;
-        obj1Hull->x += ox1;
-        obj1Hull->y += oy1;
+        obj1Hull.x += ox1;
+        obj1Hull.y += oy1;
         for(i2 = 0; i2 < l2; i2++)
         {
             ox2 = co2[i2]->x;
             oy2 = co2[i2]->y;
-            obj2Hull->x += ox2;
-            obj2Hull->y += oy2;
+            obj2Hull.x += ox2;
+            obj2Hull.y += oy2;
 
-            if( (obj1Hull->x + obj1Hull->width  < obj2Hull->x + roundingError) ||
-                    (obj1Hull->x + roundingError > obj2Hull->x + obj2Hull->width) ||
-                    (obj1Hull->y + obj1Hull->height < obj2Hull->y + roundingError) ||
-                    (obj1Hull->y + roundingError > obj2Hull->y + obj2Hull->height) )
+            if( (obj1Hull.x + obj1Hull.width  < obj2Hull.x + roundingError) ||
+                    (obj1Hull.x + roundingError > obj2Hull.x + obj2Hull.width) ||
+                    (obj1Hull.y + obj1Hull.height < obj2Hull.y + roundingError) ||
+                    (obj1Hull.y + roundingError > obj2Hull.y + obj2Hull.height) )
             {
-                obj2Hull->x -= ox2;
-                obj2Hull->y -= oy2;
+                obj2Hull.x -= ox2;
+                obj2Hull.y -= oy2;
                 continue;
             }
 
             if(p1hn2)
             {
                 if(obj1MoveNeg)
-                    r1 = obj1Hull->y + Object1->colHullX->height;
+                    r1 = obj1Hull.y + Object1->colHullX.height;
                 else
-                    r1 = obj1Hull->y + obj1Hull->height;
+                    r1 = obj1Hull.y + obj1Hull.height;
                 if(obj2MoveNeg)
-                    r2 = obj2Hull->y;
+                    r2 = obj2Hull.y;
                 else
-                    r2 = obj2Hull->y + obj2Hull->height - Object2->colHullX->height;
+                    r2 = obj2Hull.y + obj2Hull.height - Object2->colHullX.height;
             }
             else
             {
                 if(obj2MoveNeg)
-                    r1 = -obj2Hull->y - Object2->colHullX->height;
+                    r1 = -obj2Hull.y - Object2->colHullX.height;
                 else
-                    r1 = -obj2Hull->y - obj2Hull->height;
+                    r1 = -obj2Hull.y - obj2Hull.height;
                 if(obj1MoveNeg)
-                    r2 = -obj1Hull->y;
+                    r2 = -obj1Hull.y;
                 else
-                    r2 = -obj1Hull->y - obj1Hull->height + Object1->colHullX->height;
+                    r2 = -obj1Hull.y - obj1Hull.height + Object1->colHullX.height;
             }
             overlap = r1 - r2;
 
             if( (overlap == 0) ||
-                    ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull->height*0.8)) ||
-                    ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull->height*0.8)) )
+                    ((!Object1->fixed() && ((overlap>0)?overlap:-overlap) > obj1Hull.height*0.8)) ||
+                    ((!Object2->fixed() && ((overlap>0)?overlap:-overlap) > obj2Hull.height*0.8)) )
             {
-                obj2Hull->x -= ox2;
-                obj2Hull->y -= oy2;
+                obj2Hull.x -= ox2;
+                obj2Hull.y -= oy2;
                 continue;
             }
             hit = true;
 
-            sv1 = Object2->velocity->y;
-            sv2 = Object1->velocity->y;
+            sv1 = Object2->velocity.y;
+            sv2 = Object1->velocity.y;
             if(!Object1->fixed() && Object2->fixed())
             {
                 if(Object1->_group)
@@ -443,47 +442,47 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
             {
                 if(p1hn2)
                 {
-                    obj1Hull->y -= overlap;
+                    obj1Hull.y -= overlap;
 
                     if(Object2->fixed() && Object2->moves)
                     {
-                        sv1 = Object2->colVector->x;
+                        sv1 = Object2->colVector.x;
                         Object1->x += sv1;
-                        obj1Hull->x += sv1;
-                        Object1->colHullX->x += sv1;
+                        obj1Hull.x += sv1;
+                        Object1->colHullX.x += sv1;
                     }
                 }
                 else
                 {
-                    obj1Hull->y -= overlap;
-                    obj1Hull->height += overlap;
+                    obj1Hull.y -= overlap;
+                    obj1Hull.height += overlap;
                 }
             }
             if(!Object2->fixed() && (overlap != 0))
             {
                 if(p1hn2)
                 {
-                    obj2Hull->y += overlap;
-                    obj2Hull->height -= overlap;
+                    obj2Hull.y += overlap;
+                    obj2Hull.height -= overlap;
                 }
                 else
                 {
-                    obj2Hull->height += overlap;
+                    obj2Hull.height += overlap;
 
                     if(Object1->fixed() && Object1->moves)
                     {
-                        sv2 = Object1->colVector->x;
+                        sv2 = Object1->colVector.x;
                         Object2->x += sv2;
-                        obj2Hull->x += sv2;
-                        Object2->colHullX->x += sv2;
+                        obj2Hull.x += sv2;
+                        Object2->colHullX.x += sv2;
                     }
                 }
             }
-            obj2Hull->x -= ox2;
-            obj2Hull->y -= oy2;
+            obj2Hull.x -= ox2;
+            obj2Hull.y -= oy2;
         }
-        obj1Hull->x -= ox1;
-        obj1Hull->y -= oy1;
+        obj1Hull.x -= ox1;
+        obj1Hull.y -= oy1;
     }
 
     return false;

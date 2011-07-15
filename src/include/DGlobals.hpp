@@ -129,12 +129,12 @@ namespace Distillate
 
          * A reference to a <code>DMouse</code> object.  Important for input!
          */
-        static DMouse *mouse;
+        static DMouse mouse;
 
         /**
          * A reference to a <code>DKeyboard</code> object.  Important for input!
          */
-        static DKeyboard *keys;
+        static DKeyboard keys;
 
 
     protected:
@@ -147,40 +147,7 @@ namespace Distillate
          * Internal volume level, used for global sound control.
          */
         static bool _volume;
-
-    public:
-
-        /**
-         * Tells the camera to follow this <code>DCore</code> object around.
-         */
-        static DObject *followTarget;
-
-        /**
-         * Used to force the camera to look ahead of the <code>followTarget</code>.
-         */
-        static DPoint *followLead;
-
-        /**
-         * Used to smoothly track the camera as it follows.
-         */
-        static float followLerp;
-
-        /**
-         * Stores the top and left edges of the camera area.
-         */
-        static DPoint *followMin;
-
-        /**
-         * Stores the bottom and right edges of the camera area.
-         */
-        static DPoint *followMax;
-
-    protected:
-        /**
-         * Internal, used to assist camera and scrolling.
-         */
-        static DPoint *_scrollTarget;
-
+        
         /**
          * Internal storage system to prevent graphics from being used repeatedly in memory.
          */
@@ -190,7 +157,7 @@ namespace Distillate
         /**
          * Stores the basic parallax scrolling values.
          */
-        static DPoint *scroll;
+        static DPoint scroll;
 
         /**
          * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.

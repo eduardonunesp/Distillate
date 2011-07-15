@@ -2,12 +2,12 @@
 #define DSTATE_HPP
 
 #include <SDL/SDL.h>
+#include "DGroup.hpp"
 
 namespace Distillate
 {
 
 class DObject;
-class DGroup;
 class DSprite;
 
 /**
@@ -36,7 +36,7 @@ public:
     /**
      * Internal group used to organize and display objects you add to this state.
      */
-    DGroup* defaultGroup;
+    DGroup defaultGroup;
 
     /**
      * Creates a new <code>DState</code> object,

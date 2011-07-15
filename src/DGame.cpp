@@ -3,7 +3,6 @@
 #include "include/DGroup.hpp"
 #include "include/DState.hpp"
 #include "include/DGlobals.hpp"
-#include "include/DConsole.hpp"
 #include "include/DKeyboard.hpp"
 #include "include/DSprite.hpp"
 #include "include/DMouse.hpp"
@@ -95,19 +94,19 @@ void DGame::update()
                     DGlobals::quit();
                     break;
                 case SDL_KEYUP:
-                    DGlobals::keys->setKeyState(SDL_KEYUP, _event.key.keysym.sym);
+                    DGlobals::keys.setKeyState(SDL_KEYUP, _event.key.keysym.sym);
                     break;
                 case SDL_KEYDOWN:
-                    DGlobals::keys->setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
+                    DGlobals::keys.setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
                     break;
                 case SDL_MOUSEMOTION:
-                    DGlobals::mouse->setMousePos(_event.motion.x, _event.motion.y);
+                    DGlobals::mouse.setMousePos(_event.motion.x, _event.motion.y);
                     break;
                 case SDL_MOUSEBUTTONUP:
-                    DGlobals::mouse->setButtonState(SDL_MOUSEBUTTONUP, _event.button.button);
+                    DGlobals::mouse.setButtonState(SDL_MOUSEBUTTONUP, _event.button.button);
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    DGlobals::mouse->setButtonState(SDL_MOUSEBUTTONDOWN, _event.button.button);
+                    DGlobals::mouse.setButtonState(SDL_MOUSEBUTTONDOWN, _event.button.button);
                     break;
             }
         }

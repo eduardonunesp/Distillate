@@ -98,6 +98,7 @@ namespace Distillate
          * @param	Height		Desired height of this node.
          * @param	Parent		The parent branch or node.  Pass null to create a root.
          */
+        DQuadTree() {};
         DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent = NULL);
         virtual ~DQuadTree();
 

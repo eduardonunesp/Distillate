@@ -18,20 +18,18 @@ if int(glrender):
     libenv.Append(CPPDEFINES = 'GL_RENDER')
 
 files = Split("""
-src/DClass.cpp
-src/DMouse.cpp
-src/DInput.cpp
-src/DKeyboard.cpp
 src/DEmitter.cpp
 src/DGame.cpp
 src/DGlobals.cpp
 src/DGroup.cpp
+src/DKeyboard.cpp
+src/DMouse.cpp
 src/DObject.cpp
 src/DQuadTree.cpp
-src/DState.cpp
 src/DSprite.cpp
-src/DUtils.cpp
+src/DState.cpp
 src/DText.cpp
+src/DUtils.cpp
 """);
 
 if int(shared):
