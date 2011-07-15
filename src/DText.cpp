@@ -68,7 +68,9 @@ void DText::calcFrame()
         else
         {
             fgs = TTF_RenderUTF8_Solid(TextField, _text.c_str(), fg);
-            SDL_BlitSurface(fgs,0,_pixels,0);
+            
+            if(fgs)
+                SDL_BlitSurface(fgs,0,_pixels,0);
         }
 
         _regen = false;
