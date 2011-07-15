@@ -54,7 +54,7 @@ public:
      * 
      * @return	This DText instance (nice for chaining stuff together, if you're into that).
      */
-    DText * setFormat(const std::string &Font="", unsigned int Size=8, unsigned int Color=0xffffff, const std::string &Alignment= "", unsigned int ShadowColor=0);
+    DText * setFormat(const std::string &Font="", unsigned int Size=8, unsigned int Color=0, const std::string &Alignment= "", unsigned int ShadowColor=0);
     
     /**
      * The text being displayed.
