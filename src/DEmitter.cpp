@@ -151,13 +151,16 @@ void DEmitter::emitParticle()
     s->dead    = false;
     s->x = x - ((int) s->width>>1) + DUtils::random() * width;
     s->y = y - ((int) s->height>>1) + DUtils::random() * height;
-    s->velocity->x = minParticleSpeed->x;
 
+    s->velocity->x = minParticleSpeed->x;
+    
     if(minParticleSpeed->x != maxParticleSpeed->x) 
         s->velocity->x += DUtils::random()*(maxParticleSpeed->x - minParticleSpeed->x);
+
+    s->velocity->y = minParticleSpeed->y;
+
     if(minParticleSpeed->y != maxParticleSpeed->y) 
         s->velocity->y += DUtils::random()*(maxParticleSpeed->y - minParticleSpeed->y);
-
     s->acceleration->y = gravity;
     s->angularVelocity = minRotation;
 

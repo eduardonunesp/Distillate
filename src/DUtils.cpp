@@ -22,7 +22,7 @@ float DUtils::random(bool UseGlobalSeed)
         return 0.0f;
     }
     
-    return (rand()%((unsigned)RAND_MAX+1))/((float)(RAND_MAX)+1);
+    return float(rand()) / RAND_MAX;
 }
 
 float DUtils::computeVelocity(float Velocity, float Acceleration, float Drag, float Max)

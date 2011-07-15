@@ -10,7 +10,7 @@ class FlameState : public DState
 protected:
     DEmitter* _flames_r;
     DEmitter* _flames_y;
-    static const unsigned int _max_particles = 20;
+    static const unsigned int _max_particles = 2000;
 
 public:
     FlameState() {};

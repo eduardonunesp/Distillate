@@ -19,6 +19,7 @@ float DGlobals::timeScale = 1.0f;
 DPoint *DGlobals::scroll = new DPoint();
 unsigned int DGlobals::width  = 0;
 unsigned int DGlobals::height = 0;
+unsigned int DGlobals::FPS = 0;
 DGame* DGlobals::_game = NULL;
 bool DGlobals::_pause = false;
 bool DGlobals::_running = false;

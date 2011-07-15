@@ -104,6 +104,11 @@ namespace Distillate
          */
         static unsigned int height;
 
+        /*
+         *
+         */
+        static unsigned int FPS;
+
         /**
          * <code>DG.levels</code> and <code>DG.scores</code> are generic
          * global variables that can be used for various cross-state stuff.

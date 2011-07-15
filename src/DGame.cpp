@@ -15,6 +15,8 @@ DGame::DGame(const std::string &GameTitle, unsigned int GameSizeX, unsigned int 
 _max_frame_count(10),
 _elapsed(0),
 _lasttime(0),
+minFPS(20),
+maxFPS(60),
 _state(InitialState)
 {
     DState::bgColor = 0xff000000;
@@ -130,9 +132,21 @@ void DGame::update()
             _frametime = (now > _lasttime) ? now - _lasttime : 0;
             _lasttime  = (now >= _lasttime) ? _lasttime : now;
         }
-        while(!(_frametime >= 30));
+        while(!(_frametime >= minFPS));
 
+        if(_frametime > maxFPS)
+            _frametime = maxFPS;
+
+        _timeaccum += +_frametime;
+        _framecount++;
         _elapsed = (float) _frametime * 0.001f;
+
+        if(_timeaccum >= 1000)
+        {
+            DGlobals::FPS = _frametime;    
+            _framecount   = 0;
+            _timeaccum    = 0;
+        }
 
         DGlobals::elapsed = _elapsed;
         if(DGlobals::elapsed > DGlobals::maxElapsed)

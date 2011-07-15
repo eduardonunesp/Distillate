@@ -5,10 +5,6 @@
 #include <vector>
 #include <SDL/SDL.h>
 
-#ifdef GL_RENDER
-#include "SDL_opengl.h"
-#endif
-
 #include "DObject.hpp"
 #include "DUtils.hpp"
 
