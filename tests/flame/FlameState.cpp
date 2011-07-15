@@ -34,6 +34,10 @@ void FlameState::create()
 
     add(_flames_r);
     _flames_r->start(false);
+
+    _text_fps = new DText(10,10, 100, "FPS: ");
+    _text_fps->setFormat("nokiafc22.ttf", 14);
+    add(_text_fps);
 }
 
 void FlameState::update()
@@ -43,5 +47,7 @@ void FlameState::update()
     if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_ESCAPE))
         DGlobals::quit();
 
-    printf("FPS: %d\n", DGlobals::FPS);        
+    const std::string t = "FPS: " + DUtils::intToStr(DGlobals::FPS);;
+    _text_fps->setText(t);
+
 }

@@ -1,7 +1,8 @@
 #ifndef __DTEXT_HPP__
 #define __DTEXT_HPP__
 
-#include <SDL/SDL_ttf>
+#include <SDL/SDL_ttf.h>
+#include <string>
 #include "DSprite.hpp"
 
 namespace Distillate 
@@ -14,13 +15,21 @@ namespace Distillate
  * Also does nice pixel-perfect centering on pixel fonts
  * as long as they are only one liners.
  */
-class DText extends DSprite
+class DText : public DSprite
 {
 protected:
     TTF_Font *TextField;
+    std::string _text;
+    std::string _font_file;
+    std::string _alignment;
     bool _regen;
     bool _shadow;
-    
+    bool _embedded;
+    unsigned int _size;
+    unsigned int _color;
+    unsigned int _shadow_color;
+
+public:    
     /**
      * Creates a new <code>DText</code> object at the specified position.
      * 
@@ -30,34 +39,8 @@ protected:
      * @param	Text			The actual text you would like to display initially.
      * @param	EmbeddedFont	Whether this text field uses embedded fonts or nto
      */
-    DText(float X, Y:Number, Width:uint, Text:String=null, EmbeddedFont:Boolean=true)
-    {
-        super(X,Y);
-        createGraphic(Width,1,0);
-        
-        if(Text == null)
-            Text = "";
-        _tf = new TextField();
-        _tf.width = Width;
-        _tf.embedFonts = EmbeddedFont;
-        _tf.selectable = false;
-        _tf.sharpness = 100;
-        _tf.multiline = true;
-        _tf.wordWrap = true;
-        _tf.text = Text;
-        var tf:TextFormat = new TextFormat("system",8,0xffffff);
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
-        if(Text.length <= 0)
-            _tf.height = 1;
-        else
-            _tf.height = 10;
-        
-        _regen = true;
-        _shadow = 0;
-        solid = false;
-        calcFrame();
-    }
+    DText(float X, float Y, unsigned int Width, const std::string &Text="", bool EmbeddedFont=false);
+    ~DText(); 
     
     /**
      * You can use this if you have a lot of text parameters
@@ -71,62 +54,40 @@ protected:
      * 
      * @return	This DText instance (nice for chaining stuff together, if you're into that).
      */
-    public function setFormat(Font:String=null,Size:Number=8,Color:uint=0xffffff,Alignment:String=null,ShadowColor:uint=0):DText
-    {
-        if(Font == null)
-            Font = "";
-        var tf:TextFormat = dtfCopy();
-        tf.font = Font;
-        tf.size = Size;
-        tf.color = Color;
-        tf.align = Alignment;
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
-        _shadow = ShadowColor;
-        _regen = true;
-        calcFrame();
-        return this;
-    }
+    DText * setFormat(const std::string &Font="", unsigned int Size=8, unsigned int Color=0xffffff, const std::string &Alignment= "", unsigned int ShadowColor=0);
     
     /**
      * The text being displayed.
      */
-    public function get text():String
+    const std::string getText()
     {
-        return _tf.text;
+        return _text;
     }
     
     /**
      * @private
      */
-    public function set text(Text:String):void
+    void setText(const std::string &Text)
     {
-        var ot:String = _tf.text;
-        _tf.text = Text;
-        if(_tf.text != ot)
-        {
-            _regen = true;
-            calcFrame();
-        }
+        _text = Text;
+        _regen = true;
+        calcFrame();
     }
     
     /**
      * The size of the text being displayed.
      */
-     public function get size():Number
+    unsigned int getSize()
     {
-        return _tf.defaultTextFormat.size as Number;
+        return _size;
     }
     
     /**
      * @private
      */
-    public function set size(Size:Number):void
+    void setSize(unsigned int Size)
     {
-        var tf:TextFormat = dtfCopy();
-        tf.size = Size;
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
+        _size = Size;
         _regen = true;
         calcFrame();
     }
@@ -134,20 +95,17 @@ protected:
     /**
      * The color of the text being displayed.
      */
-    override public function get color():uint
+    unsigned int getColor()
     {
-        return _tf.defaultTextFormat.color as uint;
+        return _color;
     }
     
     /**
      * @private
      */
-    override public function set color(Color:uint):void
+    void setColor(unsigned int Color)
     {
-        var tf:TextFormat = dtfCopy();
-        tf.color = Color;
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
+        _color = Color;
         _regen = true;
         calcFrame();
     }
@@ -155,20 +113,18 @@ protected:
     /**
      * The font used for this text.
      */
-    public function get font():String
+    const std::string getFont()
     {
-        return _tf.defaultTextFormat.font;
+        return _font_file;  
     }
+
     
     /**
      * @private
      */
-    public function set font(Font:String):void
+    void setFont(const std::string &Font)
     {
-        var tf:TextFormat = dtfCopy();
-        tf.font = Font;
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
+        _font_file = Font;
         _regen = true;
         calcFrame();
     }
@@ -176,27 +132,24 @@ protected:
     /**
      * The alignment of the font ("left", "right", or "center").
      */
-    public function get alignment():String
+    const std::string getAlignment()
     {
-        return _tf.defaultTextFormat.align;
+        return _alignment;
     }
     
     /**
      * @private
      */
-    public function set alignment(Alignment:String):void
+    void setAlignment(const std::string &Alignment)
     {
-        var tf:TextFormat = dtfCopy();
-        tf.align = Alignment;
-        _tf.defaultTextFormat = tf;
-        _tf.setTextFormat(tf);
+        _alignment = Alignment;
         calcFrame();
     }
     
     /**
      * The alignment of the font ("left", "right", or "center").
      */
-    public function get shadow():uint
+    unsigned int getShadow()
     {
         return _shadow;
     }
@@ -204,85 +157,19 @@ protected:
     /**
      * @private
      */
-    public function set shadow(Color:uint):void
+    void setShadow(unsigned int Color)
     {
         _shadow = Color;
         calcFrame();
     }
-    
+   
+protected:   
     /**
      * Internal function to update the current animation frame.
      */
-    override protected function calcFrame():void
-    {
-        if(_regen)
-        {
-            //Need to generate a new buffer to store the text graphic
-            var i:uint = 0;
-            var nl:uint = _tf.numLines;
-            height = 0;
-            while(i < nl)
-                height += _tf.getLineMetrics(i++).height;
-            height += 4; //account for 2px gutter on top and bottom
-            _pixels = new BitmapData(width,height,true,0);
-            _bbb = new BitmapData(width,height,true,0);
-            frameHeight = height;
-            _tf.height = height*1.2;
-            _flashRect.x = 0;
-            _flashRect.y = 0;
-            _flashRect.width = width;
-            _flashRect.height = height;
-            _regen = false;
-        }
-        else	//Else just clear the old buffer before redrawing the text
-            _pixels.fillRect(_flashRect,0);
-        
-        if((_tf != null) && (_tf.text != null) && (_tf.text.length > 0))
-        {
-            //Now that we've cleared a buffer, we need to actually render the text to it
-            var tf:TextFormat = _tf.defaultTextFormat;
-            var tfa:TextFormat = tf;
-            _mtx.identity();
-            //If it's a single, centered line of text, we center it ourselves so it doesn't blur to hell
-            if((tf.align == "center") && (_tf.numLines == 1))
-            {
-                tfa = new TextFormat(tf.font,tf.size,tf.color,null,null,null,null,null,"left");
-                _tf.setTextFormat(tfa);				
-                _mtx.translate(Math.floor((width - _tf.getLineMetrics(0).width)/2),0);
-            }
-            //Render a single pixel shadow beneath the text
-            if(_shadow > 0)
-            {
-                _tf.setTextFormat(new TextFormat(tfa.font,tfa.size,_shadow,null,null,null,null,null,tfa.align));				
-                _mtx.translate(1,1);
-                _pixels.draw(_tf,_mtx,_ct);
-                _mtx.translate(-1,-1);
-                _tf.setTextFormat(new TextFormat(tfa.font,tfa.size,tfa.color,null,null,null,null,null,tfa.align));
-            }
-            //Actually draw the text onto the buffer
-            _pixels.draw(_tf,_mtx,_ct);
-            _tf.setTextFormat(new TextFormat(tf.font,tf.size,tf.color,null,null,null,null,null,tf.align));
-        }
-        
-        //Finally, update the visible pixels
-        if((_framePixels == null) || (_framePixels.width != _pixels.width) || (_framePixels.height != _pixels.height))
-            _framePixels = new BitmapData(_pixels.width,_pixels.height,true,0);
-        _framePixels.copyPixels(_pixels,_flashRect,_flashPointZero);
-        if(DG.showBounds)
-            drawBounds();
-        if(solid)
-            refreshHulls();
-    }
-    
-    /**
-     * A helper function for updating the <code>TextField</code> that we use for rendering.
-     * 
-     * @return	A writable copy of <code>TextField.defaultTextFormat</code>.
-     */
-    protected function dtfCopy():TextFormat
-    {
-        var dtf:TextFormat = _tf.defaultTextFormat;
-        return new TextFormat(dtf.font,dtf.size,dtf.color,dtf.bold,dtf.italic,dtf.underline,dtf.url,dtf.target,dtf.align);
-    }
+    void calcFrame();
+};
+
 }
-}
+
+#endif

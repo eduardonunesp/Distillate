@@ -17,8 +17,6 @@
 #include "DGame.hpp"
 #include "DGlobals.hpp"
 #include "DGroup.hpp"
-#include "DInput.hpp"
-#include "Distillate.hpp"
 #include "DKeyboard.hpp"
 #include "DList.hpp"
 #include "DMouse.hpp"
@@ -29,5 +27,6 @@
 #include "DSprite.hpp"
 #include "DState.hpp"
 #include "DUtils.hpp"
+#include "DText.hpp"
 
 #endif

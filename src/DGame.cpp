@@ -78,6 +78,7 @@ void DGame::create()
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
     switchState(_state);
     _lasttime = SDL_GetTicks();
+    atexit(TTF_Quit);
     atexit(SDL_Quit);
     update();
 }

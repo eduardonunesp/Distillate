@@ -6,6 +6,7 @@
 #include <functional>
 #include <utility>
 #include <string>
+#include <sstream>
 
 namespace Distillate
 {
@@ -98,6 +99,13 @@ public:
      * This is the eligible game collision space.
      */
     static DRect* quadTreeBounds;
+
+    static const std::string intToStr(int intVal)
+    {
+        std::ostringstream s;
+        s << intVal;
+        return s.str();
+    }
 
     /**
      * Opens a web page in a new tab or window.

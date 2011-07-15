@@ -134,11 +134,10 @@ namespace Distillate
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
         else
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
-#endif
-
 
         _rendering_rect.x = 0;
         _rendering_rect.y = 0;
+#endif
     }
 
     bool DSprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)

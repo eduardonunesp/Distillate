@@ -31,6 +31,7 @@ src/DQuadTree.cpp
 src/DState.cpp
 src/DSprite.cpp
 src/DUtils.cpp
+src/DText.cpp
 """);
 
 if int(shared):
