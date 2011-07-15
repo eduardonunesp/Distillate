@@ -119,12 +119,7 @@ void DGame::update()
 #else
         SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
-        SDL_Rect rect;
-        rect.h = DGlobals::_buffer->h;
-        rect.w = DGlobals::_buffer->w;
-        rect.x = 0;
-        rect.y = 0;
-        SDL_FillRect(DGlobals::_buffer, &rect, 0);
+        SDL_FillRect(DGlobals::_buffer,0, 0);
 #endif
 
         unsigned int now;

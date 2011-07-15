@@ -23,6 +23,7 @@ protected:
     std::string _font_file;
     std::string _alignment;
     bool _regen;
+    bool _resize;
     bool _shadow;
     bool _embedded;
     unsigned int _size;
@@ -54,7 +55,7 @@ public:
      * 
      * @return	This DText instance (nice for chaining stuff together, if you're into that).
      */
-    DText * setFormat(const std::string &Font="", unsigned int Size=8, unsigned int Color=0, const std::string &Alignment= "", unsigned int ShadowColor=0);
+    DText * setFormat(const std::string &Font="", unsigned int Size=8, unsigned int Color=0xffffffff, const std::string &Alignment= "", unsigned int ShadowColor=0);
     
     /**
      * The text being displayed.
@@ -89,6 +90,7 @@ public:
     {
         _size = Size;
         _regen = true;
+        _resize = true;
         calcFrame();
     }
     
