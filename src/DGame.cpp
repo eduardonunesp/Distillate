@@ -60,6 +60,9 @@ void DGame::create()
     if(!_screen)
         throw std::runtime_error("Cannot initialize screen");
 
+    if(TTF_Init() < 0)
+        throw std::runtime_error("Cannot initialize TTF system");
+
 #ifdef GL_RENDER
     glEnable( GL_TEXTURE_2D );
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -75,6 +78,7 @@ void DGame::create()
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
     switchState(_state);
     _lasttime = SDL_GetTicks();
+    atexit(SDL_Quit);
     update();
 }
 

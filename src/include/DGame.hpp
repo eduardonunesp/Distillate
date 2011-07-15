@@ -2,6 +2,7 @@
 #define __DGAME_HPP__
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include <stdexcept>
 
 namespace Distillate
