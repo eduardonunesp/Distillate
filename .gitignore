@@ -11,6 +11,5 @@
 .libs
 .deps
 .sconsign.dblite
-test/test
-bin
+build
 

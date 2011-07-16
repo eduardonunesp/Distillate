@@ -2,7 +2,12 @@
 #define __DGAME_HPP__
 
 #include <SDL/SDL.h>
+
+#ifdef GL_RENDER
+#else
 #include <SDL/SDL_ttf.h>
+#endif
+
 #include <stdexcept>
 
 namespace Distillate
@@ -25,7 +30,9 @@ class DGame
     friend class DGlobals;
 private:
     /* startup */
+#ifndef GL_RENDER
     SDL_Surface* _screen;
+#endif
     SDL_Event _event;
 
     /* FPS stuff */

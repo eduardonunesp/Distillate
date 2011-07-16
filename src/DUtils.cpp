@@ -485,7 +485,7 @@ bool DUtils::solveYCollision(DObject* Object1, DObject* Object2)
         obj1Hull.y -= oy1;
     }
 
-    return false;
+    return hit;
 }
 
 }

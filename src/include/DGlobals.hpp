@@ -1,7 +1,11 @@
 #ifndef __DGLOBALS_HPP__
 #define __DGLOBALS_HPP__
 
+#ifdef GL_RENDER
+#else
 #include <SDL/SDL.h>
+#endif
+
 #include <string>
 #include <vector>
 #include <map>
@@ -27,7 +31,9 @@ namespace Distillate
         friend class DSprite;
 
     protected:
+#ifndef GL_RENDER    
         static SDL_Surface *_buffer;
+#endif
     
     public:
         /**
@@ -151,7 +157,11 @@ namespace Distillate
         /**
          * Internal storage system to prevent graphics from being used repeatedly in memory.
          */
+#ifdef GL_RENDER
+        static std::map<std::string, void*> _cache;
+#else
         static std::map<std::string, SDL_Surface*> _cache;
+#endif
 
     public:
         /**
@@ -181,8 +191,12 @@ namespace Distillate
          *   
          * @return  The <code>BitmapData</code> we just created.
          */  
+#ifdef GL_RENDER        
+        static void* addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
+#else
         static SDL_Surface * addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
-    
+#endif 
+
         /**
          * Sets a new state
          */

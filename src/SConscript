@@ -1,0 +1,47 @@
+libname = 'Distillate';
+
+IncludePath = ['include/']
+LibsPath = []   
+Libs = ['SDL','SDL_mixer', 'SDL_image', ]
+
+CommonFlags = ' -Wall -pedantic'
+
+debug    = ARGUMENTS.get('debug', 0)
+shared   = ARGUMENTS.get('shared', 0)
+render   = ARGUMENTS.get('render', 'sdl')
+
+libenv = Environment( CPPFLAGS = CommonFlags)
+libenv.VariantDir('build/', 'src/')
+
+if int(debug):
+	libenv.Append(CPPFLAGS = ' -g -ggdb')
+
+if render == 'sdl':
+    libenv.Append(CPPDEFINES = 'SDL_RENDER')
+    Libs.append('SDL_ttf')
+
+elif render == 'gl':
+    libenv.Append(CPPDEFINES = 'GL_RENDER')
+    Libs.append('GL')
+    
+
+files = Split("""
+DEmitter.cpp
+DGame.cpp
+DGlobals.cpp
+DGroup.cpp
+DKeyboard.cpp
+DMouse.cpp
+DObject.cpp
+DQuadTree.cpp
+DSprite.cpp
+DState.cpp
+DText.cpp
+DUtils.cpp
+""");
+
+if int(shared):
+    lib = libenv.SharedLibrary(target = "../%s" % libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+else:
+    lib = libenv.StaticLibrary(target = "../%s" % libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+

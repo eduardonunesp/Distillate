@@ -21,8 +21,12 @@ namespace Distillate
     {
         _is_sprite = true;
 
+#ifdef GL_RENDER
+
+#else
         if(!SimpleGraphics.empty())
             _pixels = DGlobals::addBitmap(SimpleGraphics, false);
+#endif
     }
 
     DSprite::~DSprite()
@@ -33,6 +37,8 @@ namespace Distillate
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
     {
+#ifdef GL_RENDER       
+#else
         _bakedRotation = 0;
         _pixels = DGlobals::addBitmap(Graphic,Reverse,Unique);
         
@@ -56,11 +62,14 @@ namespace Distillate
         }   
 
         height = frameHeight = Height;
+#endif
         return this;
     }
 
     DSprite *DSprite::createGraphic(unsigned int Width, unsigned int Height, unsigned int Color, bool Unique, const std::string &Key)
     {
+#ifdef GL_RENDER
+#else
         unsigned int rmask, gmask, bmask, amask;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -85,6 +94,7 @@ namespace Distillate
         width = frameWidth = _pixels->w;
         height = frameHeight = _pixels->h;
         resetHelpers();
+#endif
         return this;
     }   
 
@@ -105,15 +115,8 @@ namespace Distillate
     void DSprite::render()
     {
         getScreenXY(_point);
-        
-        SDL_Rect rect_dst;
-        rect_dst.x = _point.x;
-        rect_dst.y = _point.y;
-
-        _rendering_rect.h = height;
-        _rendering_rect.w = width;
-
 #ifdef GL_RENDER
+        
         glBindTexture( GL_TEXTURE_2D, texture );
 
         glBegin( GL_QUADS );
@@ -128,8 +131,15 @@ namespace Distillate
 
         glTexCoord2i( 0, 1 );
         glVertex3f( 100.f, 228.f, 0.f );
-        glEnd()
+        glEnd();
 #else
+        SDL_Rect rect_dst;
+
+        rect_dst.x = _point.x;
+        rect_dst.y = _point.y;
+
+        _rendering_rect.h = height;
+        _rendering_rect.w = width;
 
         if((angle == 0) || (_bakedRotation > 0))
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
@@ -190,6 +200,8 @@ namespace Distillate
 
     void DSprite::calcFrame()
     {   
+#ifdef GL_RENDER
+#else
         unsigned int rx = _caf*frameWidth;
         unsigned int ry = 0;
 
@@ -210,6 +222,7 @@ namespace Distillate
 
         /* Update display bitmap */
         if(_callback) _callback(_curAnim, _caf);
+#endif
     }   
 
     /** 

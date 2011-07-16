@@ -1,0 +1,28 @@
+progname = 'Flame';
+
+IncludePath = ['../../src/','../../src/include']
+LibsPath = ['../../']   
+Libs = ['Distillate','SDL','SDL_mixer', 'SDL_image', 'SDL_ttf']
+
+CommonFlags = ' -Wall -pedantic'
+
+debug    = ARGUMENTS.get('debug', 0)
+shared   = ARGUMENTS.get('shared', 0)
+glrender = ARGUMENTS.get('glrender', 0)
+
+progenv = Environment( CPPFLAGS = CommonFlags)
+
+if int(debug):
+	progenv.Append(CPPFLAGS = ' -g -ggdb')
+
+if int(glrender):
+    progenv.Append(CPPDEFINES = 'GL_RENDER')
+    Libs.append('GL')
+
+files = Split("""
+main.cpp
+FlameState.cpp
+""")
+
+progenv.Program(target = progname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+

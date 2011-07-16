@@ -1,4 +1,4 @@
-#include "../../src/include/Distillate.hpp"
+#include "Distillate.hpp"
 #include "FlameState.hpp"
 
 using namespace Distillate;

@@ -23,11 +23,15 @@ _shadow_color(0x00000000)
 
 DText::~DText()
 { 
+#ifndef GL_RENDER
     TTF_CloseFont(TextField);
+#endif
 }
 
 DText * DText::setFormat(const std::string &Font, unsigned int Size, unsigned int Color, const std::string &Alignment, unsigned int ShadowColor)
 {
+#ifdef GL_RENDER
+#else
     if(Font.empty()) 
         return NULL;
     
@@ -45,6 +49,7 @@ DText * DText::setFormat(const std::string &Font, unsigned int Size, unsigned in
     _shadow_color = ShadowColor;
     _regen = true;
     calcFrame();
+#endif
     return this;
 }
 
@@ -52,6 +57,7 @@ void DText::calcFrame()
 {
     if(_regen)
     {
+#ifndef GL_RENDER
         if(_resize)
         {
             _resize = false;
@@ -84,6 +90,7 @@ void DText::calcFrame()
             if(fgs)
                 SDL_BlitSurface(fgs, 0,_pixels, 0);
         }
+#endif
         
         _regen = false;
     }

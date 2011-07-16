@@ -3,7 +3,12 @@
 
 #include <string>
 #include <vector>
+
+#ifdef GL_RENDER
+#include <GL/gl.h>
+#else
 #include <SDL/SDL.h>
+#endif
 
 #include "DObject.hpp"
 #include "DUtils.hpp"

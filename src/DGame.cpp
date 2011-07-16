@@ -1,11 +1,11 @@
 #include "include/DGame.hpp"
-#include "include/DPoint.hpp"
-#include "include/DGroup.hpp"
-#include "include/DState.hpp"
-#include "include/DGlobals.hpp"
-#include "include/DKeyboard.hpp"
-#include "include/DSprite.hpp"
-#include "include/DMouse.hpp"
+#include "include/Distillate.hpp"
+
+#ifdef GL_RENDER
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#endif
 
 namespace Distillate
 {
@@ -25,7 +25,10 @@ _state(InitialState)
 
 DGame::~DGame()
 {
+#ifndef GL_RENDER
     delete _screen;
+#endif
+
     delete _state;
 }
 
@@ -50,14 +53,13 @@ void DGame::create()
 #ifdef GL_RENDER    
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     flags = SDL_OPENGL;
+    SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
 #else
     flags = SDL_SWSURFACE;
-#endif
-
     _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
-
     if(!_screen)
         throw std::runtime_error("Cannot initialize screen");
+#endif
 
     if(TTF_Init() < 0)
         throw std::runtime_error("Cannot initialize TTF system");
@@ -71,7 +73,7 @@ void DGame::create()
     glLoadIdentity();
     glOrtho(0.0f, 640, 480, 0.0f, -1.0f, 1.0f);
     glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity()
+    glLoadIdentity();
 #endif
 
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);

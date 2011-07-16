@@ -24,8 +24,13 @@ bool DGlobals::_pause = false;
 bool DGlobals::_running = false;
 DKeyboard DGlobals::keys;
 DMouse DGlobals::mouse;
+
+#ifdef GL_RENDER
+std::map<std::string, void*> DGlobals::_cache;
+#else
 std::map<std::string, SDL_Surface*> DGlobals::_cache;
 SDL_Surface *DGlobals::_buffer = NULL;
+#endif 
 
 bool DGlobals::pause()
 {
@@ -39,17 +44,24 @@ void DGlobals::setGameData(DGame* Game, const std::string &GameTitle, unsigned i
     gameTitle = GameTitle;
     width = Width;
     height = Height;
+
+#ifndef GL_RENDER
     _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
     if(!_buffer) 
     {
         fprintf(stderr, "%s", "Cannot create buffer \n");
         DGlobals::quit();
     }
+#endif
 
     DUtils::setWorldBounds(0,0,Width, Height);
 }
 
+#ifdef GL_RENDER
+void * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
+#else
 SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
+#endif
 {
     const std::string &key = Key;            
         
@@ -59,7 +71,10 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
         {   
         }       
     }       
-    
+   
+#ifdef GL_RENDER
+    return NULL;
+#else
     SDL_Surface *pixels = NULL;
 
     if(!_cache[key])
@@ -79,6 +94,7 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
     } 
 
     return pixels;
+#endif
 }
 
 void DGlobals::setState(DState *state)
