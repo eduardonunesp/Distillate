@@ -12,17 +12,14 @@ public:
 
 int main(int argc, char* argv[])
 {
-    Flame* flame = NULL;
-
     try
     {
-        flame = new Flame();
+        Flame flame();
     }
     catch(std::exception &e)
     {
         fprintf(stderr,"Ops: %s\n", e.what());
     }
 
-    delete flame;
     return 0;
 }

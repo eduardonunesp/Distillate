@@ -6,7 +6,7 @@
 
 #ifdef GL_RENDER
 #include <GL/gl.h>
-#else
+#elif SDL_RENDER
 #include <SDL/SDL.h>
 #endif
 
@@ -95,7 +95,7 @@ namespace Distillate
         /* Surface stuff */
 #ifdef GL_RENDER
         GLuint texture;
-#else
+#elif SDL_RENDER
         SDL_Surface *_pixels;
         SDL_Rect _rendering_rect;
 #endif

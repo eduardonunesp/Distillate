@@ -1,8 +1,7 @@
 #ifndef __DGLOBALS_HPP__
 #define __DGLOBALS_HPP__
 
-#ifdef GL_RENDER
-#else
+#if SDL_RENDER
 #include <SDL/SDL.h>
 #endif
 
@@ -31,7 +30,7 @@ namespace Distillate
         friend class DSprite;
 
     protected:
-#ifndef GL_RENDER    
+#ifdef SDL_RENDER    
         static SDL_Surface *_buffer;
 #endif
     
@@ -159,7 +158,7 @@ namespace Distillate
          */
 #ifdef GL_RENDER
         static std::map<std::string, void*> _cache;
-#else
+#elif SDL_RENDER
         static std::map<std::string, SDL_Surface*> _cache;
 #endif
 
@@ -193,7 +192,7 @@ namespace Distillate
          */  
 #ifdef GL_RENDER        
         static void* addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
-#else
+#elif SDL_RENDER
         static SDL_Surface * addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
 #endif 
 

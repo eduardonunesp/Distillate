@@ -85,9 +85,7 @@ DQuadTree::DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent):
 DQuadTree::~DQuadTree()
 {
     delete _headA;
-    delete _tailA;
     delete _headB;
-    delete _tailB;
     delete _nw;
     delete _ne;
     delete _se;

@@ -25,7 +25,7 @@ _state(InitialState)
 
 DGame::~DGame()
 {
-#ifndef GL_RENDER
+#ifdef SDL_RENDER
     delete _screen;
 #endif
 
@@ -54,15 +54,15 @@ void DGame::create()
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     flags = SDL_OPENGL;
     SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
-#else
+#elif SDL_RENDER
     flags = SDL_SWSURFACE;
     _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
     if(!_screen)
         throw std::runtime_error("Cannot initialize screen");
-#endif
-
     if(TTF_Init() < 0)
         throw std::runtime_error("Cannot initialize TTF system");
+    atexit(TTF_Quit);
+#endif
 
 #ifdef GL_RENDER
     glEnable( GL_TEXTURE_2D );
@@ -79,7 +79,6 @@ void DGame::create()
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
     switchState(_state);
     _lasttime = SDL_GetTicks();
-    atexit(TTF_Quit);
     atexit(SDL_Quit);
     update();
 }
@@ -118,7 +117,7 @@ void DGame::update()
         
 #ifdef GL_RENDER       
         SDL_GL_SwapBuffers();
-#else
+#elif SDL_RENDER
         SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
         SDL_FillRect(DGlobals::_buffer,0, DState::bgColor);

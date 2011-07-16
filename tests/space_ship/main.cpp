@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../src/include/Distillate.hpp"
+#include "Distillate.hpp"
 
 using namespace Distillate;
 
@@ -21,34 +21,37 @@ public:
 class State : public DState
 {
 public:
-    DSprite *player;
-    DSprite *enemy;
+    DSprite player;
+    DSprite enemy;
 
-    State() : DState() {};
-    ~State() { destroy(); }
+    State() : DState(), 
+        player(10,10),
+        enemy(50,50)
+    {};
+    ~State() {}
 
     void update() 
     {
         DState::update();
 
-        player->velocity.x = 0;
-        player->velocity.y = 0;
+        player.velocity.x = 0;
+        player.velocity.y = 0;
 
-        if(DGlobals::keys.checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
+        if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_ESCAPE))
             DGlobals::quit();
 
         if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_RIGHT))
-            player->velocity.x += 100;
+            player.velocity.x += 100;
         if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_LEFT))
-            player->velocity.x -= 100;
+            player.velocity.x -= 100;
         if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_UP))
-            player->velocity.y -= 100;
+            player.velocity.y -= 100;
         if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_DOWN))
-            player->velocity.y += 100;
+            player.velocity.y += 100;
 
-        DUtils::overlap(enemy, player, State::Collide); 
+        DUtils::overlap(&enemy, &player, State::Collide); 
 
-        if(enemy->health <= 0)
+        if(enemy.health <= 0)
             DGlobals::setState(new StateWin());
     }
 
@@ -61,23 +64,21 @@ public:
 
     void create() 
     {
-        player = new DSprite(10,10);
-        player->loadGraphic("player.png", true, false, 52, 21, false);
+        player.loadGraphic("player.png", true, false, 52, 21, false);
 
         std::vector<int> anim_frame;
         anim_frame.push_back(0);
         anim_frame.push_back(1);
         anim_frame.push_back(2);
 
-        player->addAnimation("flying", anim_frame, 3, true);
-        player->play("flying");
+        player.addAnimation("flying", anim_frame, 3, true);
+        player.play("flying");
 
-        add(player);
+        add(&player);
 
-        enemy = new DSprite(50,50);
-        enemy->createGraphic(20, 20);
-        enemy->health = 10;
-        add(enemy);
+        enemy.createGraphic(20, 20);
+        enemy.health = 10;
+        add(&enemy);
     }
 };
 
@@ -92,8 +93,7 @@ int main(int argc, char* argv[])
 {
     try
     {
-        Test* test = new Test();
-        delete test;
+        Test test;
     }
     catch(std::exception &e)
     {

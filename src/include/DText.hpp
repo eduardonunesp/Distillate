@@ -1,7 +1,7 @@
 #ifndef __DTEXT_HPP__
 #define __DTEXT_HPP__
 
-#ifndef GL_RENDER
+#ifdef SDL_RENDER
 #include <SDL/SDL_ttf.h>
 #endif
 
@@ -21,7 +21,7 @@ namespace Distillate
 class DText : public DSprite
 {
 protected:
-#ifndef GL_RENDER
+#ifdef SDL_RENDER
     TTF_Font *TextField;
 #endif
     std::string _text;

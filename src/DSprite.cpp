@@ -23,7 +23,7 @@ namespace Distillate
 
 #ifdef GL_RENDER
 
-#else
+#elif SDL_RENDER
         if(!SimpleGraphics.empty())
             _pixels = DGlobals::addBitmap(SimpleGraphics, false);
 #endif
@@ -31,14 +31,13 @@ namespace Distillate
 
     DSprite::~DSprite()
     {
-        delete _curAnim;
         delete_all(_animations);
     }
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
     {
 #ifdef GL_RENDER       
-#else
+#elif SDL_RENDER
         _bakedRotation = 0;
         _pixels = DGlobals::addBitmap(Graphic,Reverse,Unique);
         
@@ -69,7 +68,7 @@ namespace Distillate
     DSprite *DSprite::createGraphic(unsigned int Width, unsigned int Height, unsigned int Color, bool Unique, const std::string &Key)
     {
 #ifdef GL_RENDER
-#else
+#elif SDL_RENDER
         unsigned int rmask, gmask, bmask, amask;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -132,7 +131,7 @@ namespace Distillate
         glTexCoord2i( 0, 1 );
         glVertex3f( 100.f, 228.f, 0.f );
         glEnd();
-#else
+#elif SDL_RENDER
         SDL_Rect rect_dst;
 
         rect_dst.x = _point.x;
@@ -201,7 +200,7 @@ namespace Distillate
     void DSprite::calcFrame()
     {   
 #ifdef GL_RENDER
-#else
+#elif SDL_RENDER
         unsigned int rx = _caf*frameWidth;
         unsigned int ry = 0;
 

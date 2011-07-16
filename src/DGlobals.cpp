@@ -27,7 +27,7 @@ DMouse DGlobals::mouse;
 
 #ifdef GL_RENDER
 std::map<std::string, void*> DGlobals::_cache;
-#else
+#elif SDL_RENDER
 std::map<std::string, SDL_Surface*> DGlobals::_cache;
 SDL_Surface *DGlobals::_buffer = NULL;
 #endif 
@@ -45,7 +45,7 @@ void DGlobals::setGameData(DGame* Game, const std::string &GameTitle, unsigned i
     width = Width;
     height = Height;
 
-#ifndef GL_RENDER
+#ifdef SDL_RENDER
     _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
     if(!_buffer) 
     {
@@ -59,7 +59,7 @@ void DGlobals::setGameData(DGame* Game, const std::string &GameTitle, unsigned i
 
 #ifdef GL_RENDER
 void * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
-#else
+#elif SDL_RENDER
 SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
 #endif
 {
@@ -74,7 +74,7 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
    
 #ifdef GL_RENDER
     return NULL;
-#else
+#elif SDL_RENDER
     SDL_Surface *pixels = NULL;
 
     if(!_cache[key])
