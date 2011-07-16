@@ -1,7 +1,7 @@
-#include "DGroup.hpp"
+#include "include/DGroup.hpp"
 #include <algorithm>
-#include "DPoint.hpp"
-#include "DUtils.hpp"
+#include "include/DPoint.hpp"
+#include "include/DUtils.hpp"
 
 namespace Distillate
 {

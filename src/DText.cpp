@@ -1,4 +1,4 @@
-#include "DText.hpp"
+#include "include/DText.hpp"
 
 namespace Distillate
 {
@@ -59,41 +59,30 @@ void DText::calcFrame()
             if(!TextField) return;
         }
 
-        SDL_Color fg = { 
-            ((_color >> 26) & 0xff0000ff), 
-            ((_color >> 26) & 0xff00ff00), 
-            ((_color >> 26) & 0xffff0000), 0};
-
-        printf("fg %d %d %d\n", fg.r, fg.g, fg.b);
-
-        SDL_Color bg = { 
-            ((_color >> 26) & 0xff0000ff), 
-            ((_color >> 26) & 0xff00ff00), 
-            ((_color >> 26) & 0xffff0000), 0};
-
-        printf("bg %d %d %d\n", fg.r, fg.g, fg.b);
+        SDL_Color fg = { 255, 255, 255, 0 };
+        SDL_Color bg = { 99, 99, 99, 0 };
 
         SDL_Surface *fgs = 0;
         SDL_Surface *bgs = 0;
         
         SDL_FillRect(_pixels, &_pixels->clip_rect, 0x00000000);
 
-        if(_shadow_color != 0)
+        if(_shadow)
         {
             fgs = TTF_RenderUTF8_Solid(TextField, _text.c_str(), fg); 
             bgs = TTF_RenderUTF8_Solid(TextField, _text.c_str(), bg); 
 
             if(fgs && bgs)
             {
-                SDL_BlitSurface(bgs, &bgs->clip_rect,_pixels, &_pixels->clip_rect);
-                SDL_BlitSurface(fgs, &fgs->clip_rect,_pixels, &_pixels->clip_rect);
+                SDL_BlitSurface(bgs, 0,_pixels, 0);
+                SDL_BlitSurface(fgs, 0,_pixels, 0);
             }
         }
         else
         {
             fgs = TTF_RenderUTF8_Solid(TextField, _text.c_str(), fg);
             if(fgs)
-                SDL_BlitSurface(fgs, &fgs->clip_rect,_pixels, &_pixels->clip_rect);
+                SDL_BlitSurface(fgs, 0,_pixels, 0);
         }
         
         _regen = false;

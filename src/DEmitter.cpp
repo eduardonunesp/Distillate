@@ -1,9 +1,9 @@
-#include "DEmitter.hpp"
-#include "DPoint.hpp"
-#include "DGlobals.hpp"
-#include "DUtils.hpp"
-#include "DSprite.hpp"
-#include "DParticle.hpp"
+#include "include/DEmitter.hpp"
+#include "include/DPoint.hpp"
+#include "include/DGlobals.hpp"
+#include "include/DUtils.hpp"
+#include "include/DSprite.hpp"
+#include "include/DParticle.hpp"
 
 namespace Distillate
 {

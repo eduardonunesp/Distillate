@@ -1,6 +1,6 @@
-#include "DQuadTree.hpp"
-#include "DList.hpp"
-#include "DRect.hpp"
+#include "include/DQuadTree.hpp"
+#include "include/DList.hpp"
+#include "include/DRect.hpp"
 #include <vector>
 #include <cstdio>
 

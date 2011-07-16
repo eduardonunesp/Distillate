@@ -119,7 +119,7 @@ void DGame::update()
 #else
         SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
-        SDL_FillRect(DGlobals::_buffer,0, 0);
+        SDL_FillRect(DGlobals::_buffer,0, DState::bgColor);
 #endif
 
         unsigned int now;
@@ -148,10 +148,6 @@ void DGame::update()
         }
 
         DGlobals::elapsed = _elapsed;
-        if(DGlobals::elapsed > DGlobals::maxElapsed)
-            DGlobals::elapsed = DGlobals::maxElapsed;
-        DGlobals::elapsed *= DGlobals::timeScale;
-
         _lasttime = now;
     }
 }

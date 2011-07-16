@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Distillate.hpp"
+#include "../../src/include/Distillate.hpp"
 
 using namespace Distillate;
 
@@ -31,20 +31,20 @@ public:
     {
         DState::update();
 
-        player->velocity->x = 0;     
-        player->velocity->y = 0;     
+        player->velocity.x = 0;
+        player->velocity.y = 0;
 
-        if(DGlobals::keys->checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
+        if(DGlobals::keys.checkKeyState(SDL_KEYUP, SDLK_ESCAPE))
             DGlobals::quit();
 
-        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_RIGHT))
-            player->velocity->x += 100;
-        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_LEFT))
-            player->velocity->x -= 100;
-        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_UP))
-            player->velocity->y -= 100;
-        if(DGlobals::keys->checkKeyState(SDL_KEYDOWN, SDLK_DOWN))
-            player->velocity->y += 100;
+        if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_RIGHT))
+            player->velocity.x += 100;
+        if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_LEFT))
+            player->velocity.x -= 100;
+        if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_UP))
+            player->velocity.y -= 100;
+        if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_DOWN))
+            player->velocity.y += 100;
 
         DUtils::overlap(enemy, player, State::Collide); 
 
@@ -84,7 +84,7 @@ public:
 class Test : public DGame
 {
 public:    
-    Test() : DGame(640, 480, new State()) {};
+    Test() : DGame("SPACE SHIP", 640, 480, new State()) {};
 };
 
 

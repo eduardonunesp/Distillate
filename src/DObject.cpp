@@ -1,8 +1,8 @@
-#include "DObject.hpp"
-#include "DGlobals.hpp"
-#include "DUtils.hpp"
-#include "DPoint.hpp"
-#include "DSprite.hpp"
+#include "include/DObject.hpp"
+#include "include/DGlobals.hpp"
+#include "include/DUtils.hpp"
+#include "include/DPoint.hpp"
+#include "include/DSprite.hpp"
 #include <cmath>
 
 namespace Distillate

@@ -3,7 +3,7 @@
 void FlameState::create() 
 {
     _flames_y =  new DEmitter(DGlobals::height, DGlobals::width/2); 
-    _flames_y->delay = 0;
+    _flames_y->delay = 0.2;
     _flames_y->gravity = 1000;
     _flames_y->maxRotation = 0;
     _flames_y->setYSpeed(-300,-500);
@@ -12,7 +12,7 @@ void FlameState::create()
     DSprite *particle = NULL;
     for(unsigned int i = 0;i < FlameState::_max_particles;i++) {
         particle = new DSprite();
-        particle->createGraphic(1, 1, 0xff0000ff);
+        particle->createGraphic(4, 4, 0x9900ffff);
         _flames_y->add(particle);
     }   
 
@@ -20,7 +20,7 @@ void FlameState::create()
     _flames_y->start(false);
 
     _flames_r =  new DEmitter(DGlobals::height, DGlobals::width/2); 
-    _flames_r->delay = 0;
+    _flames_r->delay = 0.5;
     _flames_r->gravity = 1000;;
     _flames_r->maxRotation = 0;
     _flames_r->setYSpeed(-300,- 500);
@@ -28,16 +28,14 @@ void FlameState::create()
 
     for(unsigned int i = 0;i < FlameState::_max_particles;i++) {
         particle = new DSprite();
-        particle->createGraphic(4, 4, 0xff00ffff);
+        particle->createGraphic(4, 4, 0x990000ff);
         _flames_r->add(particle);
     }   
 
     add(_flames_r);
     _flames_r->start(false);
 
-    _text_fps = new DText(10,10, 100, "FPS: ");
-    _text_fps->setFormat("nokiafc22.ttf", 14);
-    add(_text_fps);
+    DState::bgColor = 0xff999999;
 }
 
 void FlameState::update()
@@ -46,8 +44,4 @@ void FlameState::update()
 
     if(DGlobals::keys.checkKeyState(SDL_KEYDOWN, SDLK_ESCAPE))
         DGlobals::quit();
-
-    const std::string t = "FPS: " + DUtils::intToStr(DGlobals::FPS);;
-    _text_fps->setText(t);
-
 }

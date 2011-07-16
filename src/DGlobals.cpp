@@ -1,10 +1,10 @@
-#include "DGlobals.hpp"
-#include "DGame.hpp"
-#include "DPoint.hpp"
-#include "DKeyboard.hpp"
-#include "DMouse.hpp"
-#include "DUtils.hpp"
-#include "DState.hpp"
+#include "include/DGlobals.hpp"
+#include "include/DGame.hpp"
+#include "include/DPoint.hpp"
+#include "include/DKeyboard.hpp"
+#include "include/DMouse.hpp"
+#include "include/DUtils.hpp"
+#include "include/DState.hpp"
 #include <SDL/SDL_image.h>
 
 namespace Distillate

@@ -1,7 +1,7 @@
-#include "DState.hpp"
-#include "DObject.hpp"
-#include "DUtils.hpp"
-#include "DSprite.hpp"
+#include "include/DState.hpp"
+#include "include/DObject.hpp"
+#include "include/DUtils.hpp"
+#include "include/DSprite.hpp"
 
 namespace Distillate
 {

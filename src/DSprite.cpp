@@ -1,7 +1,7 @@
-#include "DSprite.hpp"
-#include "DPoint.hpp"
-#include "DAnim.hpp"
-#include "DGlobals.hpp"
+#include "include/DSprite.hpp"
+#include "include/DPoint.hpp"
+#include "include/DAnim.hpp"
+#include "include/DGlobals.hpp"
 #include <cmath>
 
 namespace Distillate
@@ -130,6 +130,7 @@ namespace Distillate
         glVertex3f( 100.f, 228.f, 0.f );
         glEnd()
 #else
+
         if((angle == 0) || (_bakedRotation > 0))
             SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
         else

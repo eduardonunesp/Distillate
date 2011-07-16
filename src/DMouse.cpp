@@ -1,5 +1,5 @@
-#include "DMouse.hpp"
-#include "DSprite.hpp"
+#include "include/DMouse.hpp"
+#include "include/DSprite.hpp"
 #include <SDL/SDL.h>
 
 namespace Distillate

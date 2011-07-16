@@ -11,7 +11,7 @@ protected:
     DEmitter *_flames_r;
     DEmitter *_flames_y;
     DText    *_text_fps;
-    static const unsigned int _max_particles = 2000;
+    static const unsigned int _max_particles = 5;
 
 public:
     FlameState() {};
