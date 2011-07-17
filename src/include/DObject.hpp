@@ -270,7 +270,7 @@ public:
     /**
      * Called by <code>DGroup</code>, commonly when game states are changed.
      */
-    void destroy() {};
+    virtual void destroy() {};
 
     /**
      * Set <code>solid</code> to true if you want to collide this object.

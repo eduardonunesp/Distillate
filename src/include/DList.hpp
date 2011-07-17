@@ -26,7 +26,13 @@ namespace Distillate
          * Creates a new link, and sets <code>object</code> and <code>next</code> to <code>null</null>.
          */
         DList() : object(NULL), next(NULL) {};
-        ~DList() { delete object; delete next;};
+        ~DList() 
+        { 
+            if(object) 
+                delete object; 
+            if(next) 
+                delete next;
+        }
     };
 
 }

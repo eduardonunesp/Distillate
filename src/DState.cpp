@@ -8,7 +8,8 @@ namespace Distillate
 
 unsigned int DState::bgColor;
 
-DState::DState()
+DState::DState(const std::string &Name):
+name(Name)
 {
 }
 

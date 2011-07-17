@@ -65,8 +65,9 @@ void DUtils::setWorldBounds(float X, float Y, float Width, float Height, unsigne
         DQuadTree::divisions = Divisions;
 }         
 
-bool DUtils::overlap(DObject *Object1,DObject *Object2, callbackFunctionQuadTree *Callback)
+bool DUtils::overlap(DObject *Object1, DObject *Object2, callbackFunctionQuadTree *Callback)
 {
+    return false;
     if((!Object1) || !Object1->exists ||
        (!Object2) || !Object2->exists )
         return false;
@@ -104,6 +105,7 @@ float DUtils::getAngle(float X, float Y)
 
 bool DUtils::collide(DObject *Object1, DObject *Object2)
 {
+    return false;
     if( (Object1 == NULL) || !Object1->exists ||
         (Object2 == NULL) || !Object2->exists )
         return false;

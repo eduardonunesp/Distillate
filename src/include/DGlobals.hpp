@@ -199,7 +199,7 @@ namespace Distillate
         /**
          * Sets a new state
          */
-        static void setState(DState *state);
+        static void setState(const std::string &Name);
 
     private:
 
@@ -211,7 +211,7 @@ namespace Distillate
         /**
          * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
          */
-        static void setGameData(DGame* Game, const std::string &GameTitle, unsigned int Width, unsigned int Height, unsigned int Zoom);
+        static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom);
 
         DGlobals() {};
         virtual ~DGlobals() {};

@@ -1,5 +1,8 @@
 #include "include/DGame.hpp"
-#include "include/Distillate.hpp"
+#include "include/DState.hpp"
+#include "include/DGlobals.hpp"
+#include "include/DKeyboard.hpp"
+#include "include/DMouse.hpp"
 
 #ifdef GL_RENDER
 #include <GL/gl.h>
@@ -10,57 +13,85 @@
 namespace Distillate
 {
 
-DGame::DGame(const std::string &GameTitle, unsigned int GameSizeX, unsigned int GameSizeY, DState* InitialState, unsigned int Zoom):
+DGame::DGame(const std::string &GameTitle):
+#ifdef SDL_RENDER
+_screen(NULL),
+#endif
+_state(NULL),
+_failtype(0),
 _max_frame_count(10),
 _elapsed(0),
 _lasttime(0),
 minFPS(20),
-maxFPS(60),
-_state(InitialState)
+maxFPS(60)
 {
-    DState::bgColor = 0xff000000;
-    DGlobals::setGameData(this, GameTitle, GameSizeX, GameSizeY, Zoom);
-    create();
+#ifdef DEBUG
+    fprintf(stdout, "DGame constructor\n");
+#endif
+    DGlobals::gameTitle = GameTitle;
 }
 
 DGame::~DGame()
 {
+#ifdef DEBUG
+    fprintf(stdout, "DGame destructor\n");
+#endif
+
 #ifdef SDL_RENDER
     delete _screen;
 #endif
-
-    delete _state;
 }
 
-void DGame::switchState(DState* State)
-{
-    if(_state)
-    {
-        _state->destroy();
-    }
-
-    _state = State;
-    _state->create();
-}
-
-void DGame::create()
+bool DGame::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP)
 {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
-        throw std::runtime_error("Cannot initialize SDL");
+    {
+        _failtype = -1;
+        fprintf(stderr, "Cannot initialize SDL\n");
+        return false;
+    }
+
+    DState::bgColor = 0xff000000;
+    DGlobals::setGameData(this, GameSizeX, GameSizeY, 2);
+#ifdef DEBUG
+    fprintf(stdout, "Setup Game (W: %d H: %d BPP: %d) \n", GameSizeX, GameSizeY, BPP);
+#endif
     
     unsigned int flags;
 
 #ifdef GL_RENDER    
+#ifdef DEBUG
+    fprintf(stdout, "GL_RENDER\n");
+#endif
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     flags = SDL_OPENGL;
-    SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
+    if(!SDL_SetVideoMode(DGlobals::width, DGlobals::height, BPP, flags))
+    {
+        _failtype = -1;
+        fprintf(stderr, "Cannot initialize Video Mode\n");
+        return false;
+    }
 #elif SDL_RENDER
+#ifdef DEBUG
+    fprintf(stdout, "SDL_RENDER\n");
+#endif
     flags = SDL_SWSURFACE;
-    _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, 16, flags);
-    if(!_screen)
-        throw std::runtime_error("Cannot initialize screen");
+    _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, BPP, flags);
+
+    if(!_screen) 
+    {
+        _failtype = -1;
+        fprintf(stderr, "Cannot initialize Video Mode\n");
+        return false;
+    }
+
     if(TTF_Init() < 0)
-        throw std::runtime_error("Cannot initialize TTF system");
+    {
+        _failtype = -1;
+        fprintf(stderr, "Cannot initialize TTF system\n");
+        return false;
+    }
+    
     atexit(TTF_Quit);
 #endif
 
@@ -77,14 +108,60 @@ void DGame::create()
 #endif
 
     SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
-    switchState(_state);
-    _lasttime = SDL_GetTicks();
     atexit(SDL_Quit);
-    update();
+
+#ifdef DEBUG
+    fprintf(stdout, "Setup for %s ok!\n", DGlobals::gameTitle.c_str());
+#endif
+    return true;
 }
 
-void DGame::update()
+void DGame::add(DState *State, bool Curr)
 {
+    if(!State) 
+    {
+        fprintf(stderr, "Invalid State passed [%p]\n", (void*) State);
+        return;
+    }
+
+    _states[State->name] = State;
+#ifdef DEBUG
+    fprintf(stdout, "State %s added\n", State->name.c_str());
+#endif
+
+    if(Curr) switchState(State->name);
+}
+
+bool DGame::switchState(const std::string &Name)
+{
+    DState *new_state = _states[Name];
+    if(!new_state)
+    {
+        fprintf(stderr, "State '%s' not found", Name.c_str());
+        return false;
+    }
+
+    _state = new_state;
+    _state->create();
+
+#ifdef DEBUG
+    fprintf(stdout, "Current state has switched for state %s\n", new_state->name.c_str());
+#endif
+
+    return true;
+}
+
+int DGame::run()
+{
+    if (!_state)
+    {
+        fprintf(stderr, "No state provided \n");
+        return -1;
+    }
+
+    if (_failtype < 0)
+        return _failtype;
+
     while(DGlobals::_running)
     {
         while(SDL_PollEvent(&_event))
@@ -93,6 +170,9 @@ void DGame::update()
             {
                 case SDL_QUIT:
                     DGlobals::quit();
+#ifdef DEBUG
+                    fprintf(stdout, "Quit pressed\n");
+#endif
                     break;
                 case SDL_KEYUP:
                     DGlobals::keys.setKeyState(SDL_KEYUP, _event.key.keysym.sym);
@@ -112,8 +192,15 @@ void DGame::update()
             }
         }
 
-        _state->update();
-        _state->render();
+        if(_state)
+        {
+            _state->update();
+            _state->render();
+        }
+        else
+        {
+            fprintf(stderr, "State not found\n");
+        }
         
 #ifdef GL_RENDER       
         SDL_GL_SwapBuffers();
@@ -151,6 +238,8 @@ void DGame::update()
         DGlobals::elapsed = _elapsed;
         _lasttime = now;
     }
+
+    return 0;
 }
 
 }

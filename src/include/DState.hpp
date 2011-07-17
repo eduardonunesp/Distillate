@@ -2,6 +2,7 @@
 #define DSTATE_HPP
 
 #include <SDL/SDL.h>
+#include <string>
 #include "DGroup.hpp"
 
 namespace Distillate
@@ -25,6 +26,7 @@ class DSprite;
 class DState
 {
 public:
+    std::string name;
 
     /**
      * This static variable indicates the "clear color"
@@ -42,7 +44,7 @@ public:
      * Creates a new <code>DState</code> object,
      * instantiating <code>screen</code> if necessary.
      */
-    DState();
+    DState(const std::string &Name);
     virtual ~DState();
 
     /**

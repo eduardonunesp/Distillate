@@ -37,11 +37,10 @@ bool DGlobals::pause()
     return _pause;
 }
 
-void DGlobals::setGameData(DGame* Game, const std::string &GameTitle, unsigned int Width, unsigned int Height, unsigned int Zoom)
+void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
 {
     _running = true;
     _game = Game;
-    gameTitle = GameTitle;
     width = Width;
     height = Height;
 
@@ -97,9 +96,9 @@ SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, 
 #endif
 }
 
-void DGlobals::setState(DState *state)
+void DGlobals::setState(const std::string &Name)
 {
-    _game->switchState(state);
+    _game->switchState(Name);
 }
 
 }

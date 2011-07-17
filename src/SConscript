@@ -14,14 +14,15 @@ libenv = Environment( CPPFLAGS = CommonFlags)
 libenv.VariantDir('build/', 'src/')
 
 if int(debug):
-	libenv.Append(CPPFLAGS = ' -g -ggdb')
+    libenv.Append(CPPFLAGS = ' -g -ggdb')
+    libenv.Append(CPPDEFINES = ['DEBUG'])
 
 if render == 'sdl':
-    libenv.Append(CPPDEFINES = 'SDL_RENDER')
+    libenv.Append(CPPDEFINES = ['SDL_RENDER'])
     Libs.append('SDL_ttf')
 
 elif render == 'gl':
-    libenv.Append(CPPDEFINES = 'GL_RENDER')
+    libenv.Append(CPPDEFINES = ['GL_RENDER'])
     Libs.append('GL')
     
 

@@ -100,7 +100,7 @@ namespace Distillate
          */
         DQuadTree() {};
         DQuadTree(int X, int Y, int Width, int Height, DQuadTree *Parent = NULL);
-        virtual ~DQuadTree();
+        ~DQuadTree();
 
         /**
          * Call this function to add an object to the root of the tree.
