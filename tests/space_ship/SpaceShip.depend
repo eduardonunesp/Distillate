@@ -1,0 +1,106 @@
+# depslib dependency file v1.0
+1310944132 source:/home/eduardo/Projects/Distillate/tests/space_ship/main.cpp
+	<iostream>
+	"Distillate.hpp"
+
+1310944064 /home/eduardo/Projects/Distillate/src/include/Distillate.hpp
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_mixer.h>
+	<SDL/SDL_ttf.h>
+	<cstdio>
+	<map>
+	<string>
+	<vector>
+	"DAnim.hpp"
+	"DEmitter.hpp"
+	"DGame.hpp"
+	"DGlobals.hpp"
+	"DGroup.hpp"
+	"DKeyboard.hpp"
+	"DList.hpp"
+	"DMouse.hpp"
+	"DObject.hpp"
+	"DPoint.hpp"
+	"DQuadTree.hpp"
+	"DRect.hpp"
+	"DSprite.hpp"
+	"DState.hpp"
+	"DText.hpp"
+	"DUtils.hpp"
+
+1310943550 /home/eduardo/Projects/Distillate/src/include/DAnim.hpp
+	<cstdio>
+	<string>
+	<vector>
+
+1310943575 /home/eduardo/Projects/Distillate/src/include/DEmitter.hpp
+	<string>
+	"DGroup.hpp"
+
+1310943678 /home/eduardo/Projects/Distillate/src/include/DGroup.hpp
+	<vector>
+	<string>
+	"DObject.hpp"
+
+1310927364 /home/eduardo/Projects/Distillate/src/include/DObject.hpp
+	<vector>
+	"DRect.hpp"
+
+1310943844 /home/eduardo/Projects/Distillate/src/include/DRect.hpp
+	"DPoint.hpp"
+
+1310943792 /home/eduardo/Projects/Distillate/src/include/DPoint.hpp
+
+1310943352 /home/eduardo/Projects/Distillate/src/include/DGame.hpp
+	<SDL/SDL.h>
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+	<string>
+	<map>
+
+1310942926 /home/eduardo/Projects/Distillate/src/include/DGlobals.hpp
+	<SDL/SDL.h>
+	<string>
+	<vector>
+	<map>
+
+1310942863 /home/eduardo/Projects/Distillate/src/include/DKeyboard.hpp
+	<map>
+
+1310943746 /home/eduardo/Projects/Distillate/src/include/DList.hpp
+	"DObject.hpp"
+
+1310943215 /home/eduardo/Projects/Distillate/src/include/DMouse.hpp
+	<map>
+
+1310943811 /home/eduardo/Projects/Distillate/src/include/DQuadTree.hpp
+	"DRect.hpp"
+	"DUtils.hpp"
+
+1310944031 /home/eduardo/Projects/Distillate/src/include/DUtils.hpp
+	<cmath>
+	<algorithm>
+	<functional>
+	<utility>
+	<string>
+	<sstream>
+
+1310943887 /home/eduardo/Projects/Distillate/src/include/DSprite.hpp
+	<string>
+	<vector>
+	<GL/gl.h>
+	<SDL/SDL.h>
+	"DObject.hpp"
+	"DUtils.hpp"
+
+1310943474 /home/eduardo/Projects/Distillate/src/include/DState.hpp
+	<SDL/SDL.h>
+	<string>
+	"DGroup.hpp"
+
+1310943982 /home/eduardo/Projects/Distillate/src/include/DText.hpp
+	<SDL/SDL_ttf.h>
+	<string>
+	"DSprite.hpp"
+

@@ -22,6 +22,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include <X11/extensions/xf86vmode.h>        
 #endif
 
 #include <string>
@@ -53,15 +54,24 @@ namespace Distillate {
 #endif
 
 #if defined(__linux__) && defined(GL_RENDER)
-         Display             *dpy;
-         int                  screen;
-         Window               win;
-         GLXContext           ctx;
-         XSetWindowAttributes attr;
-         bool                 fs;
-         int                  x,y;
-         unsigned int         width, height;
-         unsigned int         bpp;
+         typedef struct {
+             Display *dpy;
+             int screen;
+             Window win;
+             GLXContext ctx;
+             XSetWindowAttributes attr;
+             bool fs; 
+             bool doublebuffer;
+             Colormap cmap;
+             int x, y;
+             unsigned int width, height;
+             unsigned int bpp;
+             int dummy;
+             GLboolean needRedraw;
+             XF86VidModeModeInfo deskMode;
+         } GLWindow;
+
+        GLWindow GLWin;
 #endif
 
          /* State stuff */

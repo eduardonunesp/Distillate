@@ -1,7 +1,9 @@
+from sys import platform
+
 libname = 'Distillate';
 
 IncludePath = ['include/']
-LibsPath = []   
+LibsPath = ['/usr/lib/X11']   
 Libs = []
 
 CommonFlags = ' -Wall -pedantic'
@@ -28,6 +30,10 @@ if render == 'sdl':
 elif render == 'gl':
     libenv.Append(CPPDEFINES = ['GL_RENDER'])
     Libs.append('GL')
+    Libs.append('GLU')
+    if platform == 'linux2':
+        Libs.append('X11')
+        Libs.append('Xxf86vm')
 
 if input == 'sdl':
     libenv.Append(CPPDEFINES = ['SDL_INPUT'])

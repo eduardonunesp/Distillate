@@ -14,7 +14,9 @@ namespace Distillate {
 
     void DMouse::showCursor(bool show)
     {
-         SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
+#if defined(SDL_RENDER) || defined(SDL_INPUT)
+        SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
+#endif   
     }
 
     void DMouse::setButtonState(int state, int b)

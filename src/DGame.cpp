@@ -43,72 +43,168 @@ namespace Distillate {
 
     bool DGame::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP)
     {
-#if defined(SDL_RENDER) || defined(GL_RENDER) || defined(SDL_INPUT)
-#if defined(SDL_RENDER) || GL_RENDER        
+        DGlobals::setGameData(this, GameSizeX, GameSizeY, 2);
+        DState::bgColor = 0xff000000;
+
+#if defined(SDL_RENDER)
         if(SDL_Init(SDL_INIT_VIDEO) < 0)
-#elif defined(SDL_INPUT)
-        if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
-#endif
-#endif
         {
-              _failtype = -1;
-              fprintf(stderr, "Cannot initialize SDL\n");
-              return false;
+            _failtype = -1;
+            fprintf(stderr, "Cannot initialize SDL\n");
+            return false;
         }
 
-         DState::bgColor = 0xff000000;
-         DGlobals::setGameData(this, GameSizeX, GameSizeY, 2);
 #ifdef DEBUG
-         fprintf(stdout, "Setup Game (W: %d H: %d BPP: %d) \n", GameSizeX, GameSizeY, BPP);
+        fprintf(stdout, "Setup Game (W: %d H: %d BPP: %d) \n", GameSizeX, GameSizeY, BPP);
+#endif
+        _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, BPP, SDL_SWSURFACE);
+
+        if(!_screen) {
+            _failtype = -1;
+            fprintf(stderr, "Cannot initialize Video Mode\n");
+            return false;
+        }
+
+        if(TTF_Init() < 0) {
+                _failtype = -1;
+                fprintf(stderr, "Cannot initialize TTF system\n");
+                return false;
+            }
+
+
+            SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
+
+            atexit(SDL_Quit);
+            atexit(TTF_Quit);
+#elif defined(SDL_INPUT)
+            if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
+            {
+                _failtype = -1;
+                fprintf(stderr, "Cannot initialize SDL\n");
+                return false;
+            }
+
+            atexit(SDL_Quit);
+#endif         
+
+#if defined(__linux__) && defined(GL_RENDER)
+            int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 4,
+                GLX_GREEN_SIZE, 4,
+                GLX_BLUE_SIZE, 4,
+                GLX_DEPTH_SIZE, 16, 
+                None};
+
+            int attrListDbl[] = {GLX_RGBA, GLX_DOUBLEBUFFER,
+                GLX_RED_SIZE, 4,
+                GLX_GREEN_SIZE, 4,
+                GLX_BLUE_SIZE, 4,
+                GLX_DEPTH_SIZE, 16, 
+                None};
+
+            XVisualInfo *vi;
+            Colormap cmap;
+            int dpyWidth, dpyHeight;
+            int i;
+            int vidModeMajorVersion, vidModeMinorVersion;
+            XF86VidModeModeInfo **modes;
+            int modeNum;
+            int bestMode;
+            Atom wmDelete;
+            Window winDummy;
+            unsigned int borderDummy;
+
+            GLWin.fs = false;
+            bestMode = 0;
+
+            GLWin.dpy = XOpenDisplay(0);
+            GLWin.screen = DefaultScreen(GLWin.dpy);
+            XF86VidModeQueryVersion(GLWin.dpy, &vidModeMajorVersion,
+                    &vidModeMinorVersion);
+
+            XF86VidModeGetAllModeLines(GLWin.dpy, GLWin.screen, &modeNum, &modes);
+
+            GLWin.deskMode = *modes[0];
+
+            for (i = 0; i < modeNum; i++)
+            {
+                if ((modes[i]->hdisplay == GameSizeX) && (modes[i]->vdisplay == GameSizeY))
+                {
+                    bestMode = i;
+                }
+            }
+
+            vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListDbl);
+            if(NULL == vi)
+            {
+                vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListSgl);
+                GLWin.doublebuffer = false;
+            }
+            else
+            {
+                GLWin.doublebuffer = true;
+            }
+
+            GLWin.ctx = glXCreateContext(GLWin.dpy, vi, 0, GL_TRUE);
+
+            cmap = XCreateColormap(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),vi->visual, AllocNone);
+            GLWin.attr.colormap = cmap;
+            GLWin.attr.border_pixel = 0;
+
+            if(GLWin.fs)
+            {
+                XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, modes[bestMode]);
+                XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
+                dpyWidth = modes[bestMode]->hdisplay;
+                dpyHeight = modes[bestMode]->vdisplay;
+                XFree(modes);
+                GLWin.attr.override_redirect = True;
+                GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
+                    StructureNotifyMask;
+                GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
+                        0, 0, dpyWidth, dpyHeight, 0, vi->depth, InputOutput, vi->visual,
+                        CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,
+                        &GLWin.attr);
+                XWarpPointer(GLWin.dpy, None, GLWin.win, 0, 0, 0, 0, 0, 0);
+                XMapRaised(GLWin.dpy, GLWin.win);
+                XGrabKeyboard(GLWin.dpy, GLWin.win, True, GrabModeAsync,GrabModeAsync, CurrentTime);
+                XGrabPointer(GLWin.dpy, GLWin.win, True, ButtonPressMask,
+                        GrabModeAsync, GrabModeAsync, GLWin.win, None, CurrentTime);
+            }
+            else
+            {
+                GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
+                    StructureNotifyMask;
+                GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
+                        0, 0, GameSizeX, GameSizeY, 0, vi->depth, InputOutput, vi->visual,
+                        CWBorderPixel | CWColormap | CWEventMask, &GLWin.attr);
+                wmDelete = XInternAtom(GLWin.dpy, "WM_DELETE_WINDOW", True);
+                XSetWMProtocols(GLWin.dpy, GLWin.win, &wmDelete, 1);
+                XSetStandardProperties(GLWin.dpy, GLWin.win, DGlobals::gameTitle.c_str(),
+                    DGlobals::gameTitle.c_str(), None, NULL, 0, NULL);
+            XMapRaised(GLWin.dpy, GLWin.win);
+        }
+
+        glXMakeCurrent(GLWin.dpy, GLWin.win, GLWin.ctx);
+        XGetGeometry(GLWin.dpy, GLWin.win, &winDummy, &GLWin.x, &GLWin.y,
+                &GLWin.width, &GLWin.height, &borderDummy, &GLWin.bpp);
+
+        glEnable( GL_TEXTURE_2D );
+        glPushAttrib(GL_ENABLE_BIT);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+        glEnable(GL_TEXTURE_2D);
+
+        glViewport(0, 0, DGlobals::width, DGlobals::height);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(45.0f, (GLfloat)DGlobals::width / (GLfloat)DGlobals::height, 0.1f, 100.0f);
+        glMatrixMode(GL_MODELVIEW);
+        glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+        XSetStandardProperties(GLWin.dpy, GLWin.win,DGlobals::gameTitle.c_str(),DGlobals::gameTitle.c_str(), None, NULL, 0, NULL);
+
 #endif
 
-#if defined(GL_RENDER)
-#ifdef DEBUG
-         fprintf(stdout, "GL_RENDER\n");
-#endif
-#elif defined(SDL_RENDER)
-#ifdef DEBUG
-         fprintf(stdout, "SDL_RENDER\n");
-#endif
-         unsigned int flags = SDL_SWSURFACE;
-         _screen = SDL_SetVideoMode(DGlobals::width, DGlobals::height, BPP, flags);
-
-         if(!_screen) {
-              _failtype = -1;
-              fprintf(stderr, "Cannot initialize Video Mode\n");
-              return false;
-         }
-
-         if(TTF_Init() < 0) {
-              _failtype = -1;
-              fprintf(stderr, "Cannot initialize TTF system\n");
-              return false;
-         }
-
-
-         SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
-
-         atexit(SDL_Quit);
-         atexit(TTF_Quit);
-#endif
-
-#if defined(GL_RENDER)
-         glEnable( GL_TEXTURE_2D );
-         glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-         glViewport( 0, 0, 640, 480 );
-         glClear( GL_COLOR_BUFFER_BIT );
-         glMatrixMode( GL_PROJECTION );
-         glLoadIdentity();
-         glOrtho(0.0f, 640, 480, 0.0f, -1.0f, 1.0f);
-         glMatrixMode( GL_MODELVIEW );
-         glLoadIdentity();
-#endif
-
-#ifdef DEBUG
-         fprintf(stdout, "Setup for %s ok!\n", DGlobals::gameTitle.c_str());
-#endif
-
-         return true;
+        return true;
     }
 
     void DGame::add(DState *State, bool Curr)
@@ -191,10 +287,17 @@ namespace Distillate {
               }
 
 #if defined(GL_RENDER)
+            if(GLWin.doublebuffer)
+                glXSwapBuffers(GLWin.dpy, GLWin.win);
+            else
+                glFlush();
+            glClearColor(255.0f,255.0f,255.0f,1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+            glLoadIdentity();
 #elif defined(SDL_RENDER)
-              SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
-              SDL_UpdateRect(_screen, 0,0,0,0);
-              SDL_FillRect(DGlobals::_buffer,0, DState::bgColor);
+            SDL_BlitSurface(DGlobals::_buffer, 0, _screen, 0);
+            SDL_UpdateRect(_screen, 0,0,0,0);
+            SDL_FillRect(DGlobals::_buffer,0, DState::bgColor);
 #endif
 
               unsigned int now;
