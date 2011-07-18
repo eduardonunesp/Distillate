@@ -3,21 +3,19 @@
 
 #include <map>
 
-namespace Distillate 
-{
-    class DKeyboard
-    {
+namespace Distillate {
+    class DKeyboard {
     public:
-        DKeyboard();
-        ~DKeyboard();
+         DKeyboard();
+         ~DKeyboard();
 
-        typedef std::map<int, int> KeyMap ;
+         typedef std::map<int, int> KeyMap ;
 
-        void setKeyState(int state, int k);
-        bool checkKeyState(int state, int k);
+         void setKeyState(int state, int k);
+         bool checkKeyState(int state, int k);
 
     private:
-        KeyMap _keys;
+         KeyMap _keys;
     };
 }
 #endif

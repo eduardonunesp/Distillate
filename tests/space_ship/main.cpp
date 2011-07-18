@@ -3,27 +3,24 @@
 
 using namespace Distillate;
 
-class State : public DState
-{
+class State : public DState {
 public:
-    State() : DState("state") {};
-    ~State() {}
+     State() : DState("state") {};
+     ~State() {}
 };
 
-class Test : public DGame
-{
-public:    
-    Test() : DGame("Space Ship") {};
+class Test : public DGame {
+public:
+     Test() : DGame("Space Ship") {};
 };
-
 
 int main(int argc, char* argv[])
 {
-    Test test;
-    test.setup(640, 480, 16);
+     Test test;
+     test.setup(640, 480, 16);
 
-    State state;
-    test.add(&state, true);
+     State state;
+     test.add(&state, true);
 
-    return test.run();
+     return test.run();
 }

@@ -28,4 +28,4 @@
 #include "DText.hpp"
 #include "DUtils.hpp"
 
-#endif
+#endif /* __DISTILLATE_HPP__ */

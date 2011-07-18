@@ -1,18 +1,33 @@
 #ifndef __DGAME_HPP__
 #define __DGAME_HPP__
 
-#ifdef GL_RENDER
+/* SDL already cross */
+#if defined(SDL_RENDER)
 #include <SDL/SDL.h>
-#elif SDL_RENDER
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#endif
+
+/* If we only use the INPUT system */
+#if defined(SDL_INPUT)
+#include <SDL/SDL_events.h>    
+#endif
+
+/* Make it cross */
+#if defined(__linux__) && defined(GL_RENDER)
+#include <cstdio>
+#include <cstdlib>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
 #endif
 
 #include <string>
 #include <map>
 
-namespace Distillate
-{
+namespace Distillate {
     /* Forwards */
     class DPoint;
     class DState;
@@ -24,71 +39,85 @@ namespace Distillate
      * It is basically only used to create your game object in the first place,
      * after that DGlobals and DState have all the useful stuff you actually need.
      */
-    class DGame 
-    {
-        friend class DGlobals;
-        typedef std::map<std::string, DState*> States;
+    class DGame {
+         friend class DGlobals;
+         typedef std::map<std::string, DState*> States;
     private:
-        /* Display & Event stuff */
-#ifdef SDL_RENDER
-        SDL_Surface* _screen;
+         /* Display & Event stuff */
+#if defined(SDL_RENDER)
+         SDL_Surface* _screen;
 #endif
-        SDL_Event _event;
 
-        /* State stuff */
-        DState* _state;
-        States _states;
+#if defined(SDL_RENDER) || defined(SDL_INPUT) 
+         SDL_Event _event;
+#endif
 
-        /* Fail result */
-        int _failtype;
+#if defined(__linux__) && defined(GL_RENDER)
+         Display             *dpy;
+         int                  screen;
+         Window               win;
+         GLXContext           ctx;
+         XSetWindowAttributes attr;
+         bool                 fs;
+         int                  x,y;
+         unsigned int         width, height;
+         unsigned int         bpp;
+#endif
 
-        /* FPS private stuff */
-        const unsigned int _max_frame_count;
-        float _elapsed;
-        unsigned int _lasttime;
-        unsigned int _frametime;
-        unsigned int _framecount;
-        unsigned int _timeaccum;
+         /* State stuff */
+         DState* _state;
+         States _states;
+
+         /* Fail result */
+         int _failtype;
+
+         /* FPS private stuff */
+         const unsigned int _max_frame_count;
+         float _elapsed;
+         unsigned int _lasttime;
+         unsigned int _frametime;
+         unsigned int _framecount;
+         unsigned int _timeaccum;
 
     protected:
-        /* FPS protected stuff */
-        unsigned int minFPS;
-        unsigned int maxFPS;
+         /* FPS protected stuff */
+         unsigned int minFPS;
+         unsigned int maxFPS;
 
     public:
-        /**
-         * Game object constructor - sets up the basic properties of your game.
-         *
-         * @param	GameSizeX		The width of your game in pixels (e.g. 320).
-         * @param	GameSizeY		The height of your game in pixels (e.g. 240).
-         * @param	InitialState	The class name of the state you want to create and switch to first (e.g. MenuState).
-         * @param	Zoom			The level of zoom (e.g. 2 means all pixels are now rendered twice as big).
-         */
-        DGame(const std::string &GameTitle);
-        virtual ~DGame();
+         /**
+          * Game object constructor - sets up the basic properties of your game.
+          *
+          * @param	GameSizeX		The width of your game in pixels (e.g. 320).
+          * @param	GameSizeY		The height of your game in pixels (e.g. 240).
+          * @param	InitialState	The class name of the state you want to create and switch to first (e.g. MenuState).
+          * @param	Zoom			The level of zoom (e.g. 2 means all pixels are now rendered twice as big).
+          */
+         DGame(const std::string &GameTitle);
+         virtual ~DGame();
 
-        /**
-         * Used to instantiate the guts of flixel once we have a valid pointer to the root.
-         */
-        bool setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP);
-    
-        /**
-         * Used to states
-         */
-        void add(DState *State, bool Curr = false);
+         /**
+          * Used to instantiate the guts of flixel once we have a valid pointer to the root.
+          */
+         bool setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP);
 
-        /**
-         * Switch from one <code>DState</code> to another.
-         * Usually called from <code>DG</code>.
-         *
-         * @param	State		The class name of the state you want (e.g. PlayState)
-         */
-        bool switchState(const std::string &Name);
+         /**
+          * Used to states
+          */
+         void add(DState *State, bool Curr = false);
 
-        /**
-         * This is the main game loop.  It controls all the updating and rendering.
-         */
-        int run();
+         /**
+          * Switch from one <code>DState</code> to another.
+          * Usually called from <code>DG</code>.
+          *
+          * @param	State		The class name of the state you want (e.g. PlayState)
+          */
+         bool switchState(const std::string &Name);
+
+         /**
+          * This is the main game loop.  It controls all the updating and rendering.
+          */
+         int run();
     };
 }
 #endif  /* __DGAME_HPP__ */

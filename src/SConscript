@@ -2,13 +2,15 @@ libname = 'Distillate';
 
 IncludePath = ['include/']
 LibsPath = []   
-Libs = ['SDL','SDL_mixer', 'SDL_image']
+Libs = []
 
 CommonFlags = ' -Wall -pedantic'
 
 debug    = ARGUMENTS.get('debug', 0)
-shared   = ARGUMENTS.get('shared', 0)
+linkage  = ARGUMENTS.get('linkage', 'static')
+
 render   = ARGUMENTS.get('render', 'sdl')
+input    = ARGUMENTS.get('input', 'sdl')
 
 libenv = Environment( CPPFLAGS = CommonFlags)
 libenv.VariantDir('build/', 'src/')
@@ -19,12 +21,17 @@ if int(debug):
 
 if render == 'sdl':
     libenv.Append(CPPDEFINES = ['SDL_RENDER'])
+    Libs.append('SDL')
+    Libs.append('SDL_image')
     Libs.append('SDL_ttf')
 
 elif render == 'gl':
     libenv.Append(CPPDEFINES = ['GL_RENDER'])
     Libs.append('GL')
-    
+
+if input == 'sdl':
+    libenv.Append(CPPDEFINES = ['SDL_INPUT'])
+    Libs.append('SDL')
 
 files = Split("""
 DEmitter.cpp
@@ -41,8 +48,8 @@ DText.cpp
 DUtils.cpp
 """);
 
-if int(shared):
-    lib = libenv.SharedLibrary(target = "../%s" % libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
-else:
+if linkage == 'static':
     lib = libenv.StaticLibrary(target = "../%s" % libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+elif linkage == 'shared':
+    lib = libenv.SharedLibrary(target = "../%s" % libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
 

@@ -2,23 +2,25 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Distillate" />
+		<Option title="libDistillate" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\Distillate" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
-				<Option type="1" />
+				<Option output="bin/Debug/libDistillate" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\Distillate" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
-				<Option type="1" />
+				<Option output="bin/Release/libDistillate" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
@@ -30,58 +32,48 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-DSDL_BACKEND" />
-			<Add directory="src\include" />
-			<Add directory="src" />
-			<Add directory="backend\include" />
-			<Add directory="..\SDL\include" />
+			<Add option="-DGL_RENDER" />
+			<Add option="-DDEBUG" />
+			<Add directory="src/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32 -lSDLMain -lSDL" />
-			<Add directory="..\SDL\lib" />
+			<Add library="SDL" />
+			<Add library="SDL_mixer" />
+			<Add library="SDL_image" />
+			<Add library="SDL_ttf" />
+			<Add library="GL" />
+			<Add directory="../SDL/lib" />
 		</Linker>
-		<Unit filename=".gitignore" />
-		<Unit filename="AUTHORS" />
-		<Unit filename="Distillate.depend" />
-		<Unit filename="Distillate.layout" />
-		<Unit filename="LICENSE" />
-		<Unit filename="README" />
-		<Unit filename="SConstruct" />
-		<Unit filename="TODO" />
-		<Unit filename="backend\Video.cpp" />
-		<Unit filename="backend\include\Video.hpp" />
-		<Unit filename="src\DClass.cpp" />
-		<Unit filename="src\DEmitter.cpp" />
-		<Unit filename="src\DGame.cpp" />
-		<Unit filename="src\DGlobals.cpp" />
-		<Unit filename="src\DGroup.cpp" />
-		<Unit filename="src\DInput.cpp" />
-		<Unit filename="src\DKeyboard.cpp" />
-		<Unit filename="src\DMouse.cpp" />
-		<Unit filename="src\DObject.cpp" />
-		<Unit filename="src\DQuadTree.cpp" />
-		<Unit filename="src\DSprite.cpp" />
-		<Unit filename="src\DState.cpp" />
-		<Unit filename="src\DUtils.cpp" />
-		<Unit filename="src\include\DAnim.hpp" />
-		<Unit filename="src\include\DClass.hpp" />
-		<Unit filename="src\include\DConsole.hpp" />
-		<Unit filename="src\include\DEmitter.hpp" />
-		<Unit filename="src\include\DGame.hpp" />
-		<Unit filename="src\include\DGlobals.hpp" />
-		<Unit filename="src\include\DGroup.hpp" />
-		<Unit filename="src\include\DInput.hpp" />
-		<Unit filename="src\include\DKeyboard.hpp" />
-		<Unit filename="src\include\DList.hpp" />
-		<Unit filename="src\include\DMouse.hpp" />
-		<Unit filename="src\include\DObject.hpp" />
-		<Unit filename="src\include\DPoint.hpp" />
-		<Unit filename="src\include\DQuadTree.hpp" />
-		<Unit filename="src\include\DRect.hpp" />
-		<Unit filename="src\include\DSprite.hpp" />
-		<Unit filename="src\include\DState.hpp" />
-		<Unit filename="src\include\DUtils.hpp" />
-		<Unit filename="test\main.cpp" />
+		<Unit filename="src/DEmitter.cpp" />
+		<Unit filename="src/DGame.cpp" />
+		<Unit filename="src/DGlobals.cpp" />
+		<Unit filename="src/DGroup.cpp" />
+		<Unit filename="src/DKeyboard.cpp" />
+		<Unit filename="src/DMouse.cpp" />
+		<Unit filename="src/DObject.cpp" />
+		<Unit filename="src/DQuadTree.cpp" />
+		<Unit filename="src/DSprite.cpp" />
+		<Unit filename="src/DState.cpp" />
+		<Unit filename="src/DText.cpp" />
+		<Unit filename="src/DUtils.cpp" />
+		<Unit filename="src/include/DAnim.hpp" />
+		<Unit filename="src/include/DEmitter.hpp" />
+		<Unit filename="src/include/DGame.hpp" />
+		<Unit filename="src/include/DGlobals.hpp" />
+		<Unit filename="src/include/DGroup.hpp" />
+		<Unit filename="src/include/DKeyboard.hpp" />
+		<Unit filename="src/include/DList.hpp" />
+		<Unit filename="src/include/DMouse.hpp" />
+		<Unit filename="src/include/DObject.hpp" />
+		<Unit filename="src/include/DParticle.hpp" />
+		<Unit filename="src/include/DPoint.hpp" />
+		<Unit filename="src/include/DQuadTree.hpp" />
+		<Unit filename="src/include/DRect.hpp" />
+		<Unit filename="src/include/DSprite.hpp" />
+		<Unit filename="src/include/DState.hpp" />
+		<Unit filename="src/include/DText.hpp" />
+		<Unit filename="src/include/DUtils.hpp" />
+		<Unit filename="src/include/Distillate.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
