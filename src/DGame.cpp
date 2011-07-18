@@ -10,6 +10,10 @@
 #include <GL/glu.h>
 #endif
 
+#if defined(__linux__)
+#include <sys/timeb.h> 
+#endif
+
 namespace Distillate {
     DGame::DGame(const std::string &GameTitle):
 #if defined(SDL_RENDER)
@@ -277,6 +281,50 @@ namespace Distillate {
                         break;
                    }
               }
+
+#elif defined(GL_RENDER) && defined(__linux__)
+              while(XPending(GLWin.dpy) > 0)
+              {   
+                  XNextEvent(GLWin.dpy, &_event);
+                  switch(_event.type)
+                  {   
+                      case Expose:
+                          if (_event.xexpose.count != 0)
+                              break;
+                          break;
+                      case ConfigureNotify:
+                          if ((_event.xconfigure.width  != (signed) GLWin.width) ||
+                              (_event.xconfigure.height != (signed) GLWin.height))
+                          {   
+                              GLWin.width  = _event.xconfigure.width;
+                              GLWin.height = _event.xconfigure.height;
+
+#ifdef DEBUG
+                              fprintf(stdout, "Resize Event\n");
+#endif                              
+                          }   
+                          break;
+                      case KeyPress:
+                          switch(XLookupKeysym(&_event.xkey,0))
+                          {   
+                              case XK_Escape:                                 
+                              DGlobals::quit();
+#ifdef DEBUG
+                              fprintf(stdout, "Quit pressed\n");
+#endif
+                                  break;
+                          }   
+                          break;
+                      case ClientMessage:
+                          if (*XGetAtomName(GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
+                          {   
+                              DGlobals::quit();
+                          }   
+                          break;
+                      default:
+                          break;
+                  }   
+              }   
 #endif
 
               if(_state) {
@@ -304,8 +352,10 @@ namespace Distillate {
               _frametime = 0;
 
               do {
-#if defined(GL_RENDER)
-                   now = 0;
+#if defined(GL_RENDER) && defined(__linux__)
+                   timeb tb;
+                   ftime( &tb );
+                   now = tb.millitm + (tb.time & 0xfffff) * 1000;
 #elif defined(SDL_RENDER)
                    now = SDL_GetTicks();
 #endif

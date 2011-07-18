@@ -53,7 +53,7 @@ namespace Distillate {
          SDL_Event _event;
 #endif
 
-#if defined(__linux__) && defined(GL_RENDER)
+#if defined(GL_RENDER) && defined(__linux__)
          typedef struct {
              Display *dpy;
              int screen;
@@ -72,6 +72,7 @@ namespace Distillate {
          } GLWindow;
 
         GLWindow GLWin;
+        XEvent _event;
 #endif
 
          /* State stuff */
