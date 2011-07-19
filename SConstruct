@@ -1,3 +1,3 @@
-SConscript('src/SConscript',variant_dir='.build')
+SConscript('src/SConscript')
 SConscript('tests/space_ship/SConscript')
 #SConscript('tests/flame/SConscript')

@@ -12,10 +12,9 @@ debug    = ARGUMENTS.get('debug', 0)
 linkage  = ARGUMENTS.get('linkage', 'static')
 
 render   = ARGUMENTS.get('render', 'sdl')
-input    = ARGUMENTS.get('input', 'sdl')
+input    = ARGUMENTS.get('input', '')
 
 libenv = Environment( CPPFLAGS = CommonFlags)
-libenv.VariantDir('build/', 'src/')
 
 if int(debug):
     libenv.Append(CPPFLAGS = ' -g -ggdb')

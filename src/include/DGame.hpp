@@ -49,7 +49,7 @@ namespace Distillate {
          SDL_Surface* _screen;
 #endif
 
-#if defined(SDL_RENDER) || defined(SDL_INPUT) 
+#if defined(SDL_INPUT) || defined(SDL_RENDER)
          SDL_Event _event;
 #endif
 

@@ -73,15 +73,13 @@ namespace Distillate {
          return quadTree.overlap(true,Callback);
     }
 
-    DPoint* DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P)
+    void DUtils::rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P)
     {
-         if(!P) P = new DPoint();
          float radians = -Angle / 180 * M_PI;
          float dx = X-PivotX;
          float dy = PivotY-Y;
          P->x = PivotX + cos(radians)*dx - sin(radians)*dy;
          P->y = PivotY - (sin(radians)*dx + cos(radians)*dy);
-         return P;
     }
 
     float DUtils::getAngle(float X, float Y)

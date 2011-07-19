@@ -75,27 +75,26 @@ void DObject::updateMotion()
     angle = fmod(angle + angularVelocity*DGlobals::elapsed, 360);
     angularVelocity += vc;
 
-    DPoint* thrustComponents;
+    DPoint thrustComponents;
+    DPoint maxComponents;
     if(thrust != 0)
     {
-        thrustComponents = DUtils::rotatePoint(-thrust,0,0,0,angle);
-        DPoint* maxComponents = DUtils::rotatePoint(-maxThrust,0,0,0,angle);
-        float max = ((maxComponents->x>0)?maxComponents->x:-maxComponents->x);
-        if(max > ((maxComponents->y>0)?maxComponents->y:-maxComponents->y))
-            maxComponents->y = max;
+        DUtils::rotatePoint(-thrust,0,0,0,angle,&thrustComponents);
+        DUtils::rotatePoint(-maxThrust,0,0,0,angle,&maxComponents);
+        float max = ((maxComponents.x>0)?maxComponents.x:-maxComponents.x);
+        if(max > ((maxComponents.y>0)?maxComponents.y:-maxComponents.y))
+            maxComponents.y = max;
         else
-            max = ((maxComponents->y>0)?maxComponents->y:-maxComponents->y);
+            max = ((maxComponents.y>0)?maxComponents.y:-maxComponents.y);
         maxVelocity.x = maxVelocity.y = ((max>0)?max:-max);
     }
-    else
-        thrustComponents = new DPoint();
 
-    vc = (DUtils::computeVelocity(velocity.x,acceleration.x+thrustComponents->x,drag.x,maxVelocity.x) - velocity.x)/2;
+    vc = (DUtils::computeVelocity(velocity.x,acceleration.x+thrustComponents.x,drag.x,maxVelocity.x) - velocity.x)/2;
     velocity.x += vc;
     float xd = velocity.x*DGlobals::elapsed;
     velocity.x += vc;
 
-    vc = (DUtils::computeVelocity(velocity.y,acceleration.y+thrustComponents->y,drag.y,maxVelocity.y) - velocity.y)/2;
+    vc = (DUtils::computeVelocity(velocity.y,acceleration.y+thrustComponents.y,drag.y,maxVelocity.y) - velocity.y)/2;
     velocity.y += vc;
     float yd = velocity.y*DGlobals::elapsed;
     velocity.y += vc;

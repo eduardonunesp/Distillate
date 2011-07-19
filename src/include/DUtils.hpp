@@ -179,9 +179,8 @@ namespace Distillate {
           * @param   Angle   Rotate the point by this many degrees.
           * @param   P       Optional <code>DPoint</code> to store the results in.
           *
-          * @return  A <code>DPoint</code> containing the coordinates of the rotated point.
           */
-         static DPoint* rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P=NULL);
+         static void rotatePoint(float X, float Y, float PivotX, float PivotY, float  Angle, DPoint *P);
 
          /**
           * Calculates the angle between a point and the origin (0,0).

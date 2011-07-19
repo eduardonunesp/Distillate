@@ -51,7 +51,7 @@ namespace Distillate {
         DState::bgColor = 0xff000000;
 
 #if defined(SDL_RENDER)
-        if(SDL_Init(SDL_INIT_VIDEO) < 0)
+        if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
             _failtype = -1;
             fprintf(stderr, "Cannot initialize SDL\n");
@@ -328,8 +328,8 @@ namespace Distillate {
 #endif
 
               if(_state) {
-                   //_state->update();
-                   //_state->render();
+                   _state->update();
+                   _state->render();
               } else {
                    fprintf(stderr, "State not found\n");
               }
@@ -339,7 +339,7 @@ namespace Distillate {
                 glXSwapBuffers(GLWin.dpy, GLWin.win);
             else
                 glFlush();
-            glClearColor(255.0f,255.0f,255.0f,1.0f);
+            glClearColor(0,0,0,1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             glLoadIdentity();
 #elif defined(SDL_RENDER)
