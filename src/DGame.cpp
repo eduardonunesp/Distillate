@@ -4,16 +4,6 @@
 #include "include/DKeyboard.hpp"
 #include "include/DMouse.hpp"
 
-#if defined(GL_RENDER)
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-#endif
-
-#if defined(__linux__)
-#include <sys/timeb.h> 
-#endif
-
 namespace Distillate {
     DGame::DGame(const std::string &GameTitle):
 #if defined(SDL_RENDER)
@@ -42,7 +32,26 @@ namespace Distillate {
 
 #if defined(SDL_RENDER)
          SDL_FreeSurface(_screen);
-#endif         
+#elif defined(GL_RENDER) && defined(__linux__)         
+         if(GLWin.ctx)
+         {
+             if(!glXMakeCurrent(GLWin.dpy, None, NULL))
+             {
+                 fprintf(stderr, "Error releasing drawing context\n");
+             }
+
+             glXDestroyContext(GLWin.dpy, GLWin.ctx);
+             GLWin.ctx = NULL;
+         }
+
+         if(GLWin.fs)
+         {
+             XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, &GLWin.deskMode);
+             XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
+         }
+
+         XCloseDisplay(GLWin.dpy);
+#endif
     }
 
     bool DGame::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP)
@@ -246,93 +255,89 @@ namespace Distillate {
 
     int DGame::run()
     {
-         if (!_state) {
-              fprintf(stderr, "No state provided \n");
-              return -1;
-         }
+        if (!_state) {
+            fprintf(stderr, "No state provided \n");
+            return -1;
+        }
 
-         if (_failtype < 0)
-              return _failtype;
+        if (_failtype < 0)
+            return _failtype;
 
-         while(DGlobals::_running) {
+        while(DGlobals::_running) {
 #if defined(SDL_RENDER) || defined(SDL_INPUT)
-              while(SDL_PollEvent(&_event)) {
-                   switch(_event.type) {
-                   case SDL_QUIT:
+            while(SDL_PollEvent(&_event)) {
+                switch(_event.type) {
+                    case SDL_QUIT:
                         DGlobals::quit();
 #ifdef DEBUG
                         fprintf(stdout, "Quit pressed\n");
 #endif
                         break;
-                   case SDL_KEYUP:
+                    case SDL_KEYUP:
                         DGlobals::keys.setKeyState(SDL_KEYUP, _event.key.keysym.sym);
                         break;
-                   case SDL_KEYDOWN:
+                    case SDL_KEYDOWN:
                         DGlobals::keys.setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
                         break;
-                   case SDL_MOUSEMOTION:
+                    case SDL_MOUSEMOTION:
                         DGlobals::mouse.setMousePos(_event.motion.x, _event.motion.y);
                         break;
-                   case SDL_MOUSEBUTTONUP:
+                    case SDL_MOUSEBUTTONUP:
                         DGlobals::mouse.setButtonState(SDL_MOUSEBUTTONUP, _event.button.button);
                         break;
-                   case SDL_MOUSEBUTTONDOWN:
+                    case SDL_MOUSEBUTTONDOWN:
                         DGlobals::mouse.setButtonState(SDL_MOUSEBUTTONDOWN, _event.button.button);
                         break;
-                   }
-              }
+                }
+            }
 
 #elif defined(GL_RENDER) && defined(__linux__)
-              while(XPending(GLWin.dpy) > 0)
-              {   
-                  XNextEvent(GLWin.dpy, &_event);
-                  switch(_event.type)
-                  {   
-                      case Expose:
-                          if (_event.xexpose.count != 0)
-                              break;
-                          break;
-                      case ConfigureNotify:
-                          if ((_event.xconfigure.width  != (signed) GLWin.width) ||
-                              (_event.xconfigure.height != (signed) GLWin.height))
-                          {   
-                              GLWin.width  = _event.xconfigure.width;
-                              GLWin.height = _event.xconfigure.height;
+            while(XPending(GLWin.dpy) > 0)
+            {   
+                XNextEvent(GLWin.dpy, &_event);
+                switch(_event.type)
+                {   
+                    case Expose:
+                        if (_event.xexpose.count != 0)
+                            break;
+                        break;
+                    case ConfigureNotify:
+                        if ((_event.xconfigure.width  != (signed) GLWin.width) ||
+                                (_event.xconfigure.height != (signed) GLWin.height))
+                        {   
+                            GLWin.width  = _event.xconfigure.width;
+                            GLWin.height = _event.xconfigure.height;
 
 #ifdef DEBUG
-                              fprintf(stdout, "Resize Event\n");
+                            fprintf(stdout, "Resize Event\n");
 #endif                              
-                          }   
-                          break;
-                      case KeyPress:
-                          switch(XLookupKeysym(&_event.xkey,0))
-                          {   
-                              case XK_Escape:                                 
-                              DGlobals::quit();
+                        }   
+                        break;
+                    case KeyPress:
 #ifdef DEBUG
-                              fprintf(stdout, "Quit pressed\n");
+                                fprintf(stdout, "Quit pressed\n");
 #endif
-                                  break;
-                          }   
-                          break;
-                      case ClientMessage:
-                          if (*XGetAtomName(GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
-                          {   
-                              DGlobals::quit();
-                          }   
-                          break;
-                      default:
-                          break;
-                  }   
-              }   
+                                break;
+                            DGlobals::keys.setKeyState(DKeyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
+                        break;
+                    case ClientMessage:
+                        if (*XGetAtomName(GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
+                        {   
+                            DGlobals::quit();
+                        }   
+                        break;
+                    default:
+                        break;
+                }   
+            }   
 #endif
 
-              if(_state) {
-                   _state->update();
-                   _state->render();
-              } else {
-                   fprintf(stderr, "State not found\n");
-              }
+            if(_state) {
+                _state->update();
+                _state->render();
+            } else {
+                fprintf(stderr, "State not found\n");
+            }
 
 #if defined(GL_RENDER)
             if(GLWin.doublebuffer)
@@ -348,38 +353,38 @@ namespace Distillate {
             SDL_FillRect(DGlobals::_buffer,0, DState::bgColor);
 #endif
 
-              unsigned int now;
-              _frametime = 0;
+            unsigned int now;
+            _frametime = 0;
 
-              do {
+            do {
 #if defined(GL_RENDER) && defined(__linux__)
-                   timeb tb;
-                   ftime( &tb );
-                   now = tb.millitm + (tb.time & 0xfffff) * 1000;
+                timeb tb;
+                ftime( &tb );
+                now = tb.millitm + (tb.time & 0xfffff) * 1000;
 #elif defined(SDL_RENDER)
-                   now = SDL_GetTicks();
+                now = SDL_GetTicks();
 #endif
-                   _frametime = (now > _lasttime) ? now - _lasttime : 0;
-                   _lasttime  = (now >= _lasttime) ? _lasttime : now;
-              } while(!(_frametime >= minFPS));
+                _frametime = (now > _lasttime) ? now - _lasttime : 0;
+                _lasttime  = (now >= _lasttime) ? _lasttime : now;
+            } while(!(_frametime >= minFPS));
 
-              if(_frametime > maxFPS)
-                   _frametime = maxFPS;
+            if(_frametime > maxFPS)
+                _frametime = maxFPS;
 
-              _timeaccum += _frametime;
-              _framecount++;
-              _elapsed = (float) _frametime * 0.001f;
+            _timeaccum += _frametime;
+            _framecount++;
+            _elapsed = (float) _frametime * 0.001f;
 
-              if(_timeaccum >= 1000) {
-                   DGlobals::FPS = _frametime;
-                   _framecount   = 0;
-                   _timeaccum    = 0;
-              }
+            if(_timeaccum >= 1000) {
+                DGlobals::FPS = _frametime;
+                _framecount   = 0;
+                _timeaccum    = 0;
+            }
 
-              DGlobals::elapsed = _elapsed;
-              _lasttime = now;
-         }
+            DGlobals::elapsed = _elapsed;
+            _lasttime = now;
+        }
 
-         return 0;
+        return 0;
     }
 }

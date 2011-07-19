@@ -23,6 +23,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <X11/extensions/xf86vmode.h>        
+#include <sys/timeb.h> 
 #endif
 
 #include <string>

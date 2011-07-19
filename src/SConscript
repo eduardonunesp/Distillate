@@ -8,7 +8,7 @@ Libs = []
 
 CommonFlags = ' -Wall -pedantic'
 
-debug    = ARGUMENTS.get('debug', 0)
+debug    = ARGUMENTS.get('debug', 'true')
 linkage  = ARGUMENTS.get('linkage', 'static')
 
 render   = ARGUMENTS.get('render', 'sdl')
@@ -16,7 +16,7 @@ input    = ARGUMENTS.get('input', '')
 
 libenv = Environment( CPPFLAGS = CommonFlags)
 
-if int(debug):
+if debug == 'true':
     libenv.Append(CPPFLAGS = ' -g -ggdb')
     libenv.Append(CPPDEFINES = ['DEBUG'])
 
