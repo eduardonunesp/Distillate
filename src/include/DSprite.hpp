@@ -4,9 +4,13 @@
 #include <string>
 #include <vector>
 
-#ifdef GL_RENDER
+#if defined(GL_RENDER)
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
-#elif SDL_RENDER
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
+#elif defined(SDL_RENDER)
 #include <SDL/SDL.h>
 #endif
 
@@ -76,9 +80,8 @@ namespace Distillate {
           * The total number of frames in this image (assumes each row is full)
           */
          unsigned int frames;
-
+         
     protected:
-
          /* Animation helpers */
          std::vector<DAnim*> _animations;
          unsigned int _flipped;
@@ -89,17 +92,23 @@ namespace Distillate {
          callbackFunctionSprite *_callback;
          unsigned int _facing;
          int _bakedRotation;
-
-         /* Surface stuff */
-    #ifdef GL_RENDER
-         GLuint texture;
-    #elif SDL_RENDER
-         SDL_Surface *_pixels;
-         SDL_Rect _rendering_rect;
-    #endif
          float _alpha;
          unsigned int _color;
          bool _boundsVisible;
+
+         /* Surface stuff */
+#if defined(SDL_RENDER)
+         SDL_Surface *_pixels;
+         SDL_Rect _rendering_rect;
+#elif defined(GL_RENDER)
+         typedef struct {
+             GLfloat x,y,z; /* Vertex */
+             GLfloat t0,t1; /* Texture coords */
+         } DVBO;
+
+         GLuint vboID; /* VBO ID */
+         DVBO   spriteVBO[3];
+#endif
 
     public:
 
