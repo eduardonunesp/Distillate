@@ -48,6 +48,7 @@ DKeyboard.cpp
 DMouse.cpp
 DObject.cpp
 DQuadTree.cpp
+DResourceManager.cpp
 DSprite.cpp
 DState.cpp
 DText.cpp

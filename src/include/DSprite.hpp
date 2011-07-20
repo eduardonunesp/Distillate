@@ -111,9 +111,13 @@ namespace Distillate {
          GLuint vboID; /* VBO ID */
          DVBO   spriteVBO[3];
 #elif defined(GL_RENDER)         
-        GLubyte *imageData;
-        GLuint w, h, bpp;
-        GLuint texID;
+        typedef struct {
+            GLubyte *imageData;
+            GLuint w, h, bpp;
+            GLuint texID;
+        } PNGTexture;
+
+        PNGTexture spriteTex;
 #endif
 
     public:
