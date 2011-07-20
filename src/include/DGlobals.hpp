@@ -17,6 +17,8 @@ namespace Distillate {
     class DMouse;
     class DKeyboard;
     class DState;
+    class DResourceManager;
+    class DTextureResource;
 
     /**
      * This is a global helper class full of useful functions for audio,
@@ -61,6 +63,8 @@ namespace Distillate {
           * Internal tracker for game pause state.
           */
          static bool _pause;
+
+         static DResourceManager _resourceManager;
 
     public:
          /**
@@ -151,15 +155,6 @@ namespace Distillate {
           */
          static bool _volume;
 
-         /**
-          * Internal storage system to prevent graphics from being used repeatedly in memory.
-          */
-#ifdef GL_RENDER
-         static std::map<std::string, void*> _cache;
-#elif SDL_RENDER
-         static std::map<std::string, SDL_Surface*> _cache;
-#endif
-
     public:
          /**
           * Stores the basic parallax scrolling values.
@@ -187,11 +182,7 @@ namespace Distillate {
           *
           * @return  The <code>BitmapData</code> we just created.
           */
-#ifdef GL_RENDER
-         static void* addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
-#elif SDL_RENDER
-         static SDL_Surface * addBitmap(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
-#endif
+         static DTextureResource* addTexture(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
 
          /**
           * Sets a new state

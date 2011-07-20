@@ -5,7 +5,11 @@
 #include "include/DMouse.hpp"
 #include "include/DUtils.hpp"
 #include "include/DState.hpp"
+#include "include/DResourceManager.hpp"
+
+#if defined(SDL_RENDER)
 #include <SDL/SDL_image.h>
+#endif
 
 namespace Distillate {
     const std::string DGlobals::LIBRARY_NAME = "Distillate";
@@ -18,15 +22,13 @@ namespace Distillate {
     unsigned int DGlobals::height = 0;
     unsigned int DGlobals::FPS = 0;
     DGame* DGlobals::_game = NULL;
+    DResourceManager DGlobals::_resourceManager;
     bool DGlobals::_pause = false;
     bool DGlobals::_running = false;
     DKeyboard DGlobals::keys;
     DMouse DGlobals::mouse;
 
-#ifdef GL_RENDER
-    std::map<std::string, void*> DGlobals::_cache;
-#elif SDL_RENDER
-    std::map<std::string, SDL_Surface*> DGlobals::_cache;
+#if defined(SDL_RENDER)
     SDL_Surface *DGlobals::_buffer = NULL;
 #endif
 
@@ -53,39 +55,12 @@ namespace Distillate {
          DUtils::setWorldBounds(0,0,Width, Height);
     }
 
-#ifdef GL_RENDER
-    void * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
-#elif SDL_RENDER
-    SDL_Surface * DGlobals::addBitmap(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
-#endif
+    DTextureResource * DGlobals::addTexture(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
     {
-         const std::string &key = Key;
-
-         if(key.empty()) {
-              if(Unique && !_cache[key]) {
-              }
-         }
-
-#ifdef GL_RENDER
-         return NULL;
-#elif SDL_RENDER
-         SDL_Surface *pixels = NULL;
-
-         if(!_cache[key]) {
-              pixels = IMG_Load(GraphicFile.c_str());
-              if(!pixels) {
-                   fprintf(stderr, "IMG_Load: %s", IMG_GetError());
-                   return NULL;
-              }
-
-              _cache.insert(std::make_pair<std::string, SDL_Surface*>(key, pixels));
-         }
-
-         if(Reverse) {
-         }
-
-         return pixels;
-#endif
+        if(!_resourceManager.loadTexture(GraphicFile, GraphicFile))
+            return NULL;
+        else
+            return _resourceManager.texture(GraphicFile);
     }
 
     void DGlobals::setState(const std::string &Name)

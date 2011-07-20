@@ -21,6 +21,7 @@ namespace Distillate {
     /* Forward */
     class DPoint;
     class DAnim;
+    class DTextureResource;
 
     /**
      * The main "game object" class, handles basic physics and animation.
@@ -99,25 +100,10 @@ namespace Distillate {
          bool _boundsVisible;
 
          /* Surface stuff */
+         DTextureResource *_pixels;
+
 #if defined(SDL_RENDER)
-         SDL_Surface *_pixels;
-         SDL_Rect _rendering_rect;
-#elif defined(GL_RENDER) && defined(GL_VBO)
-         typedef struct {
-             GLfloat x,y,z; /* Vertex */
-             GLfloat t0,t1; /* Texture coords */
-         } DVBO;
-
-         GLuint vboID; /* VBO ID */
-         DVBO   spriteVBO[3];
-#elif defined(GL_RENDER)         
-        typedef struct {
-            GLubyte *imageData;
-            GLuint w, h, bpp;
-            GLuint texID;
-        } PNGTexture;
-
-        PNGTexture spriteTex;
+        SDL_Rect _rendering_rect;
 #endif
 
     public:

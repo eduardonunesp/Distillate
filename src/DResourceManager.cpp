@@ -8,23 +8,65 @@
 #endif
 
 namespace Distillate {
-    void ResourceManager::loadConfigurationXML(const std::string &filename)
+    void DResourceManager::loadConfigurationXML(const std::string &filename)
     {
     }
 
-    bool ResourceManager::loadTexture(const std::string &filename)
+    bool DResourceManager::loadTexture(const std::string &filename, const std::string &resourceid)
     {
+#ifdef DEBUG 
+        fprintf(stdout,"Trying load texture %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+        DTextureResource *texRes =  new DTextureResource(filename, resourceid); 
+        if(!texRes) 
+        {
+            fprintf(stderr, "Cannot alloc texRes\n");
+            return false;
+        }
+
+        switch(TextureLoader::checkTexture(texRes))
+        {
+            case TextureLoader::PNG_TEXTURE:
+                textureLoader->impl = new PNGTextureImplementation();
+                textureLoader->impl->process(texRes);
+                break;
+            default:
+                fprintf(stderr, "Unknow type\n");
+                return false;
+                break;
+        }
+
+        _resources[resourceid] = texRes;
         return true;
     }
 
-    bool ResourceManager::loadAudio(const std::string &filename)
+    TextureLoader::TextureType TextureLoader::checkTexture(DResource* r)
     {
-        return true;
+        if(r && r->filename.empty()) return NONE;
+#if defined(SDL_RENDER)        
+        return PNG_TEXTURE;
+#endif
     }
 
+    void PNGTextureImplementation::process(DResource* r)
+    {
+        if(!r) 
+        {
+            fprintf(stderr, "Null DResource detected\n");
+            return;
+        }
+
+        DTextureResource *texRes = static_cast<DTextureResource*>(r);
+        texRes->data = IMG_Load(r->filename.c_str());
+
+        if(texRes)
+            texRes->count++;
+
+        if(!texRes->data)
+        {
+            fprintf(stderr, "Error cannot load texture\n");
+        }
 #if defined(GL_RENDER)
-    void PNGTextureImplementation::operator ()(Resource* r)
-    {
         std::string filename;
         FILE *f;
         png_structp png;
@@ -147,6 +189,6 @@ namespace Distillate {
         png_read_end(png, einfo);
         png_destroy_read_struct(&png, &pinfo, &einfo);
         fclose(f);
-    }
 #endif
+    }
 }

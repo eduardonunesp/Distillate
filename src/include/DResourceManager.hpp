@@ -9,25 +9,31 @@
 #include <GL/glext.h>
 #elif defined(SDL_RENDER)
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #endif
 
 #include <map>
 #include <string>
+#include "DUtils.hpp"
 
 namespace Distillate {
-    struct Resource {
-        Resource(const std::string &filenameValue, const std::string &resourceidValue) :
+    struct DResource {
+        DResource(const std::string &filenameValue, const std::string &resourceidValue) :
             filename(filenameValue), resourceid(resourceidValue) {}
-        virtual ~Resource() {}
-        const std::string &filename;        
-        const std::string &resourceid;
-        unsigned int ref;
+        virtual ~DResource() {}
+        const std::string filename;        
+        const std::string resourceid;
+        unsigned int count;
     };
 
-    struct TextureResource : public Resource {
-        TextureResource(const std::string &filenameValue, const std::string &resourceidValue) : 
-            Resource(filenameValue, resourceidValue) {}
-        ~TextureResource() {
+    struct DTextureResource : public DResource {
+        DTextureResource(const std::string &filenameValue, const std::string &resourceidValue) : 
+            DResource(filenameValue, resourceidValue) {}
+        ~DTextureResource() {
+#ifdef DEBUG
+            fprintf(stdout, "Deleting texture %s", filename.c_str());
+#endif
+
 #if defined(SDL_RENDER)            
             SDL_FreeSurface(data);
 #elif defined(GL_RENDER)
@@ -55,31 +61,51 @@ namespace Distillate {
         unsigned int w;
     };
 
-    typedef std::map<const std::string, Resource*> ResourceMap;
-
-    class ResourceManager {
-        friend class TextureLoader;
-    public:
-        void loadConfigurationXML(const std::string &filename);
-        bool loadTexture(const std::string &filename);
-        bool loadAudio(const std::string &filename);
-
-    private:
-        ResourceMap _resources;
-    };
-
-    class Implementation;
-    class TextureLoader {
-        Implementation *impl;
-        bool load(Resource *r);
-    };
-
     class Implementation {
-        virtual void operator() (Resource *r) = 0;
+    public:
+        virtual void process(DResource *r) = 0;
     };
 
     class PNGTextureImplementation : public Implementation {
-        virtual void operator() (Resource *r);
+    public:
+        virtual void process(DResource *r);
+    };
+
+    class TextureLoader {
+    public:
+        typedef enum {
+            PNG_TEXTURE,
+            NONE
+        } TextureType;
+
+        TextureLoader() : impl(NULL) {}
+        ~TextureLoader() { delete impl; }
+
+        Implementation *impl;
+        static TextureType checkTexture(DResource* r);
+    };
+
+    typedef std::map<const std::string, DResource*> DResourceMap;
+
+    class DResourceManager {
+    public:
+        void loadConfigurationXML(const std::string &filename);
+        bool loadTexture(const std::string &filename, const std::string &resourceid);
+
+        DTextureResource *texture(const std::string& resourceid) {
+            return static_cast<DTextureResource*>(_resources[resourceid]);
+        }
+
+        DResourceManager() : 
+            textureLoader(new TextureLoader) {} 
+        ~DResourceManager() {
+            delete_all(_resources);
+            delete textureLoader;     
+        }
+            
+    private:
+        DResourceMap _resources;
+        TextureLoader *textureLoader;
     };
 }
 

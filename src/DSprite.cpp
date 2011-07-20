@@ -2,6 +2,7 @@
 #include "include/DPoint.hpp"
 #include "include/DAnim.hpp"
 #include "include/DGlobals.hpp"
+#include "include/DResourceManager.hpp"
 #include <cmath>
 
 namespace Distillate {
@@ -24,7 +25,7 @@ namespace Distillate {
         glGenBuffersARB(1, &vboID);
 #elif defined(SDL_RENDER)
          if(!SimpleGraphics.empty())
-              _pixels = DGlobals::addBitmap(SimpleGraphics, false);
+              _pixels = DGlobals::addTexture(SimpleGraphics, false);
 #endif
     }
 
@@ -38,15 +39,15 @@ namespace Distillate {
 #if defined (GL_RENDER)
 #elif defined(SDL_RENDER)
          _bakedRotation = 0;
-         _pixels = DGlobals::addBitmap(Graphic,Reverse,Unique);
+         _pixels = DGlobals::addTexture(Graphic,Reverse,Unique);
 
          if(Width == 0) {
               if(Animated)
-                   Width = _pixels->w;
+                   Width = _pixels->data->w;
               else if(_flipped > 0)
-                   Width = _pixels->w/2;
+                   Width = _pixels->data->w/2;
               else
-                   Width = _pixels->w;
+                   Width = _pixels->data->w;
          }
 
          width = frameWidth = Width;
@@ -54,7 +55,7 @@ namespace Distillate {
               if(Animated)
                    Height = width;
               else
-                   Height = _pixels->h;
+                   Height = _pixels->data->h;
          }
 
          height = frameHeight = Height;
@@ -80,15 +81,15 @@ namespace Distillate {
          amask = 0xff000000;
 #endif
          _bakedRotation = 0;
-         _pixels = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,rmask, gmask, bmask, amask);
+         _pixels->data = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,rmask, gmask, bmask, amask);
          SDL_Rect rect;
          rect.x = 0;
          rect.y = 0;
          rect.w = Width;
          rect.h = Height;
-         SDL_FillRect(_pixels, &rect, Color);
-         width = frameWidth = _pixels->w;
-         height = frameHeight = _pixels->h;
+         SDL_FillRect(_pixels->data, &rect, Color);
+         width = frameWidth = _pixels->data->w;
+         height = frameHeight = _pixels->data->h;
          resetHelpers();
 #endif
          return this;
@@ -129,9 +130,9 @@ namespace Distillate {
          _rendering_rect.w = width;
 
          if((angle == 0) || (_bakedRotation > 0))
-              SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+              SDL_BlitSurface(_pixels->data, &_rendering_rect, DGlobals::_buffer, &rect_dst);
          else
-              SDL_BlitSurface(_pixels, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+              SDL_BlitSurface(_pixels->data, &_rendering_rect, DGlobals::_buffer, &rect_dst);
 
          _rendering_rect.x = 0;
          _rendering_rect.y = 0;
@@ -191,7 +192,7 @@ namespace Distillate {
          unsigned int ry = 0;
 
          /* Handle sprite sheets */
-         unsigned int w = _flipped ? _flipped : _pixels->w;
+         unsigned int w = _flipped ? _flipped : _pixels->data->w;
          if(rx >= w) {
               ry = (rx/w)*frameHeight;
               rx = rx % w;
