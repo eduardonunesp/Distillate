@@ -33,6 +33,7 @@ elif render == 'gl':
     if platform == 'linux2':
         Libs.append('X11')
         Libs.append('Xxf86vm')
+        Libs.append('png')
 
 if input == 'sdl':
     libenv.Append(CPPDEFINES = ['SDL_INPUT'])

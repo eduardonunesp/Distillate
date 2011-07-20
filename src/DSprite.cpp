@@ -20,7 +20,7 @@ namespace Distillate {
     {
          _is_sprite = true;
 
-#if defined(GL_RENDER)
+#if defined(GL_RENDER) && defined(GL_VBO)
         glGenBuffersARB(1, &vboID);
 #elif defined(SDL_RENDER)
          if(!SimpleGraphics.empty())
@@ -111,12 +111,14 @@ namespace Distillate {
     void DSprite::render()
     {
          getScreenXY(_point);
-#if defined(GL_RENDER)
+#if defined(GL_RENDER) && defined(GL_VBO)
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glBufferData(GL_ARRAY_BUFFER, sizeof(DVBO)*3, &spriteVBO[0].x, GL_STREAM_DRAW);
         glEnableClientState(GL_VERTEX_ARRAY);
         glDrawArrays(GL_QUADS, 0, 4);
         glDisableClientState(GL_VERTEX_ARRAY); 
+#elif defined(GL_RENDER)        
+
 #elif defined(SDL_RENDER)
          SDL_Rect rect_dst;
 

@@ -28,6 +28,8 @@ namespace Distillate {
     class DSprite : public DObject {
          friend class DState;
     public:
+        typedef std::vector<int> AnimationFrames;
+
          /**
           * Callback function for DSprite
           */
@@ -100,7 +102,7 @@ namespace Distillate {
 #if defined(SDL_RENDER)
          SDL_Surface *_pixels;
          SDL_Rect _rendering_rect;
-#elif defined(GL_RENDER)
+#elif defined(GL_RENDER) && defined(GL_VBO)
          typedef struct {
              GLfloat x,y,z; /* Vertex */
              GLfloat t0,t1; /* Texture coords */
@@ -108,6 +110,10 @@ namespace Distillate {
 
          GLuint vboID; /* VBO ID */
          DVBO   spriteVBO[3];
+#elif defined(GL_RENDER)         
+        GLubyte *imageData;
+        GLuint w, h, bpp;
+        GLuint texID;
 #endif
 
     public:

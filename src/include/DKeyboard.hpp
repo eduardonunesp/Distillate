@@ -103,11 +103,18 @@ namespace Distillate {
             };
         };
 
-        
         typedef std::map<int, int> KeyMap ;
 
         DKeyboard();
         ~DKeyboard();
+
+        inline void setPressed(int k) { setKeyState(Key::State::PRESSED, k); }
+        inline void setReleased(int k) { setKeyState(Key::State::RELEASED, k); }
+        inline bool checkReleased(int k) { return checkKeyState(Key::State::RELEASED, k); }
+        inline bool checkPressed(int k) { return checkKeyState(Key::State::PRESSED, k); }
+
+        /* Shortcut for keypressed */
+        inline bool operator()(int k) { return checkKeyState(Key::State::PRESSED, k); }
 
         void setKeyState(int state, int k);
         bool checkKeyState(int state, int k);

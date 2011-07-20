@@ -264,6 +264,10 @@ namespace Distillate {
           * @param	Object2		The second object or group you want to check.
           */
          static bool solveYCollision(DObject* Object1, DObject* Object2);
+
+#if defined(GL_RENDER)
+        static void loadPNG(const std::string& filename);
+#endif
     };
 }
 #endif // DUTILS_HPP

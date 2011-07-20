@@ -7,6 +7,13 @@
 #include <cmath>
 #include <cstdlib>
 
+#if defined(GL_RENDER)
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <png.h>
+#endif
+
 namespace Distillate {
     DQuadTree   DUtils::quadTree;
     DRect       DUtils::quadTreeBounds;
@@ -436,5 +443,71 @@ namespace Distillate {
 
          return hit;
     }
+
+#if defined(GL_RENDER)
+    void DUtils::loadPNG(const std::string& filename)
+    {
+        FILE *f;
+        png_structp png;
+        png_infop pinfo, einfo;
+        int alpha;
+        png_uint_32 width, height;
+        int depth, junk, color_type;
+
+
+        f = fopen(filename.c_str(), "rb");
+        if (!f) {
+            return ;
+        }
+
+        png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, (png_error_ptr) NULL, (png_error_ptr) NULL);
+        if (!png) {
+            fclose(f);
+            return ;
+        }
+
+        pinfo = png_create_info_struct(png);
+        if (!pinfo) {
+            fclose(f);
+            png_destroy_read_struct(&png, NULL, NULL);
+            return;
+        }   
+
+        einfo = png_create_info_struct(png);
+        if (!einfo) {
+            fclose(f);
+            png_destroy_read_struct(&png, &pinfo, NULL);
+            return;
+        }
+
+#if PNG_LIBPNG_VER - 0 < 10400
+        if (setjmp(png->jmpbuf)) 
+#else
+        if (setjmp(png_jmpbuf(png))) 
+#endif
+        {
+                fclose(f);
+                png_destroy_read_struct(&png, &pinfo, &einfo);
+                return ;
+        }
+
+        png_init_io(png, f);
+        png_read_info(png, pinfo);
+        png_get_IHDR(png, pinfo, &width, &height, &depth, &color_type, &junk, &junk, &junk);
+
+        /* sanity check */
+        if (width < 1 || height < 1) {
+            fclose(f);
+            png_destroy_read_struct(&png, &pinfo, &einfo);
+            return ;
+        }
+
+        /* check for an alpha channel */
+        if (png_get_valid(png, pinfo, PNG_INFO_tRNS))
+            alpha = true;
+        else
+            alpha = (color_type & PNG_COLOR_MASK_ALPHA);
+    }
+#endif
 }
 

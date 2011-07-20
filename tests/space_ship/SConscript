@@ -7,7 +7,7 @@ Libs = ['Distillate']
 
 CommonFlags = ' -Wall -pedantic'
 
-debug    = ARGUMENTS.get('debug', 0)
+debug    = ARGUMENTS.get('debug', 'true')
 linkage  = ARGUMENTS.get('linkage', 'static')
 
 render   = ARGUMENTS.get('render', 'sdl')
@@ -15,7 +15,7 @@ input    = ARGUMENTS.get('input', '')
 
 progenv = Environment( CPPFLAGS = CommonFlags)
 
-if int(debug):
+if debug == 'true':
     progenv.Append(CPPFLAGS = ' -g -ggdb')
     progenv.Append(CPPDEFINES = ['DEBUG'])
 
@@ -32,6 +32,7 @@ elif render == 'gl':
     if platform == 'linux2':
         Libs.append('X11')
         Libs.append('Xxf86vm')
+        Libs.append('png')
 
 if input == 'sdl':
     progenv.Append(CPPDEFINES = ['SDL_INPUT'])

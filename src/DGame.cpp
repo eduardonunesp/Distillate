@@ -274,10 +274,10 @@ namespace Distillate {
 #endif
                         break;
                     case SDL_KEYUP:
-                        DGlobals::keys.setKeyState(SDL_KEYUP, _event.key.keysym.sym);
+                        DGlobals::keys.setKeyState(DKeyboard::Key::State::RELEASED, _event.key.keysym.sym);
                         break;
                     case SDL_KEYDOWN:
-                        DGlobals::keys.setKeyState(SDL_KEYDOWN, _event.key.keysym.sym);
+                        DGlobals::keys.setKeyState(DKeyboard::Key::State::PRESSED, _event.key.keysym.sym);
                         break;
                     case SDL_MOUSEMOTION:
                         DGlobals::mouse.setMousePos(_event.motion.x, _event.motion.y);
@@ -314,15 +314,14 @@ namespace Distillate {
                         }   
                         break;
                     case KeyPress:
-#ifdef DEBUG
-                                fprintf(stdout, "Quit pressed\n");
-#endif
-                                break;
                             DGlobals::keys.setKeyState(DKeyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
                         break;
                     case ClientMessage:
                         if (*XGetAtomName(GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
                         {   
+#ifdef DEBUG
+                            fprintf(stdout, "Quit pressed\n");
+#endif
                             DGlobals::quit();
                         }   
                         break;
