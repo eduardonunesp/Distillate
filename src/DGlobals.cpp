@@ -6,6 +6,7 @@
 #include "include/DUtils.hpp"
 #include "include/DState.hpp"
 #include "include/DResourceManager.hpp"
+#include "include/DTextureResource.hpp"
 
 #if defined(SDL_RENDER)
 #include <SDL/SDL_image.h>

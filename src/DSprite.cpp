@@ -3,6 +3,7 @@
 #include "include/DAnim.hpp"
 #include "include/DGlobals.hpp"
 #include "include/DResourceManager.hpp"
+#include "include/DTextureResource.hpp"
 #include <cmath>
 
 namespace Distillate {

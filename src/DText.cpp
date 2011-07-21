@@ -1,5 +1,6 @@
 #include "include/DText.hpp"
 #include "include/DResourceManager.hpp"
+#include "include/DTextureResource.hpp"
 
 namespace Distillate {
     DText::DText(float X, float Y, unsigned int Width, const std::string &Text, bool EmbeddedFont):

@@ -52,6 +52,7 @@ DResourceManager.cpp
 DSprite.cpp
 DState.cpp
 DText.cpp
+DTextureResource.cpp
 DUtils.cpp
 """);
 

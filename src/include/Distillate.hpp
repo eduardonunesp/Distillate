@@ -23,9 +23,12 @@
 #include "DPoint.hpp"
 #include "DQuadTree.hpp"
 #include "DRect.hpp"
+#include "DResource.hpp"
+#include "DResourceManager.hpp"
 #include "DSprite.hpp"
 #include "DState.hpp"
 #include "DText.hpp"
+#include "DTextureResource.hpp"
 #include "DUtils.hpp"
 
 #endif /* __DISTILLATE_HPP__ */
