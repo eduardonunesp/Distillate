@@ -17,11 +17,25 @@ namespace Distillate {
     DResourceManager::DResourceManager() {}
     DResourceManager::~DResourceManager() {}
 
+    bool DResourceManager::loadTexture(const std::string &filename)
+    {
+        return loadTexture(filename, filename);
+    }
+
     bool DResourceManager::loadTexture(const std::string &filename, const std::string &resourceid)
     {
+        if(_resources[resourceid])
+        {
+#ifdef DEBUG 
+        fprintf(stdout,"Loading from buffer %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+            return true;
+        }
+
 #ifdef DEBUG 
         fprintf(stdout,"Trying load texture %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
 #endif
+
         DTextureResource *texRes =  new DTextureResource(filename, resourceid); 
         if(!texRes) 
         {
@@ -41,6 +55,37 @@ namespace Distillate {
                 break;
         }
 
+        _resources[resourceid] = texRes;
+        return true;
+    }
+
+    bool DResourceManager::createTexture(unsigned int width, unsigned int height, unsigned int color, const std::string &resourceid)
+    {
+        if(_resources[resourceid])
+        {
+#ifdef DEBUG 
+        fprintf(stdout,"Loading from buffer %s\n",  resourceid.c_str()); 
+#endif
+            return true;
+        }
+
+#ifdef DEBUG
+        fprintf(stdout, "Creating texture\n");
+#endif
+        
+
+        DTextureResource *texRes = new DTextureResource("created",resourceid);
+        if(!texRes) 
+        {
+            fprintf(stderr, "Cannot alloc texRes\n");
+            return false;
+        }
+
+        texRes->w = width;
+        texRes->h = height;
+
+        textureLoader->impl = new DAutoTextureImplementation();
+        textureLoader->impl->process(texRes);
         _resources[resourceid] = texRes;
         return true;
     }

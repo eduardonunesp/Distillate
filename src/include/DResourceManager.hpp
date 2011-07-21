@@ -29,7 +29,9 @@ namespace Distillate {
         /* Loaders */
         typedef std::map<const std::string, DResource*> DResourceMap;
         bool loadConfigurationXML(const std::string &filename) { return true; };
+        bool loadTexture(const std::string &filename);
         bool loadTexture(const std::string &filename, const std::string &resourceid);
+        bool createTexture(unsigned int width, unsigned int height, unsigned int color, const std::string &resourceid);
 
         /* Getters */
         DTextureResource *texture(const std::string& resourceid);

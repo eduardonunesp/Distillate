@@ -6,11 +6,13 @@ using namespace Distillate;
 class State : public DState {
 private:
     DSprite player;
+    DEmitter emitter;
 
 public:
     State() : 
         DState("State1"),
-        player(10,10) {};
+        player(10,10),
+        emitter(DGlobals::height, DGlobals::width/2) {};
     ~State() {}
 
     void create() {
@@ -24,6 +26,22 @@ public:
         player.play("flying");
 
         add(&player);
+
+        emitter.delay = 0.5;
+        emitter.gravity = 1000;;
+        emitter.maxRotation = 0;
+        emitter.setYSpeed(-300,- 500);
+        emitter.setXSpeed(-20, 20);
+
+        DSprite *particle = NULL;
+        for(unsigned int i = 0;i < 10;i++) {
+            particle = new DSprite();
+            particle->createGraphic(4, 4, 0x990000ff);
+            emitter.add(particle);
+        }   
+
+        add(&emitter);
+        emitter.start(false);
     }
 
     void update() {
@@ -48,11 +66,15 @@ public:
 
 class Test : public DGame {
 public:
-     Test() : DGame("Space Ship") {};
+     Test() : DGame("Space Ship") 
+     {
+        DGlobals::resourceManager.loadTexture("player.png");     
+     };
 };
 
 int main(int argc, char* argv[])
 {
+
      Test test;
      test.setup(640, 480, 16);
 

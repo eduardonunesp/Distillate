@@ -64,8 +64,6 @@ namespace Distillate {
           */
          static bool _pause;
 
-         static DResourceManager _resourceManager;
-
     public:
          /**
           * Whether you are running in Debug or Release mode.
@@ -142,7 +140,11 @@ namespace Distillate {
           * A reference to a <code>DKeyboard</code> object.  Important for input!
           */
          static DKeyboard keys;
-
+        
+         /**
+          * Control and canche all resources
+          */
+         static DResourceManager resourceManager;
 
     protected:
          /**

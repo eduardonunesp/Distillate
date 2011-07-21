@@ -25,8 +25,11 @@ namespace Distillate {
 #if defined(GL_RENDER) && defined(GL_VBO)
         glGenBuffersARB(1, &vboID);
 #elif defined(SDL_RENDER)
-         if(!SimpleGraphics.empty())
-              _pixels = DGlobals::addTexture(SimpleGraphics, false);
+         if(!SimpleGraphics.empty()) {
+            if(DGlobals::resourceManager.loadTexture(SimpleGraphics)) {
+                _pixels = DGlobals::resourceManager.texture(SimpleGraphics);
+            }
+         }
 #endif
     }
 
@@ -37,8 +40,12 @@ namespace Distillate {
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
     {
+        if(!DGlobals::resourceManager.loadTexture(Graphic))
+            return NULL;
+            
          _bakedRotation = 0;
-         _pixels = DGlobals::addTexture(Graphic,Reverse,Unique);
+         _pixels = DGlobals::resourceManager.texture(Graphic);
+
 #if defined (GL_RENDER)
          if(Width == 0) {
               if(Animated)
@@ -83,23 +90,14 @@ namespace Distillate {
 
     DSprite *DSprite::createGraphic(unsigned int Width, unsigned int Height, unsigned int Color, bool Unique, const std::string &Key)
     {
+        _bakedRotation = 0;
+    
+        if(!DGlobals::resourceManager.createTexture(Width, Height, Color,  "A1"))
+            return NULL;
+            
+         _pixels = DGlobals::resourceManager.texture("A1");
 #if defined(GL_RENDER)
 #elif defined(SDL_RENDER)
-         unsigned int rmask, gmask, bmask, amask;
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-         rmask = 0xff000000;
-         gmask = 0x00ff0000;
-         bmask = 0x0000ff00;
-         amask = 0x000000ff;
-#else
-         rmask = 0x000000ff;
-         gmask = 0x0000ff00;
-         bmask = 0x00ff0000;
-         amask = 0xff000000;
-#endif
-         _bakedRotation = 0;
-         _pixels->data = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,rmask, gmask, bmask, amask);
          SDL_Rect rect;
          rect.x = 0;
          rect.y = 0;

@@ -47,9 +47,9 @@ namespace Distillate {
          DVBO   VBOarr[4];
 #elif defined(GL_RENDER)
         GLuint data;
+#endif
         unsigned int h;
         unsigned int w;
-#endif
     };
 
     class DImplementation {
@@ -72,6 +72,11 @@ namespace Distillate {
     };
 
     class DPNGTextureImplementation : public DImplementation {
+    public:
+        virtual void process(DResource *r);
+    };
+
+    class DAutoTextureImplementation : public DImplementation {
     public:
         virtual void process(DResource *r);
     };

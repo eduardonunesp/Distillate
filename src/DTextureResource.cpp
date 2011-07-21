@@ -135,5 +135,41 @@ namespace Distillate {
             fprintf(stderr, "Error cannot load texture\n");
         }
     }
+
+    void DAutoTextureImplementation::process(DResource* r)
+    {
+        if(!r) 
+        {
+            fprintf(stderr, "Null DResource detected\n");
+            return;
+        }
+
+        DTextureResource *texRes = static_cast<DTextureResource*>(r);
+#if defined(SDL_RENDER)
+        unsigned int rmask, gmask, bmask, amask;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xff000000;
+        gmask = 0x00ff0000;
+        bmask = 0x0000ff00;
+        amask = 0x000000ff;
+#else
+        rmask = 0x000000ff;
+        gmask = 0x0000ff00;
+        bmask = 0x00ff0000;
+        amask = 0xff000000;
+#endif
+
+        texRes->data = SDL_CreateRGBSurface(SDL_SWSURFACE, texRes->w, texRes->h,32,rmask, gmask, bmask, amask);
+#endif
+
+        if(texRes)
+            texRes->count++;
+
+        if(!texRes->data)
+        {
+            fprintf(stderr, "Error cannot load texture\n");
+        }
+    }
 }
 

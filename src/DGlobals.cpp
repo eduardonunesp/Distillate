@@ -23,7 +23,7 @@ namespace Distillate {
     unsigned int DGlobals::height = 0;
     unsigned int DGlobals::FPS = 0;
     DGame* DGlobals::_game = NULL;
-    DResourceManager DGlobals::_resourceManager;
+    DResourceManager DGlobals::resourceManager;
     bool DGlobals::_pause = false;
     bool DGlobals::_running = false;
     DKeyboard DGlobals::keys;
@@ -54,14 +54,6 @@ namespace Distillate {
 #endif
 
          DUtils::setWorldBounds(0,0,Width, Height);
-    }
-
-    DTextureResource * DGlobals::addTexture(const std::string &GraphicFile, bool Reverse, bool Unique, const std::string &Key)
-    {
-        if(!_resourceManager.loadTexture(GraphicFile, GraphicFile))
-            return NULL;
-        else
-            return _resourceManager.texture(GraphicFile);
     }
 
     void DGlobals::setState(const std::string &Name)
