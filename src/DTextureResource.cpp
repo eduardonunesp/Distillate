@@ -1,12 +1,34 @@
 #include "DTextureResource.hpp"
 
+#if defined(GL_RENDER)
+#include <png.h>
+#endif
+
 namespace Distillate {
+    bool PNGCheck(const std::string &filename)
+    {
+#if defined(SDL_RENDER)
+        return true;
+#elif defined(GL_RENDER)
+        png_byte header[8];
+        FILE *fp = fopen(filename.c_str(), "rb");
+        if (!fp) return false;
+        fread(header, 1, 8, fp);
+        int is_png = !png_sig_cmp(header, 0, 8);
+        fclose(fp);
+        if (is_png) return true;
+#ifdef DEBUG
+        fprintf(stdout, "Not PNG File\n");
+#endif
+        return false;
+#endif
+    }
+
     DTextureLoader::TextureType DTextureLoader::checkTexture(DResource* r)
     {
         if(r && r->filename.empty()) return NONE;
-#if defined(SDL_RENDER)        
-        return PNG_TEXTURE;
-#endif
+        if(PNGCheck(r->filename)) return PNG_TEXTURE;
+        return NONE;
     }
 
     void DPNGTextureImplementation::process(DResource* r)
@@ -18,7 +40,92 @@ namespace Distillate {
         }
 
         DTextureResource *texRes = static_cast<DTextureResource*>(r);
+#if defined(SDL_RENDER)
         texRes->data = IMG_Load(r->filename.c_str());
+#elif defined(GL_RENDER)
+        FILE *fp = fopen(r->filename.c_str(), "rb");
+
+        if (!fp) {
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+        if (!png_ptr) {
+            fclose(fp);
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        png_infop info_ptr = png_create_info_struct(png_ptr);
+        if (!info_ptr) {
+            png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+            fclose(fp);
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        png_infop end_info = png_create_info_struct(png_ptr);
+        if (!end_info) {
+            png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
+            fclose(fp);
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        if (setjmp(png_jmpbuf(png_ptr))) {
+            png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+            fclose(fp);
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        png_init_io(png_ptr, fp);
+        png_set_sig_bytes(png_ptr, 8);
+        png_read_info(png_ptr, info_ptr);
+        
+        int bit_depth, color_type;
+        png_uint_32 twidth, theight;
+        
+        png_get_IHDR(png_ptr, info_ptr, &twidth, &theight, &bit_depth, &color_type, NULL, NULL, NULL);
+
+        int width = twidth;
+        int height = theight;
+        png_read_update_info(png_ptr, info_ptr);
+
+        int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+        png_byte *image_data = new png_byte[rowbytes * height];
+
+        if (!image_data) {
+            png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+            fclose(fp);
+            fprintf(stderr, "Null point detected\n");
+            return;
+        }
+
+        png_bytep *row_pointers = new png_bytep[height];
+        if (!row_pointers) {
+            png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+            delete[] image_data;
+            fclose(fp);
+            return ;
+        }
+
+        for (int i = 0; i < height; ++i)
+            row_pointers[height - 1 - i] = image_data + i * rowbytes;
+
+
+        glGenTextures(1, &texRes->data);
+        glBindTexture(GL_TEXTURE_2D, texRes->data);
+        glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height, 0,
+                GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) image_data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+        png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+        delete[] image_data;
+        delete[] row_pointers;
+        fclose(fp);
+#endif
 
         if(texRes)
             texRes->count++;
@@ -27,130 +134,6 @@ namespace Distillate {
         {
             fprintf(stderr, "Error cannot load texture\n");
         }
-#if defined(GL_RENDER)
-        std::string filename;
-        FILE *f;
-        png_structp png;
-        png_infop pinfo, einfo;
-        png_color_16p bkcolor;
-        int alpha;
-        int x, y, i;
-        double gamma, sgamma;
-        png_uint_32 width, height;
-        int depth, junk, color_type;
-        png_bytep *png_rows;
-
-        f = fopen(filename.c_str(), "rb");
-        if (!f) {
-            return ;
-        }
-
-        png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, (png_error_ptr) NULL, (png_error_ptr) NULL);
-        if (!png) {
-            fclose(f);
-            return ;
-        }
-
-        pinfo = png_create_info_struct(png);
-        if (!pinfo) {
-            fclose(f);
-            png_destroy_read_struct(&png, NULL, NULL);
-            return;
-        }   
-
-        einfo = png_create_info_struct(png);
-        if (!einfo) {
-            fclose(f);
-            png_destroy_read_struct(&png, &pinfo, NULL);
-            return;
-        }
-
-#if PNG_LIBPNG_VER - 0 < 10400
-        if (setjmp(png->jmpbuf)) 
-#else
-            if (setjmp(png_jmpbuf(png))) 
-#endif
-            {
-                fclose(f);
-                png_destroy_read_struct(&png, &pinfo, &einfo);
-                return ;
-            }
-
-        png_init_io(png, f);
-        png_read_info(png, pinfo);
-        png_get_IHDR(png, pinfo, &width, &height, &depth, &color_type, &junk, &junk, &junk);
-
-        /* sanity check */
-        if (width < 1 || height < 1) {
-            fclose(f);
-            png_destroy_read_struct(&png, &pinfo, &einfo);
-            return ;
-        }
-
-        /* check for an alpha channel */
-        if (png_get_valid(png, pinfo, PNG_INFO_tRNS))
-            alpha = true;
-        else
-            alpha = (color_type & PNG_COLOR_MASK_ALPHA);
-
-        /* normalize to 8bpp with alpha channel */
-        if (color_type == PNG_COLOR_TYPE_PALETTE && depth <= 8)
-            png_set_expand(png);
-
-        if (color_type == PNG_COLOR_TYPE_GRAY && depth <= 8)
-            png_set_expand(png);
-
-        if (png_get_valid(png, pinfo, PNG_INFO_tRNS))
-            png_set_expand(png);
-
-        if (depth == 16)
-            png_set_strip_16(png);
-
-        if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-            png_set_gray_to_rgb(png);
-
-        if (png_get_gAMA(png, pinfo, &gamma))
-            png_set_gamma(png, sgamma, gamma);
-        else
-            png_set_gamma(png, sgamma, 0.45);
-
-        /* do the transforms */
-        png_read_update_info(png, pinfo);
-
-        /* set background color */
-        if (png_get_bKGD(png, pinfo, &bkcolor)) {
-            /*
-               image->background.red = bkcolor->red >> 8;
-               image->background.green = bkcolor->green >> 8;
-               image->background.blue = bkcolor->blue >> 8;
-               */
-        }
-
-        png_rows = (png_byte**) calloc(height, sizeof(char *));
-        if (!png_rows) {
-            fclose(f);
-            png_destroy_read_struct(&png, &pinfo, &einfo);
-            return ;
-        }
-        for (y = 0; y < height; y++) {
-            png_rows[y] = (png_bytep) malloc(png_get_rowbytes(png, pinfo));
-            if (!png_rows[y]) {
-                fclose(f);
-                png_destroy_read_struct(&png, &pinfo, &einfo);
-                while (y-- > 0)
-                    if (png_rows[y])
-                        free(png_rows[y]);
-                free(png_rows);
-                return ;
-            }
-        }
-
-        /* read data */
-        png_read_image(png, png_rows);
-        png_read_end(png, einfo);
-        png_destroy_read_struct(&png, &pinfo, &einfo);
-        fclose(f);
-#endif
     }
 }
 

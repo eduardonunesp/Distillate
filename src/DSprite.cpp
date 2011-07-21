@@ -37,11 +37,28 @@ namespace Distillate {
 
     DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
     {
-#if defined (GL_RENDER)
-#elif defined(SDL_RENDER)
          _bakedRotation = 0;
          _pixels = DGlobals::addTexture(Graphic,Reverse,Unique);
+#if defined (GL_RENDER)
+         if(Width == 0) {
+              if(Animated)
+                   Width = _pixels->w;
+              else if(_flipped > 0)
+                   Width = _pixels->w/2;
+              else
+                   Width = _pixels->w;
+         }
 
+         width = frameWidth = Width;
+         if(Height == 0) {
+              if(Animated)
+                   Height = width;
+              else
+                   Height = _pixels->h;
+         }
+
+         height = frameHeight = Height;
+#elif defined(SDL_RENDER)
          if(Width == 0) {
               if(Animated)
                    Width = _pixels->data->w;
@@ -120,7 +137,21 @@ namespace Distillate {
         glDrawArrays(GL_QUADS, 0, 4);
         glDisableClientState(GL_VERTEX_ARRAY); 
 #elif defined(GL_RENDER)        
+        glBegin(GL_QUADS);
+        {   
+            glTexCoord2i(0,0);
+            glVertex2f(0,height); // Bottom Left
 
+            glTexCoord2i(1,0);
+            glVertex2f(width,height); // Bottom Right
+
+            glTexCoord2i(1,1);
+            glVertex2f(width,0); // Top Right
+
+            glTexCoord2i(0,0);
+            glVertex2f(0,1); // Top Left
+        }   
+        glEnd();
 #elif defined(SDL_RENDER)
          SDL_Rect rect_dst;
 

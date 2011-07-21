@@ -13,6 +13,7 @@
 #endif
 
 #include <string>
+#include <cstdio>
 #include "DUtils.hpp"
 #include "DResource.hpp"
 
@@ -27,11 +28,11 @@ namespace Distillate {
 
 #if defined(SDL_RENDER)            
             SDL_FreeSurface(data);
-#elif defined(GL_RENDER)
-            if(glIsTexture(texID))
-                glDeleteTextures(1,&texID);
-#endif
             data = NULL;
+#elif defined(GL_RENDER)
+            if(glIsTexture(data))
+                glDeleteTextures(1,&data);
+#endif
         }
             
 #if defined(SDL_RENDER)            
@@ -45,11 +46,10 @@ namespace Distillate {
          GLuint vboID; 
          DVBO   VBOarr[4];
 #elif defined(GL_RENDER)
-        GLubyte *data;
-        GLuint texID;
-#endif
+        GLuint data;
         unsigned int h;
         unsigned int w;
+#endif
     };
 
     class DImplementation {
