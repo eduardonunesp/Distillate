@@ -20,6 +20,8 @@ namespace Distillate {
     class DResource;
     class DTextureResource;
     class DTextureLoader;
+    class DSoundResource;
+    class DSoundLoader;
     class DTTFResource;
     class DTTFLoader;
 
@@ -44,6 +46,10 @@ namespace Distillate {
         bool loadTTF(const std::string &filename, unsigned int width, unsigned int size, unsigned int color);
         bool loadTTF(const std::string &filename, const std::string &resourceid, unsigned int width, unsigned int size, unsigned int color);
 
+        /* Sound loaders */
+        bool loadSound(const std::string &filename);
+        bool loadSound(const std::string &filename, const std::string &resourceid);
+
         /* TTF unloaders */
         void unloadTTF(const std::string &resourceid);
 
@@ -55,6 +61,7 @@ namespace Distillate {
         DResourceMap _resources;
         static DTextureLoader *textureLoader;
         static DTTFLoader *ttfLoader;
+        static DSoundLoader *soundLoader;
     };
 }
 

@@ -25,6 +25,8 @@ if render == 'sdl':
     Libs.append('SDL')
     Libs.append('SDL_image')
     Libs.append('SDL_ttf')
+    Libs.append('SDL_gfx')
+    Libs.append('SDL_mixer')
 
 elif render == 'gl':
     libenv.Append(CPPDEFINES = ['GL_RENDER'])
@@ -49,6 +51,8 @@ DMouse.cpp
 DObject.cpp
 DQuadTree.cpp
 DResourceManager.cpp
+DSound.cpp
+DSoundResource.cpp
 DSprite.cpp
 DState.cpp
 DText.cpp

@@ -7,6 +7,10 @@
 #include "include/DTextureResource.hpp"
 #include "include/DResourceManager.hpp"
 
+#if defined(SDL_RENDER)
+#include <SDL/SDL_rotozoom.h>
+#endif 
+
 #include <cmath>
 #include <cstdlib>
 
@@ -613,6 +617,40 @@ namespace Distillate {
         for( int y = 0; y < Resource->data->h; y++ )    
             for( int x = 0; x < Resource->data->w; x++ )    
                 setPixel( texRes, x, y, getPixel( texRes, Resource->data->w - x - 1, y ) );    
+
+        DGlobals::resourceManager.attachTexture(texRes);
+        return texRes;
+#endif
+    }
+
+    DTextureResource * DUtils::RotateTexture( DTextureResource * Resource, float Angle)
+    {
+        if(!Resource) {
+            fprintf(stderr, "Resource is NULL\n");
+            return NULL;
+        }
+
+        DTextureResource *texRes = new DTextureResource(Resource->resourceid + "_reverse",
+                Resource->resourceid + "_reverse");
+
+        if(!texRes)
+        {
+            fprintf(stderr, "Cannot alloc texRes\n");
+            return NULL;
+        }
+
+#if defined(SDL_RENDER)
+
+        texRes->data = rotozoomSurface(Resource->data, Angle, 0, 0);
+
+        if(!texRes->data)
+        {
+            fprintf(stderr, "Cannot rotate surface\n");
+            return NULL;
+        }
+
+        texRes->w = texRes->data->w;
+        texRes->h = texRes->data->h;
 
         DGlobals::resourceManager.attachTexture(texRes);
         return texRes;

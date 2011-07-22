@@ -270,6 +270,7 @@ namespace Distillate {
         static void setPixel(DTextureResource *Resource, int x, int y, unsigned int newColor);
         static DTextureResource * MirrorTextureX( DTextureResource * Resource );
         static DTextureResource * MirrorTextureY( DTextureResource * Resource );
+        static DTextureResource * RotateTexture( DTextureResource * Resource, float Angle);
     };
 }
 #endif // DUTILS_HPP

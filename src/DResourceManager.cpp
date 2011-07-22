@@ -1,6 +1,7 @@
 #include "DResourceManager.hpp"
 #include "DTextureResource.hpp"
 #include "DTTFResource.hpp"
+#include "DSoundResource.hpp"
 #include "DResource.hpp"
 
 #if defined(GL_RENDER)
@@ -15,6 +16,7 @@
 namespace Distillate {
     DTextureLoader *DResourceManager::textureLoader = new DTextureLoader();
     DTTFLoader *DResourceManager::ttfLoader = new DTTFLoader();
+    DSoundLoader *DResourceManager::soundLoader = new DSoundLoader();
 
     DResourceManager::DResourceManager() {}
     DResourceManager::~DResourceManager() {}
@@ -106,6 +108,38 @@ namespace Distillate {
             delete _resources[resourceid];
             _resources.erase(resourceid);
         }
+    }
+
+    bool DResourceManager::loadSound(const std::string &filename)
+    {
+        return loadSound(filename, filename);
+    }
+
+    bool DResourceManager::loadSound(const std::string &filename, const std::string &resourceid)
+    {
+        if(_resources[resourceid]) {
+#ifdef DEBUG 
+            fprintf(stdout,"Loading from buffer %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+            return true;
+        }
+
+#ifdef DEBUG 
+        fprintf(stdout,"Trying load sound %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+
+        DSoundResource *soundRes = new DSoundResource(filename, resourceid);
+        if(!soundRes) 
+        {
+            fprintf(stderr, "Cannot alloc soundRes\n");
+            return false;
+        }
+
+        soundLoader->impl = new DSoundImplementation();
+        soundLoader->impl->process(soundRes);
+
+        _resources[resourceid] = soundRes;
+        return true;
     }
 
     bool DResourceManager::createTexture(const std::string &resourceid, unsigned int width, unsigned int height, unsigned int color)
