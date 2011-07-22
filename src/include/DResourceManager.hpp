@@ -35,7 +35,8 @@ namespace Distillate {
         bool loadConfigurationXML(const std::string &filename) { return true; };
         bool loadTexture(const std::string &filename);
         bool loadTexture(const std::string &filename, const std::string &resourceid);
-        
+        void attachTexture(DTextureResource *resource);
+
         /* Texture create */
         bool createTexture(const std::string &resourceid, unsigned int width, unsigned int height, unsigned int color);
 

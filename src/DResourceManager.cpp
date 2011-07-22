@@ -58,6 +58,12 @@ namespace Distillate {
         return true;
     }
 
+    void DResourceManager::attachTexture(DTextureResource *resource)
+    {
+        if(!resource) return;
+        _resources[resource->resourceid] = resource;
+    }
+
     bool DResourceManager::loadTTF(const std::string &filename, unsigned int width, unsigned int size, unsigned int color)
     {
         return loadTTF(filename, filename, width, size, color);

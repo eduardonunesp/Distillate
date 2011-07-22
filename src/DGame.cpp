@@ -56,7 +56,7 @@ namespace Distillate {
 
     bool DGame::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP)
     {
-        DGlobals::setGameData(this, GameSizeX, GameSizeY, 2);
+        DGlobals::setGameData(this, GameSizeX, GameSizeY, BPP);
         DState::bgColor = 0xff000000;
 
 #if defined(SDL_RENDER)

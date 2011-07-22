@@ -39,6 +39,8 @@ namespace Distillate {
         DTextureResource *texRes = static_cast<DTextureResource*>(r);
 #if defined(SDL_RENDER)
         texRes->data = IMG_Load(r->filename.c_str());
+        texRes->w = texRes->data->w;
+        texRes->h = texRes->data->h;
 #elif defined(GL_RENDER)
         FILE *fp = fopen(r->filename.c_str(), "rb");
 

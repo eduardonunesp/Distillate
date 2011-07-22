@@ -18,6 +18,8 @@ public:
     ~State() {}
 
     void create() {
+        bgColor = 0xff999999;
+
         DSprite::AnimationFrames frames;
         frames.push_back(0);
         frames.push_back(1);
@@ -47,19 +49,16 @@ public:
 
         label.setFormat("nokiafc22.ttf", 12);
         add(&label);
-
-        player.visible = false;
-        emitter.visible = false;
     }
 
     void update() {
         DState::update();        
 
-        if(DGlobals::keys(DKeyboard::Key::ESCAPE))
-            DGlobals::quit();
         player.velocity.x = 0;
         player.velocity.y = 0;
 
+        if(DGlobals::keys(DKeyboard::Key::ESCAPE))
+            DGlobals::quit();
 
         if(DGlobals::keys(DKeyboard::Key::UP))
             player.velocity.y -= 100;
@@ -83,7 +82,7 @@ int main(int argc, char* argv[])
 {
 
      Test test;
-     test.setup(640, 480, 16);
+     test.setup(640, 480, 32);
 
      State state;
      test.add(&state, true);

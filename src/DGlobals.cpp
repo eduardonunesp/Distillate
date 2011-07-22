@@ -21,7 +21,7 @@ namespace Distillate {
     DPoint DGlobals::scroll;
     unsigned int DGlobals::width  = 0;
     unsigned int DGlobals::height = 0;
-    unsigned int DGlobals::bpp    = 16;
+    unsigned int DGlobals::bpp    = 32;
     unsigned int DGlobals::FPS = 0;
     DGame* DGlobals::_game = NULL;
     DResourceManager DGlobals::resourceManager;

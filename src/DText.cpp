@@ -78,7 +78,7 @@ namespace Distillate {
             SDL_Surface *fgs = 0;
             SDL_Surface *bgs = 0;
 
-            SDL_FillRect(_pixels->data, &_pixels->data->clip_rect, 0xff000000);
+            SDL_FillRect(_pixels->data, &_pixels->data->clip_rect, 0);
 
             if(_shadow) {
                 fgs = TTF_RenderUTF8_Solid(ttf->data, _text.c_str(), fg);
@@ -95,7 +95,6 @@ namespace Distillate {
                 }
             }
 #endif
-
             _regen = false;
         }
     }
