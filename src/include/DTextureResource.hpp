@@ -16,11 +16,18 @@
 #include <cstdio>
 #include "DUtils.hpp"
 #include "DResource.hpp"
+#include "DLoader.hpp"
 
 namespace Distillate {
     struct DTextureResource : public DResource {
         DTextureResource(const std::string &filenameValue, const std::string &resourceidValue) : 
-            DResource(filenameValue, resourceidValue) {}
+            DResource(filenameValue, resourceidValue),
+#if defined(SDL_RENDER)
+            data(NULL),       
+#elif defined(GL_RENDER)
+            data(0),
+#endif
+            h(0), w(0) {}
         ~DTextureResource() {
 #ifdef DEBUG
             fprintf(stdout, "Deleting texture %s", filename.c_str());
@@ -34,17 +41,17 @@ namespace Distillate {
                 glDeleteTextures(1,&data);
 #endif
         }
-            
+
 #if defined(SDL_RENDER)            
         SDL_Surface *data;
 #elif defined(GL_RENDER) && defined(GL_VBO)
-         typedef struct {
-             GLfloat x,y,z; 
-             GLfloat t0,t1;
-         } DVBO;
+        typedef struct {
+            GLfloat x,y,z; 
+            GLfloat t0,t1;
+        } DVBO;
 
-         GLuint vboID; 
-         DVBO   VBOarr[4];
+        GLuint vboID; 
+        DVBO   VBOarr[4];
 #elif defined(GL_RENDER)
         GLuint data;
 #endif
@@ -52,22 +59,15 @@ namespace Distillate {
         unsigned int w;
     };
 
-    class DImplementation {
-    public:
-        virtual void process(DResource *r) = 0;
-    };
-
-    class DTextureLoader {
+    class DTextureLoader : public DLoader {
     public:
         typedef enum {
             PNG_TEXTURE,
             NONE
         } TextureType;
 
-        DTextureLoader() : impl(NULL) {}
-        ~DTextureLoader() { delete impl; }
-
-        DImplementation *impl;
+        DTextureLoader() : DLoader() {}
+        ~DTextureLoader() {}
         static TextureType checkTexture(DResource* r);
     };
 

@@ -1,12 +1,12 @@
 #include "DTextureResource.hpp"
+#include "DGlobals.hpp"
 
 #if defined(GL_RENDER)
 #include <png.h>
 #endif
 
 namespace Distillate {
-    bool PNGCheck(const std::string &filename)
-    {
+    bool PNGCheck(const std::string &filename) {
 #if defined(SDL_RENDER)
         return true;
 #elif defined(GL_RENDER)
@@ -24,17 +24,14 @@ namespace Distillate {
 #endif
     }
 
-    DTextureLoader::TextureType DTextureLoader::checkTexture(DResource* r)
-    {
+    DTextureLoader::TextureType DTextureLoader::checkTexture(DResource* r) {
         if(r && r->filename.empty()) return NONE;
         if(PNGCheck(r->filename)) return PNG_TEXTURE;
         return NONE;
     }
 
-    void DPNGTextureImplementation::process(DResource* r)
-    {
-        if(!r) 
-        {
+    void DPNGTextureImplementation::process(DResource* r) {
+        if(!r) {
             fprintf(stderr, "Null DResource detected\n");
             return;
         }
@@ -131,15 +128,12 @@ namespace Distillate {
             texRes->count++;
 
         if(!texRes->data)
-        {
             fprintf(stderr, "Error cannot load texture\n");
-        }
     }
 
     void DAutoTextureImplementation::process(DResource* r)
     {
-        if(!r) 
-        {
+        if(!r) {
             fprintf(stderr, "Null DResource detected\n");
             return;
         }
@@ -160,16 +154,14 @@ namespace Distillate {
         amask = 0xff000000;
 #endif
 
-        texRes->data = SDL_CreateRGBSurface(SDL_SWSURFACE, texRes->w, texRes->h,32,rmask, gmask, bmask, amask);
+        texRes->data = SDL_CreateRGBSurface(SDL_SWSURFACE, texRes->w, texRes->h,DGlobals::bpp,rmask, gmask, bmask, amask);
 #endif
 
         if(texRes)
             texRes->count++;
 
         if(!texRes->data)
-        {
             fprintf(stderr, "Error cannot load texture\n");
-        }
     }
 }
 

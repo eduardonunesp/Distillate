@@ -53,6 +53,7 @@ DSprite.cpp
 DState.cpp
 DText.cpp
 DTextureResource.cpp
+DTTFResource.cpp
 DUtils.cpp
 """);
 

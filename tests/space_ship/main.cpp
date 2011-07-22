@@ -7,12 +7,14 @@ class State : public DState {
 private:
     DSprite player;
     DEmitter emitter;
+    DText label;
 
 public:
     State() : 
         DState("State1"),
         player(10,10),
-        emitter(DGlobals::height, DGlobals::width/2) {};
+        emitter(DGlobals::height, DGlobals::width/2),
+        label(110, 110, DGlobals::width,"A GAME"){};
     ~State() {}
 
     void create() {
@@ -36,22 +38,28 @@ public:
         DSprite *particle = NULL;
         for(unsigned int i = 0;i < 10;i++) {
             particle = new DSprite();
-            particle->createGraphic(4, 4, 0x990000ff);
+            particle->createGraphic("particle",4, 4, 0x990000ff);
             emitter.add(particle);
         }   
 
         add(&emitter);
         emitter.start(false);
+
+        label.setFormat("nokiafc22.ttf", 12);
+        add(&label);
+
+        player.visible = false;
+        emitter.visible = false;
     }
 
     void update() {
         DState::update();        
 
+        if(DGlobals::keys(DKeyboard::Key::ESCAPE))
+            DGlobals::quit();
         player.velocity.x = 0;
         player.velocity.y = 0;
 
-        if(DGlobals::keys(DKeyboard::Key::ESCAPE))
-            DGlobals::quit();
 
         if(DGlobals::keys(DKeyboard::Key::UP))
             player.velocity.y -= 100;
@@ -68,7 +76,6 @@ class Test : public DGame {
 public:
      Test() : DGame("Space Ship") 
      {
-        DGlobals::resourceManager.loadTexture("player.png");     
      };
 };
 

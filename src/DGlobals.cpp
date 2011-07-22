@@ -21,6 +21,7 @@ namespace Distillate {
     DPoint DGlobals::scroll;
     unsigned int DGlobals::width  = 0;
     unsigned int DGlobals::height = 0;
+    unsigned int DGlobals::bpp    = 16;
     unsigned int DGlobals::FPS = 0;
     DGame* DGlobals::_game = NULL;
     DResourceManager DGlobals::resourceManager;
@@ -38,15 +39,16 @@ namespace Distillate {
          return _pause;
     }
 
-    void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom)
+    void DGlobals::setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int BPP)
     {
          _running = true;
          _game = Game;
          width = Width;
          height = Height;
+         bpp = BPP;
 
 #ifdef SDL_RENDER
-         _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,32,0,0,0,0);
+         _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,DGlobals::bpp,0,0,0,0);
          if(!_buffer) {
               fprintf(stderr, "%s", "Cannot create buffer \n");
               DGlobals::quit();

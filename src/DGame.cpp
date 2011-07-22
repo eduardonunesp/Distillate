@@ -7,50 +7,50 @@
 namespace Distillate {
     DGame::DGame(const std::string &GameTitle):
 #if defined(SDL_RENDER)
-         _screen(NULL),
+        _screen(NULL),
 #endif
-         _state(NULL),
-         _failtype(0),
-         _max_frame_count(10),
-         _elapsed(0),
-         _lasttime(0),
-         _timeaccum(0),
-         minFPS(20),
-         maxFPS(60)
-    {
+        _state(NULL),
+        _failtype(0),
+        _max_frame_count(10),
+        _elapsed(0),
+        _lasttime(0),
+        _timeaccum(0),
+        minFPS(20),
+        maxFPS(60)
+        {
 #ifdef DEBUG
-         fprintf(stdout, "DGame constructor\n");
+            fprintf(stdout, "DGame constructor\n");
 #endif
-         DGlobals::gameTitle = GameTitle;
-    }
+            DGlobals::gameTitle = GameTitle;
+        }
 
     DGame::~DGame()
     {
 #ifdef DEBUG
-         fprintf(stdout, "DGame destructor\n");
+        fprintf(stdout, "DGame destructor\n");
 #endif
 
 #if defined(SDL_RENDER)
-         SDL_FreeSurface(_screen);
+        SDL_FreeSurface(_screen);
 #elif defined(GL_RENDER) && defined(__linux__)         
-         if(GLWin.ctx)
-         {
-             if(!glXMakeCurrent(GLWin.dpy, None, NULL))
-             {
-                 fprintf(stderr, "Error releasing drawing context\n");
-             }
+        if(GLWin.ctx)
+        {
+            if(!glXMakeCurrent(GLWin.dpy, None, NULL))
+            {
+                fprintf(stderr, "Error releasing drawing context\n");
+            }
 
-             glXDestroyContext(GLWin.dpy, GLWin.ctx);
-             GLWin.ctx = NULL;
-         }
+            glXDestroyContext(GLWin.dpy, GLWin.ctx);
+            GLWin.ctx = NULL;
+        }
 
-         if(GLWin.fs)
-         {
-             XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, &GLWin.deskMode);
-             XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
-         }
+        if(GLWin.fs)
+        {
+            XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, &GLWin.deskMode);
+            XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
+        }
 
-         XCloseDisplay(GLWin.dpy);
+        XCloseDisplay(GLWin.dpy);
 #endif
     }
 
@@ -60,6 +60,9 @@ namespace Distillate {
         DState::bgColor = 0xff000000;
 
 #if defined(SDL_RENDER)
+#ifdef DEBUG
+            fprintf(stdout, "Initializing SDL Everything\n");
+#endif
         if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
             _failtype = -1;
@@ -78,121 +81,125 @@ namespace Distillate {
             return false;
         }
 
-        if(TTF_Init() < 0) {
+        if(TTF_WasInit() == 0) {
+#ifdef DEBUG
+            fprintf(stdout, "Initializing SDL_TTF\n");
+#endif
+            if(TTF_Init() < 0) {
                 _failtype = -1;
                 fprintf(stderr, "Cannot initialize TTF system\n");
                 return false;
             }
+        }
 
+        SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
 
-            SDL_WM_SetCaption(DGlobals::gameTitle.c_str(), NULL);
-
-            atexit(SDL_Quit);
-            atexit(TTF_Quit);
+        atexit(SDL_Quit);
+        atexit(TTF_Quit);
 #elif defined(SDL_INPUT)
-            if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
-            {
-                _failtype = -1;
-                fprintf(stderr, "Cannot initialize SDL\n");
-                return false;
-            }
+        if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
+        {
+            _failtype = -1;
+            fprintf(stderr, "Cannot initialize SDL\n");
+            return false;
+        }
 
-            atexit(SDL_Quit);
+        atexit(SDL_Quit);
 #endif         
 
 #if defined(__linux__) && defined(GL_RENDER)
-            int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 4,
-                GLX_GREEN_SIZE, 4,
-                GLX_BLUE_SIZE, 4,
-                GLX_DEPTH_SIZE, 16, 
-                None};
+        int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 4,
+            GLX_GREEN_SIZE, 4,
+            GLX_BLUE_SIZE, 4,
+            GLX_DEPTH_SIZE, 16, 
+            None};
 
-            int attrListDbl[] = {GLX_RGBA, GLX_DOUBLEBUFFER,
-                GLX_RED_SIZE, 4,
-                GLX_GREEN_SIZE, 4,
-                GLX_BLUE_SIZE, 4,
-                GLX_DEPTH_SIZE, 16, 
-                None};
+        int attrListDbl[] = {GLX_RGBA, GLX_DOUBLEBUFFER,
+            GLX_RED_SIZE, 4,
+            GLX_GREEN_SIZE, 4,
+            GLX_BLUE_SIZE, 4,
+            GLX_DEPTH_SIZE, 16, 
+            None};
 
-            XVisualInfo *vi;
-            Colormap cmap;
-            int dpyWidth, dpyHeight;
-            int i;
-            int vidModeMajorVersion, vidModeMinorVersion;
-            XF86VidModeModeInfo **modes;
-            int modeNum;
-            int bestMode;
-            Atom wmDelete;
-            Window winDummy;
-            unsigned int borderDummy;
+        XVisualInfo *vi;
+        Colormap cmap;
+        int dpyWidth, dpyHeight;
+        int i;
+        int vidModeMajorVersion, vidModeMinorVersion;
+        XF86VidModeModeInfo **modes;
+        int modeNum;
+        int bestMode;
+        Atom wmDelete;
+        Window winDummy;
+        unsigned int borderDummy;
 
-            GLWin.fs = false;
-            bestMode = 0;
+        GLWin.fs = false;
+        bestMode = 0;
 
-            GLWin.dpy = XOpenDisplay(0);
-            GLWin.screen = DefaultScreen(GLWin.dpy);
-            XF86VidModeQueryVersion(GLWin.dpy, &vidModeMajorVersion,
-                    &vidModeMinorVersion);
+        GLWin.dpy = XOpenDisplay(0);
+        GLWin.screen = DefaultScreen(GLWin.dpy);
+        XF86VidModeQueryVersion(GLWin.dpy, &vidModeMajorVersion,
+                &vidModeMinorVersion);
 
-            XF86VidModeGetAllModeLines(GLWin.dpy, GLWin.screen, &modeNum, &modes);
+        XF86VidModeGetAllModeLines(GLWin.dpy, GLWin.screen, &modeNum, &modes);
 
-            GLWin.deskMode = *modes[0];
+        GLWin.deskMode = *modes[0];
 
-            for (i = 0; i < modeNum; i++)
+        for (i = 0; i < modeNum; i++)
+        {
+            if ((modes[i]->hdisplay == GameSizeX) && (modes[i]->vdisplay == GameSizeY))
             {
-                if ((modes[i]->hdisplay == GameSizeX) && (modes[i]->vdisplay == GameSizeY))
-                {
-                    bestMode = i;
-                }
+                bestMode = i;
             }
+        }
 
-            vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListDbl);
-            if(NULL == vi)
-            {
-                vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListSgl);
-                GLWin.doublebuffer = false;
-            }
-            else
-            {
-                GLWin.doublebuffer = true;
-            }
+        vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListDbl);
+        if(NULL == vi)
+        {
+            vi = glXChooseVisual(GLWin.dpy, GLWin.screen, attrListSgl);
+            GLWin.doublebuffer = false;
+        }
+        else
+        {
+            GLWin.doublebuffer = true;
+        }
 
-            GLWin.ctx = glXCreateContext(GLWin.dpy, vi, 0, GL_TRUE);
+        GLWin.ctx = glXCreateContext(GLWin.dpy, vi, 0, GL_TRUE);
 
-            cmap = XCreateColormap(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),vi->visual, AllocNone);
-            GLWin.attr.colormap = cmap;
-            GLWin.attr.border_pixel = 0;
+        cmap = XCreateColormap(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),vi->visual, AllocNone);
+        GLWin.attr.colormap = cmap;
+        GLWin.attr.border_pixel = 0;
 
-            if(GLWin.fs)
-            {
-                XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, modes[bestMode]);
-                XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
-                dpyWidth = modes[bestMode]->hdisplay;
-                dpyHeight = modes[bestMode]->vdisplay;
-                XFree(modes);
-                GLWin.attr.override_redirect = True;
-                GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
-                    StructureNotifyMask;
-                GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
-                        0, 0, dpyWidth, dpyHeight, 0, vi->depth, InputOutput, vi->visual,
-                        CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,
-                        &GLWin.attr);
-                XWarpPointer(GLWin.dpy, None, GLWin.win, 0, 0, 0, 0, 0, 0);
-                XMapRaised(GLWin.dpy, GLWin.win);
-                XGrabKeyboard(GLWin.dpy, GLWin.win, True, GrabModeAsync,GrabModeAsync, CurrentTime);
-                XGrabPointer(GLWin.dpy, GLWin.win, True, ButtonPressMask,
-                        GrabModeAsync, GrabModeAsync, GLWin.win, None, CurrentTime);
-            }
-            else
-            {
-                GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
-                    StructureNotifyMask;
-                GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
-                        0, 0, GameSizeX, GameSizeY, 0, vi->depth, InputOutput, vi->visual,
-                        CWBorderPixel | CWColormap | CWEventMask, &GLWin.attr);
-                wmDelete = XInternAtom(GLWin.dpy, "WM_DELETE_WINDOW", True);
-                XSetWMProtocols(GLWin.dpy, GLWin.win, &wmDelete, 1);
-                XSetStandardProperties(GLWin.dpy, GLWin.win, DGlobals::gameTitle.c_str(),
+        if(GLWin.fs)
+        {
+            XF86VidModeSwitchToMode(GLWin.dpy, GLWin.screen, modes[bestMode]);
+            XF86VidModeSetViewPort(GLWin.dpy, GLWin.screen, 0, 0);
+            dpyWidth = modes[bestMode]->hdisplay;
+            dpyHeight = modes[bestMode]->vdisplay;
+            XFree(modes);
+            GLWin.attr.override_redirect = True;
+            GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
+                StructureNotifyMask;
+            GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
+                    0, 0, dpyWidth, dpyHeight, 0, vi->depth, InputOutput, vi->visual,
+                    CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,
+                    &GLWin.attr);
+            XWarpPointer(GLWin.dpy, None, GLWin.win, 0, 0, 0, 0, 0, 0);
+            XMapRaised(GLWin.dpy, GLWin.win);
+            XGrabKeyboard(GLWin.dpy, GLWin.win, True, GrabModeAsync,GrabModeAsync, CurrentTime);
+            XGrabPointer(GLWin.dpy, GLWin.win, True, ButtonPressMask,
+                    GrabModeAsync, GrabModeAsync, GLWin.win, None, CurrentTime);
+        }
+        else
+        {
+            GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
+                StructureNotifyMask;
+            GLWin.win = XCreateWindow(GLWin.dpy, RootWindow(GLWin.dpy, vi->screen),
+                    0, 0, GameSizeX, GameSizeY, 0, vi->depth, InputOutput, vi->visual,
+                    CWBorderPixel | CWColormap | CWEventMask, &GLWin.attr);
+            wmDelete = XInternAtom(GLWin.dpy, "WM_DELETE_WINDOW", True);
+            XSetWMProtocols(GLWin.dpy, GLWin.win, &wmDelete, 1);
+            XSetStandardProperties(GLWin.dpy, GLWin.win, DGlobals::gameTitle.c_str(),
                     DGlobals::gameTitle.c_str(), None, NULL, 0, NULL);
             XMapRaised(GLWin.dpy, GLWin.win);
         }
@@ -222,35 +229,35 @@ namespace Distillate {
 
     void DGame::add(DState *State, bool Curr)
     {
-         if(!State) {
-              fprintf(stderr, "Invalid State passed [%p]\n", (void*) State);
-              return;
-         }
+        if(!State) {
+            fprintf(stderr, "Invalid State passed [%p]\n", (void*) State);
+            return;
+        }
 
-         _states[State->name] = State;
+        _states[State->name] = State;
 #ifdef DEBUG
-         fprintf(stdout, "State %s added\n", State->name.c_str());
+        fprintf(stdout, "State %s added\n", State->name.c_str());
 #endif
 
-         if(Curr) switchState(State->name);
+        if(Curr) switchState(State->name);
     }
 
     bool DGame::switchState(const std::string &Name)
     {
-         DState *new_state = _states[Name];
-         if(!new_state) {
-              fprintf(stderr, "State '%s' not found", Name.c_str());
-              return false;
-         }
+        DState *new_state = _states[Name];
+        if(!new_state) {
+            fprintf(stderr, "State '%s' not found", Name.c_str());
+            return false;
+        }
 
-         _state = new_state;
-         _state->create();
+        _state = new_state;
+        _state->create();
 
 #ifdef DEBUG
-         fprintf(stdout, "Current state has switched for state %s\n", new_state->name.c_str());
+        fprintf(stdout, "Current state has switched for state %s\n", new_state->name.c_str());
 #endif
 
-         return true;
+        return true;
     }
 
     int DGame::run()
@@ -314,7 +321,7 @@ namespace Distillate {
                         }   
                         break;
                     case KeyPress:
-                            DGlobals::keys.setKeyState(DKeyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
+                        DGlobals::keys.setKeyState(DKeyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
                         break;
                     case ClientMessage:
                         if (*XGetAtomName(GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")

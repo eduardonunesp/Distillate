@@ -25,186 +25,178 @@ namespace Distillate {
      * input, basic info, and the camera system among other things.
      */
     class DGlobals {
-         /* Internal */
-         friend class DGame;
-         friend class DSprite;
+        /* Internal */
+        friend class DGame;
+        friend class DSprite;
 
     protected:
 #ifdef SDL_RENDER
-         static SDL_Surface *_buffer;
+        static SDL_Surface *_buffer;
 #endif
 
     public:
-         /**
-          * If you build and maintain your own version of flixel,
-          * you can give it your own name here.  Appears in the console.
-          */
-         static const std::string LIBRARY_NAME;
+        /**
+         * If you build and maintain your own version of flixel,
+         * you can give it your own name here.  Appears in the console.
+         */
+        static const std::string LIBRARY_NAME;
 
-         /**
-          * Assign a major version to your library.
-          * Appears before the decimal in the console.
-          */
-         static const unsigned int LIBRARY_MAJOR_VERSION = 1;
+        /**
+         * Assign a major version to your library.
+         * Appears before the decimal in the console.
+         */
+        static const unsigned int LIBRARY_MAJOR_VERSION = 1;
 
-         /**
-          * Assign a minor version to your library.
-          * Appears after the decimal in the console.
-          */
-         static const unsigned int LIBRARY_MINOR_VERSION = 0;
-
-    protected:
-         /**
-          * Internal tracker for game object (so we can pause & unpause)
-          */
-         static DGame *_game;
-
-         /**
-          * Internal tracker for game pause state.
-          */
-         static bool _pause;
-
-    public:
-         /**
-          * Whether you are running in Debug or Release mode.
-          * Set automatically by <code>DFactory</code> during startup.
-          */
-         static bool debug;
+        /**
+         * Assign a minor version to your library.
+         * Appears after the decimal in the console.
+         */
+        static const unsigned int LIBRARY_MINOR_VERSION = 0;
 
     protected:
-         /**
-          * Internal tracker for bounding box visibility.
-          */
-         static bool _showBounds;
+        /**
+         * Internal tracker for game object (so we can pause & unpause)
+         */
+        static DGame *_game;
+
+        /**
+         * Internal tracker for game pause state.
+         */
+        static bool _pause;
+
+    public:
+        /**
+         * Whether you are running in Debug or Release mode.
+         * Set automatically by <code>DFactory</code> during startup.
+         */
+        static bool debug;
+
+    protected:
+        /**
+         * Internal tracker for bounding box visibility.
+         */
+        static bool _showBounds;
 
     public:
 
-         /**
-          * Represents the amount of time in seconds that passed since last frame.
-          */
-         static float elapsed;
+        /**
+         * Represents the amount of time in seconds that passed since last frame.
+         */
+        static float elapsed;
 
-         /**
-          * Essentially locks the framerate to a minimum value - any slower and you'll get slowdown instead of frameskip; default is 1/30th of a second.
-          */
-         static float maxElapsed;
+        /**
+         * Essentially locks the framerate to a minimum value - any slower and you'll get slowdown instead of frameskip; default is 1/30th of a second.
+         */
+        static float maxElapsed;
 
-         /**
-          * How fast or slow time should pass in the game; default is 1.0.
-          */
-         static float timeScale;
+        /**
+         * How fast or slow time should pass in the game; default is 1.0.
+         */
+        static float timeScale;
 
-         /**
-          * Game name
-          */
-         static std::string gameTitle;
+        /**
+         * Game name
+         */
+        static std::string gameTitle;
 
-         /**
-          * The width of the screen in game pixels.
-          */
-         static unsigned int width;
+        /**
+         * The width of the screen in game pixels.
+         */
+        static unsigned int width;
 
-         /**
-          * The height of the screen in game pixels.
-          */
-         static unsigned int height;
+        /**
+         * The height of the screen in game pixels.
+         */
+        static unsigned int height;
 
-         /*
-          *
-          */
-         static unsigned int FPS;
-
-         /**
-          * <code>DG.levels</code> and <code>DG.scores</code> are generic
-          * global variables that can be used for various cross-state stuff.
-          */
-         static std::vector<int> levels;
-         static int level;
-         static std::vector<int> scores;
-         static int score;
-
-         /**
-          * <code>DG.saves</code> is a generic bucket for storing
-          * DSaves so you can access them whenever you want.
-          */
-         static std::vector<int> saves;
-         static int save;
-
-         /**
-
-          * A reference to a <code>DMouse</code> object.  Important for input!
-          */
-         static DMouse mouse;
-
-         /**
-          * A reference to a <code>DKeyboard</code> object.  Important for input!
-          */
-         static DKeyboard keys;
+        static unsigned int bpp;
         
-         /**
-          * Control and canche all resources
-          */
-         static DResourceManager resourceManager;
+        /*
+         *
+         */
+        static unsigned int FPS;
+
+        /**
+         * <code>DG.levels</code> and <code>DG.scores</code> are generic
+         * global variables that can be used for various cross-state stuff.
+         */
+        static std::vector<int> levels;
+        static int level;
+        static std::vector<int> scores;
+        static int score;
+
+        /**
+         * <code>DG.saves</code> is a generic bucket for storing
+         * DSaves so you can access them whenever you want.
+         */
+        static std::vector<int> saves;
+        static int save;
+
+        /**
+
+         * A reference to a <code>DMouse</code> object.  Important for input!
+         */
+        static DMouse mouse;
+
+        /**
+         * A reference to a <code>DKeyboard</code> object.  Important for input!
+         */
+        static DKeyboard keys;
+
+        /**
+         * Control and canche all resources
+         */
+        static DResourceManager resourceManager;
 
     protected:
-         /**
-          * Internal flag for whether or not the game is muted.
-          */
-         static bool _mute;
+        /**
+         * Internal flag for whether or not the game is muted.
+         */
+        static bool _mute;
 
-         /**
-          * Internal volume level, used for global sound control.
-          */
-         static bool _volume;
+        /**
+         * Internal volume level, used for global sound control.
+         */
+        static bool _volume;
 
     public:
-         /**
-          * Stores the basic parallax scrolling values.
-          */
-         static DPoint scroll;
+        /**
+         * Stores the basic parallax scrolling values.
+         */
+        static DPoint scroll;
 
-         /**
-          * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.
-          */
-         static bool pause();
-         static void pause(bool Pause);
+        /**
+         * Set <code>pause</code> to true to pause the game, all sounds, and display the pause popup.
+         */
+        static bool pause();
+        static void pause(bool Pause);
 
-         /**
-          * Setting running to false
-          */
-         static void quit() {
-              _running = false;
-         }
+        /**
+         * Setting running to false
+         */
+        static void quit() {
+            _running = false;
+        }
 
-         /**
-          * Loads a bitmap from a file, caches it, and generates a horizontally flipped version if necessary.
-          *
-          * @param   Graphic     The image file that you want to load.
-          * @param   Reverse     Whether to generate a flipped version.
-          *
-          * @return  The <code>BitmapData</code> we just created.
-          */
-         static DTextureResource* addTexture(const std::string &GraphicFile, bool Reverse = false, bool Unique = false, const std::string &Key = "");
-
-         /**
-          * Sets a new state
-          */
-         static void setState(const std::string &Name);
+        /**
+         * Sets a new state
+         */
+        static void setState(const std::string &Name);
 
     private:
 
-         /**
-          * Indicates if current game is running, used in main loop
-          */
-         static bool _running;
+        /**
+         * Indicates if current game is running, used in main loop
+         */
+        static bool _running;
 
-         /**
-          * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
-          */
-         static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int Zoom);
+        /**
+         * Called by <code>DGame</code> to set up <code>DGlobals</code> during <code>FlxGame</code>'s constructor.
+         */
+        static void setGameData(DGame* Game, unsigned int Width, unsigned int Height, unsigned int BPP);
 
-         DGlobals() {};
-         virtual ~DGlobals() {};
+        DGlobals() {};
+        virtual ~DGlobals() {};
     };
 }
 

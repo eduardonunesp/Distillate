@@ -88,14 +88,14 @@ namespace Distillate {
          return this;
     }
 
-    DSprite *DSprite::createGraphic(unsigned int Width, unsigned int Height, unsigned int Color, bool Unique, const std::string &Key)
+    DSprite *DSprite::createGraphic(const std::string &Key, unsigned int Width, unsigned int Height, unsigned int Color)
     {
         _bakedRotation = 0;
     
-        if(!DGlobals::resourceManager.createTexture(Width, Height, Color,  "A1"))
+        if(!DGlobals::resourceManager.createTexture(Key, Width, Height, Color))
             return NULL;
             
-         _pixels = DGlobals::resourceManager.texture("A1");
+         _pixels = DGlobals::resourceManager.texture(Key);
 #if defined(GL_RENDER)
 #elif defined(SDL_RENDER)
          SDL_Rect rect;

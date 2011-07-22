@@ -144,7 +144,7 @@ namespace Distillate {
           *
           * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
           */
-         DSprite *createGraphic(unsigned int Width, unsigned int Height, unsigned int Color = 0xffffffff, bool Unique = false, const std::string &Key = "");
+         DSprite *createGraphic(const std::string &Key, unsigned int Width, unsigned int Height, unsigned int Color = 0xffffffff);
 
     protected:
          /**

@@ -1,5 +1,6 @@
 #include "DResourceManager.hpp"
 #include "DTextureResource.hpp"
+#include "DTTFResource.hpp"
 #include "DResource.hpp"
 
 #if defined(GL_RENDER)
@@ -13,6 +14,7 @@
 
 namespace Distillate {
     DTextureLoader *DResourceManager::textureLoader = new DTextureLoader();
+    DTTFLoader *DResourceManager::ttfLoader = new DTTFLoader();
 
     DResourceManager::DResourceManager() {}
     DResourceManager::~DResourceManager() {}
@@ -24,10 +26,9 @@ namespace Distillate {
 
     bool DResourceManager::loadTexture(const std::string &filename, const std::string &resourceid)
     {
-        if(_resources[resourceid])
-        {
+        if(_resources[resourceid]) {
 #ifdef DEBUG 
-        fprintf(stdout,"Loading from buffer %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+            fprintf(stdout,"Loading from buffer %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
 #endif
             return true;
         }
@@ -37,14 +38,12 @@ namespace Distillate {
 #endif
 
         DTextureResource *texRes =  new DTextureResource(filename, resourceid); 
-        if(!texRes) 
-        {
+        if(!texRes) {
             fprintf(stderr, "Cannot alloc texRes\n");
             return false;
         }
 
-        switch(DTextureLoader::checkTexture(texRes))
-        {
+        switch(DTextureLoader::checkTexture(texRes)) {
             case DTextureLoader::PNG_TEXTURE:
                 textureLoader->impl = new DPNGTextureImplementation();
                 textureLoader->impl->process(texRes);
@@ -59,12 +58,56 @@ namespace Distillate {
         return true;
     }
 
-    bool DResourceManager::createTexture(unsigned int width, unsigned int height, unsigned int color, const std::string &resourceid)
+    bool DResourceManager::loadTTF(const std::string &filename, unsigned int width, unsigned int size, unsigned int color)
+    {
+        return loadTTF(filename, filename, width, size, color);
+    }
+
+    bool DResourceManager::loadTTF(const std::string &filename, const std::string &resourceid, unsigned int width, unsigned int size, unsigned int color) 
+    {
+        if(_resources[resourceid]) {
+#ifdef DEBUG 
+            fprintf(stdout,"Loading from buffer %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+            return true;
+        }
+
+#ifdef DEBUG 
+        fprintf(stdout,"Trying load ttf %s, with id %s\n", filename.c_str(), resourceid.c_str()); 
+#endif
+
+        DTTFResource *ttfRes = new DTTFResource(filename, resourceid);
+        if(!ttfRes) 
+        {
+            fprintf(stderr, "Cannot alloc ttfRes\n");
+            return false;
+        }
+
+        ttfRes->w = width;
+        ttfRes->size = size;
+        ttfRes->color = color;
+
+        ttfLoader->impl = new DTTFImplementation();
+        ttfLoader->impl->process(ttfRes);
+
+        _resources[resourceid] = ttfRes;
+        return true;
+    }
+
+    void DResourceManager::unloadTTF(const std::string &resourceid)
+    {
+        if(_resources[resourceid]) {
+            delete _resources[resourceid];
+            _resources.erase(resourceid);
+        }
+    }
+
+    bool DResourceManager::createTexture(const std::string &resourceid, unsigned int width, unsigned int height, unsigned int color)
     {
         if(_resources[resourceid])
         {
 #ifdef DEBUG 
-        fprintf(stdout,"Loading from buffer %s\n",  resourceid.c_str()); 
+            fprintf(stdout,"Loading from buffer %s\n",  resourceid.c_str()); 
 #endif
             return true;
         }
@@ -72,9 +115,8 @@ namespace Distillate {
 #ifdef DEBUG
         fprintf(stdout, "Creating texture\n");
 #endif
-        
 
-        DTextureResource *texRes = new DTextureResource("created",resourceid);
+        DTextureResource *texRes = new DTextureResource(resourceid, resourceid);
         if(!texRes) 
         {
             fprintf(stderr, "Cannot alloc texRes\n");
@@ -92,6 +134,15 @@ namespace Distillate {
 
     DTextureResource *DResourceManager::texture(const std::string& resourceid)
     {
+        if(!_resources[resourceid])
+            fprintf(stderr, "DANGER! resource not found\n");            
         return static_cast<DTextureResource*>(_resources[resourceid]);
+    }
+
+    DTTFResource *DResourceManager::ttf(const std::string& resourceid)
+    {
+        if(!_resources[resourceid])
+            fprintf(stderr, "DANGER! resource not found\n");            
+        return static_cast<DTTFResource*>(_resources[resourceid]);
     }
 }
