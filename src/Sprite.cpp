@@ -1,3 +1,39 @@
+/**
+ * Copyright (c) 2010 - 2011 Distillate Project
+ *
+ *  ______ ________________________            _____________________
+ *  |     \  |  |______   |     |  |     |     |_____|   |   |______
+ *  |_____/__|________|   |   __|__|_____|_____|     |   |   |______
+ *
+ *
+ * License: BSD
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ * 3. Neither the name of Wintermoon nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #include "include/Sprite.hpp"
 #include "include/Point.hpp"
 #include "include/Anim.hpp"
@@ -9,7 +45,7 @@
 
 namespace Distillate {
     Sprite::Sprite(float X, float Y, const std::string &SimpleGraphics):
-        DObject(X, Y),
+        Object(X, Y),
         finished(false),
         _flipped(0),
         _curAnim(NULL),
@@ -20,11 +56,10 @@ namespace Distillate {
         _facing(RIGHT),
         _alpha(1)
     {
-        _is_sprite = true;
 
-#if defined(GL_RENDER) && defined(GL_VBO)
+#if defined(GL_ENGINE) && defined(GL_VBO)
         glGenBuffersARB(1, &vboID);
-#elif defined(SDL_RENDER)
+#elif defined(SDL_ENGINE)
         if(!SimpleGraphics.empty()) {
             if(Globals::resourceManager.loadTexture(SimpleGraphics)) {
                 _pixels = Globals::resourceManager.texture(SimpleGraphics);
@@ -93,20 +128,20 @@ namespace Distillate {
 
     void Sprite::update()
     {
-        DObject::update();
+        Object::update();
         updateAnimation();
     }
 
     void Sprite::render()
     {
         getScreenXY(_point);
-#if defined(GL_RENDER) && defined(GL_VBO)
+#if defined(GL_ENGINE) && defined(GL_VBO)
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glBufferData(GL_ARRAY_BUFFER, sizeof(DVBO)*3, &spriteVBO[0].x, GL_STREAM_DRAW);
         glEnableClientState(GL_VERTEX_ARRAY);
         glDrawArrays(GL_QUADS, 0, 4);
         glDisableClientState(GL_VERTEX_ARRAY); 
-#elif defined(GL_RENDER)        
+#elif defined(GL_ENGINE)        
         glBegin(GL_QUADS);
         {   
             /* Bottom Left */
@@ -126,7 +161,7 @@ namespace Distillate {
             glVertex2f(0,1); 
         }   
         glEnd();
-#elif defined(SDL_RENDER)
+#elif defined(SDL_ENGINE)
         SDL_Rect rect_dst;
 
         rect_dst.x = _point.x;
@@ -157,7 +192,7 @@ namespace Distillate {
         return true;
     }
 
-    void Sprite::addAnimation(const std::string &Name, std::vector<int> &Frames, float FrameRate, bool Looped)
+    void Sprite::addAnimation(const std::string &Name, std::vector<unsigned int> &Frames, float FrameRate, bool Looped)
     {
         _animations.push_back(new Anim(Name, Frames, FrameRate, Looped));
     }

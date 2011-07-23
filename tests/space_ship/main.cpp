@@ -3,24 +3,24 @@
 
 using namespace Distillate;
 
-class State : public DState {
+class StateTest : public State {
 private:
-    DSprite player;
-    DEmitter emitter;
-    DText label;
+    Sprite player;
+    Emitter emitter;
+    Text label;
 
 public:
-    State() : 
-        DState("State1"),
+    StateTest() : 
+        State("State1"),
         player(10,10),
-        emitter(DGlobals::height, DGlobals::width/2),
-        label(110, 110, DGlobals::width,"A GAME"){};
-    ~State() {}
+        emitter(Globals::height, Globals::width/2),
+        label(110, 110, Globals::width,"A GAME"){};
+    ~StateTest() {}
 
     void create() {
         bgColor = 0xff999999;
 
-        DSprite::AnimationFrames frames;
+        Sprite::AnimationFrames frames;
         frames.push_back(0);
         frames.push_back(1);
         frames.push_back(2);
@@ -37,9 +37,10 @@ public:
         emitter.setYSpeed(-300,- 500);
         emitter.setXSpeed(-20, 20);
 
-        DSprite *particle = NULL;
+        Sprite *particle = NULL;
         for(unsigned int i = 0;i < 10;i++) {
-            particle = new DSprite();
+            particle = new Sprite();
+            particle->visible = false;
             particle->createGraphic("particle",4, 4, 0x990000ff);
             emitter.add(particle);
         }   
@@ -52,28 +53,28 @@ public:
     }
 
     void update() {
-        DState::update();        
+        State::update();        
 
         player.velocity.x = 0;
         player.velocity.y = 0;
 
-        if(DGlobals::keys(DKeyboard::Key::ESCAPE))
-            DGlobals::quit();
+        if(Globals::keys(Keyboard::Key::ESCAPE))
+            Globals::quit();
 
-        if(DGlobals::keys(DKeyboard::Key::UP))
+        if(Globals::keys(Keyboard::Key::UP))
             player.velocity.y -= 100;
-        if(DGlobals::keys(DKeyboard::Key::DOWN))
+        if(Globals::keys(Keyboard::Key::DOWN))
             player.velocity.y += 100;
-        if(DGlobals::keys(DKeyboard::Key::RIGHT))
+        if(Globals::keys(Keyboard::Key::RIGHT))
             player.velocity.x += 100;
-        if(DGlobals::keys(DKeyboard::Key::LEFT))
+        if(Globals::keys(Keyboard::Key::LEFT))
             player.velocity.x -= 100;
     }
 };
 
-class Test : public DGame {
+class GameTest : public Game {
 public:
-     Test() : DGame("Space Ship") 
+     GameTest() : Game("Space Ship") 
      {
      };
 };
@@ -81,10 +82,10 @@ public:
 int main(int argc, char* argv[])
 {
 
-     Test test;
+     GameTest test;
      test.setup(640, 480, 32);
 
-     State state;
+     StateTest state;
      test.add(&state, true);
 
      return test.run();
