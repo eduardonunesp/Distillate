@@ -1,35 +1,31 @@
-#ifndef DOBJECT_HPP
-#define DOBJECT_HPP
+#ifndef __OBJECT_HPP__
+#define __OBJECT_HPP__
 
 #include <vector>
-#include "DRect.hpp"
+#include "Defs.hpp"
+#include "Rect.hpp"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-namespace Distillate
-{
+NAMESPACE_BEGIN
 
 /* Forwards */
-class DPoint;
+class Point;
 
 /**
- * This is the base class for most of the display objects (<code>DSprite</code>, <code>DText</code>, etc).
+ * This is the base class for most of the display objects (<code>Sprite</code>, <code>Text</code>, etc).
  * It includes some basic attributes about game objects, including retro-style flickering,
  * basic state information, sizes, scrolling, and basic physics & motion.
  */
-class DObject : public DRect
+class Object : public Rect
 {
     /* Internal */
-    friend class DQuadTree;
-    friend class DUtils;
-    friend class DGroup;
+    friend class QuadTree;
+    friend class Utils;
+    friend class Group;
 
 public:
     /**
      * Kind of a global on/off switch for any objects 
-     * descended from <code>DObject</code>.
+     * descended from <code>Object</code>.
      */
     bool exists;
 
@@ -47,8 +43,8 @@ public:
 protected:
     /**
      * If an object is dead, the functions that automate collisions 
-     * will skip it (see <code>DG.overlapArrays()</code> and <code>
-     * DG.collideArrays()</code>).
+     * will skip it (see <code>Globals.overlapArrays()</code> and <code>
+     * Globals.collideArrays()</code>).
      */
     bool _solid;
 
@@ -59,35 +55,30 @@ protected:
      */
     bool _fixed;
 
-    /**
-     * Necessary variable (added at C++)
-     */
-    bool _is_sprite;
-
 public:
     /**
      * The basic speed of this object.
      */
-    DPoint velocity;
+    Point velocity;
 
     /**
      * How fast the speed of this object is changing.
      * Useful for smooth movement and gravity.
      */
-    DPoint acceleration;
+    Point acceleration;
 
     /**
      * This isn't drag exactly, more like deceleration that is only applied
      * when acceleration is not affecting the sprite.
      */
-    DPoint drag;
+    Point drag;
 
     /**
      * If you are using <code>acceleration</code>, you can use 
      * <code>maxVelocity</code> with it
      * to cap the speed automatically (very useful!).
      */
-    DPoint maxVelocity;
+    Point maxVelocity;
 
     /**
      * Set the angle of a sprite to rotate it.
@@ -122,7 +113,7 @@ public:
      * If you change this, the visuals and the collisions will likely be
      * pretty out-of-sync if you do any rotation.
      */
-    DPoint origin;
+    Point origin;
 
     /**
      * If you want to do Asteroids style stuff, check out thrust,
@@ -142,7 +133,7 @@ public:
      * 1 means it scrolls along a the same speed as the foreground layer.
      * scrollFactor is initialized as (1,1) by default.
      */
-    DPoint scrollFactor;
+    Point scrollFactor;
 
 protected:
     /**
@@ -171,53 +162,54 @@ protected:
      * This is just a pre-allocated x-y point container to be 
      * used however you like
      */
-    DPoint _point;
+    Point _point;
 
     /**
      * This is just a pre-allocated rectangle container to be 
      * used however you like
      */
-    DRect _rect;
+    Rect _rect;
 
     /**
+     * DEPRECATED
      * This is a pre-allocated Flash Point object, which is
      * useful for certain graphics API calls
      */
-    DPoint _flashPoint;
+    Point _flashPoint;
 
 public:
     /**
      * Set this to false if you want to skip the automatic 
      * motion/movement stuff (see <code>updateMotion()</code>).
-     * DObject and DSprite default to true.
-     * DText, DTileblock, DTilemap and DSound default to false.
+     * Object and Sprite default to true.
+     * Text, TileBlock, TileMap and Sound default to false.
      */
     bool moves;
 
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DRect colHullX;
+    Rect colHullX;
 
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DRect colHullY;
+    Rect colHullY;
 
     /**
      * These store a couple of useful numbers for speeding up collision resolution.
      */
-    DPoint colVector;
+    Point colVector;
 
     /**
-     * An array of <code>DPoint</code> objects.  
+     * An array of <code>Point</code> objects.  
      * By default contains a single offset (0,0).
      */
-    std::vector<DPoint*> colOffsets;
+    std::vector<Point*> colOffsets;
 
 protected:
     /**
-     * Dedicated internal flag for whether or not this class is a DGroup.
+     * Dedicated internal flag for whether or not this class is a Group.
      * Internal use only !!!
      */
     bool _group;
@@ -257,18 +249,18 @@ public:
     static bool _refreshBounds;
 
     /**
-     * Creates a new <code>DObject</code>.
+     * Creates a new <code>Object</code>.
      *
      * @param   X       The X-coordinate of the point in space.
      * @param   Y       The Y-coordinate of the point in space.
      * @param   Width   Desired width of the rectangle.
      * @param   Height  Desired height of the rectangle.
      */
-    DObject(float X=0, float Y=0, float Width=0, float Height=0);
-    virtual ~DObject();
+    Object(float X=0, float Y=0, float Width=0, float Height=0);
+    virtual ~Object();
 
     /**
-     * Called by <code>DGroup</code>, commonly when game states are changed.
+     * Called by <code>Group</code>, commonly when game states are changed.
      */
     virtual void destroy() {};
 
@@ -307,7 +299,7 @@ public:
     }
 
     /**
-     * Called by <code>DObject.updateMotion()</code> and some constructors to
+     * Called by <code>Object.updateMotion()</code> and some constructors to
      * rebuild the basic collision data for this object.
      */
     void refreshHulls();
@@ -330,84 +322,84 @@ public:
     virtual void update();
 
     /**
-     * Override this function to draw graphics (see <code>DSprite</code>).
+     * Override this function to draw graphics (see <code>Sprite</code>).
      */
     virtual void render() {};
 
     /**
-     * Checks to see if some <code>DObject</code> object overlaps this <code>DObject</code> object.
+     * Checks to see if some <code>Object</code> object overlaps this <code>Object</code> object.
      *
      * @param   Object  The object being tested.
      *
      * @return  Whether or not the two objects overlap.
      */
-    bool overlaps(DObject *Object);
+    bool overlaps(Object *Object);
 
     /**
-     * Checks to see if a point in 2D space overlaps this <code>DObject</code> object.
+     * Checks to see if a point in 2D space overlaps this <code>Object</code> object.
      *
      * @param   X           The X coordinate of the point.
      * @param   Y           The Y coordinate of the point.
      * @param   PerPixel    Whether or not to use per pixel collision 
-     * checking (only available in <code>DSprite</code> subclass).
+     * checking (only available in <code>Sprite</code> subclass).
      *
      * @return  Whether or not the point overlaps this object.
      */
     bool overlapsPoint(float X,float Y,bool PerPixel=false);
 
     /**
-     * If you don't want to call <code>DU.collide()</code> you can use this instead.
-     * Just calls <code>DU.collide(this,Object);</code>.  Will collide against itself
+     * If you don't want to call <code>Utils.collide()</code> you can use this instead.
+     * Just calls <code>Utils.collide(this,Object);</code>.  Will collide against itself
      * if Object==null.
      *
-     * @param   Object      The <DObject> you want to collide with.
+     * @param   Object      The <Object> you want to collide with.
      */
-    bool collide(DObject *Object=NULL);
+    bool collide(Object *Obj=NULL);
 
     /**
-     * <code>DU.collide()</code> (and thus <code>DObject.collide()</code>) call
+     * <code>Utils.collide()</code> (and thus <code>Object.collide()</code>) call
      * this function each time two objects are compared to see if they collide.
      * It doesn't necessarily mean these objects WILL collide, however.
      *
-     * @param   Object  The <code>DObject</code> you're about to run into.
+     * @param   Object  The <code>Object</code> you're about to run into.
      */
-    virtual void preCollide(DObject *Object) {};
+    virtual void preCollide(Object *Obj) {};
 
     /**
      * Called when this object's left side collides with 
-     * another <code>DObject</code>'s right.
+     * another <code>Object</code>'s right.
      *
-     * @param   Contact     The <code>DObject</code> you just ran into.
+     * @param   Contact     The <code>Object</code> you just ran into.
      * @param   Velocity    The suggested new velocity for this object.
      */
-    void hitLeft(DObject *Contact,float Velocity);
+    void hitLeft(Object *Contact,float Velocity);
 
     /**
      * Called when this object's right side collides with 
-     * another <code>DObject</code>'s left.
+     * another <code>Object</code>'s left.
      *
-     * @param   Contact     The <code>DObject</code> you just ran into.
+     * @param   Contact     The <code>Object</code> you just ran into.
      * @param   Velocity    The suggested new velocity for this object.
      */
-    void hitRight(DObject *Contact,float Velocity);
+    void hitRight(Object *Contact,float Velocity);
 
     /**
      * Called when this object's top collides with the 
-     * bottom of another <code>DObject</code>.
+     * bottom of another <code>Object</code>.
      *
-     * @param   Contact     The <code>DObject</code> you just ran into.
+     * @param   Contact     The <code>Object</code> you just ran into.
      * @param   Velocity    The suggested new velocity for this object.
      */
-    void hitTop(DObject *Contact,float Velocity);
+    void hitTop(Object *Contact,float Velocity);
 
     /**
      * Called when this object's bottom edge collides with
-     * the top of another <code>DObject</code>.
+     * the top of another <code>Object</code>.
      *
-     * @param   Contact     The <code>DObject</code> you just ran into.
+     * @param   Contact     The <code>Object</code> you just ran into.
      * @param   Velocity    The suggested new velocity for this object.
      */
-    void hitBottom(DObject *Contact,float Velocity);
+    void hitBottom(Object *Contact,float Velocity);
 
     /**
      * Call this function to "damage" (or give health bonus) to this sprite.
@@ -445,7 +437,7 @@ public:
      * @return  The <code>Point</code> you passed in, or a new <code>Point</code> 
      * if you didn't pass one, containing the screen X and Y position of this object.
      */
-    DPoint* getScreenXY(DPoint &Point);
+    Point* getScreenXY(Point &P);
 
     /**
      * Check and see if this object is currently on screen.
@@ -469,5 +461,5 @@ public:
     unsigned int getBoundingColor();
 };
 
-}
-#endif // DOBJECT_HPP
+NAMESPACE_END
+#endif /* __OBJECT_HPP__ */
