@@ -1,49 +1,52 @@
-#include "include/DState.hpp"
-#include "include/DObject.hpp"
-#include "include/DUtils.hpp"
-#include "include/DSprite.hpp"
+#include "include/State.hpp"
+#include "include/Object.hpp"
+#include "include/Utils.hpp"
+#include "include/Sprite.hpp"
 
-namespace Distillate {
-    unsigned int DState::bgColor;
+NAMESPACE_BEGIN
 
-    DState::DState(const std::string &Name):
-         name(Name)
-    {
-    }
+unsigned int State::bgColor;
 
-    DState::~DState()
-    {
-    }
-
-    DObject *DState::add(DObject* Core)
-    {
-#ifdef DEBUG
-        fprintf(stdout, "Added object\n");
-#endif
-        return defaultGroup.add(Core);
-    }
-
-    void DState::preProcess()
-    {
-    }
-
-    void DState::update()
-    {
-        defaultGroup.update();
-    }
-
-    void DState::collide()
-    {
-         DUtils::collide(&defaultGroup, &defaultGroup);
-    }
-
-    void DState::render()
-    {
-         defaultGroup.render();
-    }
-
-    void DState::destroy()
-    {
-        defaultGroup.destroy();
-    }
+State::State(const std::string &Name):
+    name(Name)
+{
 }
+
+State::~State()
+{
+}
+
+Object *State::add(Object* Core)
+{
+#ifdef DEBUG
+    fprintf(stdout, "Added object\n");
+#endif
+    return defaultGroup.add(Core);
+}
+
+void State::preProcess()
+{
+}
+
+void State::update()
+{
+    defaultGroup.update();
+}
+
+void State::collide()
+{
+    Utils::collide(&defaultGroup, &defaultGroup);
+}
+
+void State::render()
+{
+    defaultGroup.render();
+}
+
+void State::destroy()
+{
+    defaultGroup.destroy();
+}
+}
+
+NAMESPACE_END

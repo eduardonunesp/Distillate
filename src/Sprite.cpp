@@ -1,13 +1,14 @@
-#include "include/DSprite.hpp"
-#include "include/DPoint.hpp"
-#include "include/DAnim.hpp"
-#include "include/DGlobals.hpp"
-#include "include/DResourceManager.hpp"
-#include "include/DTextureResource.hpp"
+#include "include/Sprite.hpp"
+#include "include/Point.hpp"
+#include "include/Anim.hpp"
+#include "include/Globals.hpp"
+#include "include/ResourceManager.hpp"
+#include "include/TextureResource.hpp"
+#include "include/Utils.hpp"
 #include <cmath>
 
 namespace Distillate {
-    DSprite::DSprite(float X, float Y, const std::string &SimpleGraphics):
+    Sprite::Sprite(float X, float Y, const std::string &SimpleGraphics):
         DObject(X, Y),
         finished(false),
         _flipped(0),
@@ -25,25 +26,25 @@ namespace Distillate {
         glGenBuffersARB(1, &vboID);
 #elif defined(SDL_RENDER)
         if(!SimpleGraphics.empty()) {
-            if(DGlobals::resourceManager.loadTexture(SimpleGraphics)) {
-                _pixels = DGlobals::resourceManager.texture(SimpleGraphics);
+            if(Globals::resourceManager.loadTexture(SimpleGraphics)) {
+                _pixels = Globals::resourceManager.texture(SimpleGraphics);
             }
         }
 #endif
     }
 
-    DSprite::~DSprite()
+    Sprite::~Sprite()
     {
         delete_all(_animations);
     }
 
-    DSprite* DSprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
+    Sprite* Sprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
     {
-        if(!DGlobals::resourceManager.loadTexture(Graphic))
+        if(!Globals::resourceManager.loadTexture(Graphic))
             return NULL;
 
         _bakedRotation = 0;
-        _pixels = DGlobals::resourceManager.texture(Graphic);
+        _pixels = Globals::resourceManager.texture(Graphic);
 
         if(Width == 0) {
             if(Animated)
@@ -66,22 +67,15 @@ namespace Distillate {
         return this;
     }
 
-    DSprite *DSprite::createGraphic(const std::string &Key, unsigned int Width, unsigned int Height, unsigned int Color)
+    Sprite *Sprite::createGraphic(const std::string &Key, unsigned int Width, unsigned int Height, unsigned int Color)
     {
         _bakedRotation = 0;
 
-        if(!DGlobals::resourceManager.createTexture(Key, Width, Height, Color))
+        if(!Globals::resourceManager.createTexture(Key, Width, Height, Color))
             return NULL;
 
-        _pixels = DGlobals::resourceManager.texture(Key);
+        _pixels = Globals::resourceManager.texture(Key);
 
-        SDL_Rect rect;
-        rect.x = 0;
-        rect.y = 0;
-        rect.w = Width;
-        rect.h = Height;
-
-        SDL_FillRect(_pixels->data, &rect, Color);
         width = frameWidth = _pixels->w;
         height = frameHeight = _pixels->h;
         resetHelpers();
@@ -89,7 +83,7 @@ namespace Distillate {
         return this;
     }
 
-    void DSprite::resetHelpers()
+    void Sprite::resetHelpers()
     {
         origin.x = frameWidth/2;
         origin.y = frameHeight/2;
@@ -97,13 +91,13 @@ namespace Distillate {
         refreshHulls();
     }
 
-    void DSprite::update()
+    void Sprite::update()
     {
         DObject::update();
         updateAnimation();
     }
 
-    void DSprite::render()
+    void Sprite::render()
     {
         getScreenXY(_point);
 #if defined(GL_RENDER) && defined(GL_VBO)
@@ -142,19 +136,19 @@ namespace Distillate {
         _rendering_rect.w = width;
 
         if((angle == 0) || (_bakedRotation > 0))
-            SDL_BlitSurface(_pixels->data, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+            SDL_BlitSurface(_pixels->data, &_rendering_rect, Globals::_buffer, &rect_dst);
         else
-            SDL_BlitSurface(_pixels->data, &_rendering_rect, DGlobals::_buffer, &rect_dst);
+            SDL_BlitSurface(_pixels->data, &_rendering_rect, Globals::_buffer, &rect_dst);
 
         _rendering_rect.x = 0;
         _rendering_rect.y = 0;
 #endif
     }
 
-    bool DSprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
+    bool Sprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
     {
-        X -= DUtils::floorValue(DGlobals::scroll.x);
-        Y -= DUtils::floorValue(DGlobals::scroll.y);
+        X -= Utils::floorValue(Globals::scroll.x);
+        Y -= Utils::floorValue(Globals::scroll.y);
 
         getScreenXY(_point);
 
@@ -163,12 +157,12 @@ namespace Distillate {
         return true;
     }
 
-    void DSprite::addAnimation(const std::string &Name, std::vector<int> &Frames, float FrameRate, bool Looped)
+    void Sprite::addAnimation(const std::string &Name, std::vector<int> &Frames, float FrameRate, bool Looped)
     {
-        _animations.push_back(new DAnim(Name, Frames, FrameRate, Looped));
+        _animations.push_back(new Anim(Name, Frames, FrameRate, Looped));
     }
 
-    void DSprite::play(const std::string &AnimName, bool Force)
+    void Sprite::play(const std::string &AnimName, bool Force)
     {
         if(!Force && (_curAnim != NULL) && (AnimName == _curAnim->name) && (_curAnim->looped || !finished)) return;
         _curFrame = 0;
@@ -189,14 +183,14 @@ namespace Distillate {
         }
     }
 
-    DPoint * DSprite::getScreenXY(DPoint &Point)
+    Point * Sprite::getScreenXY(Point &Point)
     {
-        Point.x = DUtils::floorValue(x + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.x*scrollFactor.x) - offset.x;
-        Point.y = DUtils::floorValue(y + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.y*scrollFactor.y) - offset.y;
+        Point.x = Utils::floorValue(x + Utils::roundingError)+Utils::floorValue(Globals::scroll.x*scrollFactor.x) - offset.x;
+        Point.y = Utils::floorValue(y + Utils::roundingError)+Utils::floorValue(Globals::scroll.y*scrollFactor.y) - offset.y;
         return &Point;
     }
 
-    void DSprite::calcFrame()
+    void Sprite::calcFrame()
     {
         unsigned int rx = _caf*frameWidth;
         unsigned int ry = 0;
@@ -224,7 +218,7 @@ namespace Distillate {
      * Useful for cases when you need to update this but are buried down in too many supers.
      * This function is called automatically by <code>FlxSprite.update()</code>.
      */
-    void  DSprite::updateAnimation()
+    void  Sprite::updateAnimation()
     {
         if(_bakedRotation) {
             unsigned int oc = _caf;
@@ -235,7 +229,7 @@ namespace Distillate {
         }
 
         if((_curAnim) && (_curAnim->delay > 0) && (_curAnim->looped || !finished)) {
-            _frameTimer += DGlobals::elapsed;
+            _frameTimer += Globals::elapsed;
             if(_frameTimer > _curAnim->delay) {
                 _frameTimer -= _curAnim->delay;
                 if(_curFrame == _curAnim->frames.size()-1) {
