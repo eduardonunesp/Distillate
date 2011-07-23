@@ -1,31 +1,35 @@
-#include "include/DMouse.hpp"
-#include "include/DSprite.hpp"
+#include "include/Mouse.hpp"
+
+#if defined(SDL_ENGINE)
 #include <SDL/SDL.h>
+#endif
 
-namespace Distillate {
-    DMouse::DMouse() {}
-    DMouse::~DMouse() {}
+NAMESPACE_BEGIN
 
-    void DMouse::setMousePos(int x, int y)
-    {
-         _x = x;
-         _y = y;
-    }
+DMouse::DMouse() {}
+DMouse::~DMouse() {}
 
-    void DMouse::showCursor(bool show)
-    {
-#if defined(SDL_RENDER) || defined(SDL_INPUT)
-        SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
-#endif   
-    }
-
-    void DMouse::setButtonState(int state, int b)
-    {
-         _buttons[b] = state;
-    }
-
-    bool DMouse::checkButtonState(int state, int b)
-    {
-         return  (_buttons[b] == state);
-    }
+void DMouse::setMousePos(int x, int y)
+{
+    _x = x;
+    _y = y;
 }
+
+void DMouse::showCursor(bool show)
+{
+#if defined(SDL_ENGINE)
+    SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
+#endif   
+}
+
+void DMouse::setButtonState(int state, int b)
+{
+    _buttons[b] = state;
+}
+
+bool DMouse::checkButtonState(int state, int b)
+{
+    return  (_buttons[b] == state);
+}
+
+NAMESPACE_END

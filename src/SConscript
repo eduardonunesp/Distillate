@@ -3,7 +3,7 @@ from sys import platform
 libname = 'Distillate';
 
 IncludePath = ['include/']
-LibsPath = ['/usr/lib/X11']   
+LibsPath = []   
 Libs = []
 
 CommonFlags = ' -Wall -pedantic'
@@ -36,29 +36,30 @@ elif render == 'gl':
         Libs.append('X11')
         Libs.append('Xxf86vm')
         Libs.append('png')
+        LibsPath.append('/usr/lib/X11')
 
 if input == 'sdl':
     libenv.Append(CPPDEFINES = ['SDL_INPUT'])
     Libs.append('SDL')
 
 files = Split("""
-DEmitter.cpp
-DGame.cpp
-DGlobals.cpp
-DGroup.cpp
-DKeyboard.cpp
-DMouse.cpp
-DObject.cpp
-DQuadTree.cpp
-DResourceManager.cpp
-DSound.cpp
-DSoundResource.cpp
-DSprite.cpp
-DState.cpp
-DText.cpp
-DTextureResource.cpp
-DTTFResource.cpp
-DUtils.cpp
+Emitter.cpp
+Game.cpp
+Globals.cpp
+Group.cpp
+Keyboard.cpp
+Mouse.cpp
+Object.cpp
+QuadTree.cpp
+ResourceManager.cpp
+Sound.cpp
+SoundResource.cpp
+Sprite.cpp
+State.cpp
+Text.cpp
+TextureResource.cpp
+TTFResource.cpp
+Utils.cpp
 """);
 
 if linkage == 'static':

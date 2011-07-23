@@ -1,18 +1,18 @@
-#include "include/DKeyboard.hpp"
-#include <SDL/SDL.h>
-#include <stdexcept>
+#include "include/Keyboard.hpp"
 
-namespace Distillate {
-    DKeyboard::DKeyboard() {}
-    DKeyboard::~DKeyboard() {}
+NAMESPACE_BEGIN
 
-    void DKeyboard::setKeyState(int state, int k)
-    {
-         _keys[k] = state;
-    }
+Keyboard::DKeyboard() {}
+Keyboard::~DKeyboard() {}
 
-    bool DKeyboard::checkKeyState(int state, int k)
-    {
-         return (_keys[k] == state);;
-    }
+void Keyboard::setKeyState(int state, int k)
+{
+    _keys[k] = state;
 }
+
+bool Keyboard::checkKeyState(int state, int k)
+{
+    return (_keys[k] == state);;
+}
+
+NAMESPACE_END

@@ -1,15 +1,14 @@
-#include "include/DObject.hpp"
-#include "include/DGlobals.hpp"
-#include "include/DUtils.hpp"
-#include "include/DPoint.hpp"
-#include "include/DSprite.hpp"
+#include "include/Object.hpp"
+#include "include/Globals.hpp"
+#include "include/Utils.hpp"
+#include "include/Point.hpp"
+#include "include/Sprite.hpp"
 #include <cmath>
 
-namespace Distillate
-{
+NAMESPACE_BEGIN
 
-DObject::DObject(float X, float Y, float Width, float Height):
-    DRect(X,Y,Width,Height),
+Object::Object(float X, float Y, float Width, float Height):
+    Rect(X,Y,Width,Height),
     exists(true),
     active(true),
     visible(true),
@@ -36,7 +35,7 @@ DObject::DObject(float X, float Y, float Width, float Height):
     collideTop(true),
     collideBottom(true) {}
 
-DObject::~DObject()
+Object::~Object()
 {
     delete_all(colOffsets);
 }
@@ -46,7 +45,7 @@ void destroy()
 
 }
 
-void DObject::refreshHulls()
+void Object::refreshHulls()
 {
     colHullX.x = x;
     colHullX.y = y;
@@ -58,9 +57,8 @@ void DObject::refreshHulls()
     colHullY.height = height;
 }
 
-void DObject::updateMotion()
+void Object::updateMotion()
 {
-
     if(!moves)
         return;
 
@@ -69,18 +67,18 @@ void DObject::updateMotion()
     onFloor = false;
     float vc;
 
-    vc = (DUtils::computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity)/2;
+    vc = (Utils::computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity)/2;
 
     angularVelocity += vc;
-    angle = fmod(angle + angularVelocity*DGlobals::elapsed, 360);
+    angle = fmod(angle + angularVelocity*Globals::elapsed, 360);
     angularVelocity += vc;
 
-    DPoint thrustComponents;
-    DPoint maxComponents;
+    Point thrustComponents;
+    Point maxComponents;
     if(thrust != 0)
     {
-        DUtils::rotatePoint(-thrust,0,0,0,angle,&thrustComponents);
-        DUtils::rotatePoint(-maxThrust,0,0,0,angle,&maxComponents);
+        Utils::rotatePoint(-thrust,0,0,0,angle,&thrustComponents);
+        Utils::rotatePoint(-maxThrust,0,0,0,angle,&maxComponents);
         float max = ((maxComponents.x>0)?maxComponents.x:-maxComponents.x);
         if(max > ((maxComponents.y>0)?maxComponents.y:-maxComponents.y))
             maxComponents.y = max;
@@ -89,14 +87,14 @@ void DObject::updateMotion()
         maxVelocity.x = maxVelocity.y = ((max>0)?max:-max);
     }
 
-    vc = (DUtils::computeVelocity(velocity.x,acceleration.x+thrustComponents.x,drag.x,maxVelocity.x) - velocity.x)/2;
+    vc = (Utils::computeVelocity(velocity.x,acceleration.x+thrustComponents.x,drag.x,maxVelocity.x) - velocity.x)/2;
     velocity.x += vc;
-    float xd = velocity.x*DGlobals::elapsed;
+    float xd = velocity.x*Globals::elapsed;
     velocity.x += vc;
 
-    vc = (DUtils::computeVelocity(velocity.y,acceleration.y+thrustComponents.y,drag.y,maxVelocity.y) - velocity.y)/2;
+    vc = (Utils::computeVelocity(velocity.y,acceleration.y+thrustComponents.y,drag.y,maxVelocity.y) - velocity.y)/2;
     velocity.y += vc;
-    float yd = velocity.y*DGlobals::elapsed;
+    float yd = velocity.y*Globals::elapsed;
     velocity.y += vc;
 
     x += xd;
@@ -115,13 +113,13 @@ void DObject::updateMotion()
         colHullY.y += colVector.y;
 }
 
-void DObject::updateFlickering()
+void Object::updateFlickering()
 {
     if(flickering())
     {
         if(_flickerTimer > 0)
         {
-            _flickerTimer -= DGlobals::elapsed;
+            _flickerTimer -= Globals::elapsed;
             if(_flickerTimer == 0)
                 _flickerTimer = -1;
         }
@@ -135,72 +133,72 @@ void DObject::updateFlickering()
     }
 }
 
-void DObject::update()
+void Object::update()
 {
     updateMotion();
     updateFlickering();
 }
 
-bool DObject::overlaps(DObject *Object)
+bool Object::overlaps(Object *Obj)
 {
     getScreenXY(_point);
     float tx = _point.x;
     float ty = _point.y;
 
-    Object->getScreenXY(_point);
-    if((_point.x <= tx-Object->width) || (_point.x >= tx+width) || (_point.y <=ty-Object->height) || (_point.y >= ty+height))
+    Obj->getScreenXY(_point);
+    if((_point.x <= tx-Obj->width) || (_point.x >= tx+width) || (_point.y <=ty-Obj->height) || (_point.y >= ty+height))
         return false;
     return true;
 }
 
-bool DObject::overlapsPoint(float X,float Y,bool PerPixel)
+bool Object::overlapsPoint(float X,float Y,bool PerPixel)
 {
-    X += DUtils::floorValue(DGlobals::scroll.x);
-    Y += DUtils::floorValue(DGlobals::scroll.y);
+    X += Utils::floorValue(Globals::scroll.x);
+    Y += Utils::floorValue(Globals::scroll.y);
     getScreenXY(_point);
     if((X <= _point.x) || (X >= _point.x+width) || (Y <= _point.y) || (Y >= _point.y+height))
         return false;
     return true;
 }
 
-bool DObject::collide(DObject *Object)
+bool Object::collide(Object *Obj)
 {
-    return DUtils::collide(this,((!Object)?this:Object));
+    return Utils::collide(this,((!Obj)?this:Obj));
 }
 
-void DObject::hitLeft(DObject *Contact, float Velocity)
+void Object::hitLeft(Object *Contact, float Velocity)
 {
     if(!_fixed) velocity.x = Velocity;
 }
 
-void DObject::hitRight(DObject *Contact, float Velocity)
+void Object::hitRight(Object *Contact, float Velocity)
 {
     hitLeft(Contact,Velocity);
 }
 
-void DObject::hitTop(DObject *Contact, float Velocity)
+void Object::hitTop(Object *Contact, float Velocity)
 {
     if(!_fixed) velocity.y = Velocity;
 }
 
-void DObject::hitBottom(DObject *Contact, float Velocity)
+void Object::hitBottom(Object *Contact, float Velocity)
 {
     onFloor = true;
     if(!_fixed) velocity.y = Velocity;
 }
 
-void DObject::hurt(int Damage)
+void Object::hurt(int Damage)
 {
     if((health -= Damage) <= 0)	kill();
 }
 
-void DObject::kill()
+void Object::kill()
 {
     exists = false;
     dead = true;
 }
 
-void DObject::flicker(int Duration)
+void Object::flicker(int Duration)
 {
     _flickerTimer = Duration;
     if(_flickerTimer < 0)
@@ -210,27 +208,27 @@ void DObject::flicker(int Duration)
     }
 }
 
-bool DObject::flickering()
+bool Object::flickering()
 {
     return _flickerTimer >= 0;
 }
 
-DPoint* DObject::getScreenXY(DPoint &Point)
+Point* Object::getScreenXY(Point &Point)
 {
-    Point.x = DUtils::floorValue(x + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.x*scrollFactor.x);
-    Point.y = DUtils::floorValue(y + DUtils::roundingError)+DUtils::floorValue(DGlobals::scroll.y*scrollFactor.y);
+    Point.x = Utils::floorValue(x + Utils::roundingError)+Utils::floorValue(Globals::scroll.x*scrollFactor.x);
+    Point.y = Utils::floorValue(y + Utils::roundingError)+Utils::floorValue(Globals::scroll.y*scrollFactor.y);
     return &Point;
 }
 
-bool DObject::onScreen()
+bool Object::onScreen()
 {
     getScreenXY(_point);
-    if((_point.x + width < 0) || (_point.x > (int) DGlobals::width) || (_point.y + height < 0) || (_point.y > (int) DGlobals::height))
+    if((_point.x + width < 0) || (_point.x > (int) Globals::width) || (_point.y + height < 0) || (_point.y > (int) Globals::height))
         return false;
     return true;
 }
 
-void DObject::reset(float X, float Y)
+void Object::reset(float X, float Y)
 {
     x = X;
     y = Y;
@@ -238,7 +236,7 @@ void DObject::reset(float X, float Y)
     dead = false;
 }
 
-unsigned int DObject::getBoundingColor()
+unsigned int Object::getBoundingColor()
 {
     if(_solid)
     {
@@ -251,4 +249,4 @@ unsigned int DObject::getBoundingColor()
         return 0x7f0090e9;
 }
 
-}
+NAMESPACE_END

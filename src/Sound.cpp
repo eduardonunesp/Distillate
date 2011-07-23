@@ -1,5 +1,5 @@
-#include "include/DSound.hpp"
+#include "include/Sound.hpp"
 
-namespace Distillate {
+NAMESPACE_BEGIN
 
-}
+NAMESPACE_END
