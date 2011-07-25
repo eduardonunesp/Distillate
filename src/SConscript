@@ -11,7 +11,7 @@ CommonFlags = ' -Wall -pedantic'
 debug    = ARGUMENTS.get('debug', 'true')
 linkage  = ARGUMENTS.get('linkage', 'static')
 
-render   = ARGUMENTS.get('render', 'sdl')
+engine   = ARGUMENTS.get('engine', 'sdl')
 
 libenv = Environment( CPPFLAGS = CommonFlags)
 
@@ -19,7 +19,7 @@ if debug == 'true':
     libenv.Append(CPPFLAGS = ' -g -ggdb')
     libenv.Append(CPPDEFINES = ['DEBUG'])
 
-if render == 'sdl':
+if engine == 'sdl':
     libenv.Append(CPPDEFINES = ['SDL_ENGINE'])
     Libs.append('SDL')
     Libs.append('SDL_image')
@@ -27,7 +27,7 @@ if render == 'sdl':
     Libs.append('SDL_gfx')
     Libs.append('SDL_mixer')
 
-elif render == 'gl':
+elif engine == 'gl':
     libenv.Append(CPPDEFINES = ['GL_ENGINE'])
     Libs.append('GL')
     Libs.append('GLU')

@@ -12,9 +12,9 @@ private:
 public:
     StateTest() : 
         State("State1"),
-        player(10,10),
+        player(10,Globals::height/2),
         emitter(Globals::height, Globals::width/2),
-        label(110, 110, Globals::width,"A GAME"){};
+        label(10, 10, Globals::width,"SCORE: 0"){};
     ~StateTest() {}
 
     void create() {
@@ -41,7 +41,7 @@ public:
         for(unsigned int i = 0;i < 10;i++) {
             particle = new Sprite();
             particle->visible = false;
-            particle->createGraphic("particle",4, 4, 0x990000ff);
+            particle->createGraphic("particle",10, 10, 0x990000ff);
             emitter.add(particle);
         }   
 

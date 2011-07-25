@@ -58,6 +58,7 @@ void TTFImplementation::process(Resource* r) {
     }
 
     TTFResource *ttfRes = static_cast<TTFResource*>(r);
+#if defined(SDL_ENGINE)    
     ttfRes->data = TTF_OpenFont(ttfRes->filename.c_str(), ttfRes->size);
 
     ttfRes->h = TTF_FontHeight(ttfRes->data);
@@ -66,6 +67,7 @@ void TTFImplementation::process(Resource* r) {
         fprintf(stderr, "Null pointer after open ttf: %s\n", TTF_GetError());
         return;
     }
+#endif
 
     if(ttfRes)
         ttfRes->count++;

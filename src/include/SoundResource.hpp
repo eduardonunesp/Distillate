@@ -54,7 +54,8 @@ class SoundResource : public Resource {
 public:
     SoundResource(const std::string &filenameValue, const std::string &resourceidValue) : 
         Resource(filenameValue, resourceidValue),
-        data(NULL) {}
+        data(NULL) 
+        {}
     ~SoundResource() {
 #ifdef DEBUG
         fprintf(stdout, "Deleting sound %s", filename.c_str());
@@ -67,6 +68,8 @@ public:
 
 #if defined(SDL_ENGINE)            
     Mix_Music *data;
+#else
+    void *data;   
 #endif
 };
 

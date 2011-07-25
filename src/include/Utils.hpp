@@ -302,12 +302,6 @@ public:
      * @param	Object2		The second object or group you want to check.
      */
     static bool solveYCollision(Object* Object1, Object* Object2);
-
-    static unsigned int getPixel(TextureResource *Resource, int x, int y);
-    static void setPixel(TextureResource *Resource, int x, int y, unsigned int newColor);
-    static TextureResource * MirrorTextureX( TextureResource * Resource );
-    static TextureResource * MirrorTextureY( TextureResource * Resource );
-    static TextureResource * RotateTexture( TextureResource * Resource, float Angle);
 };
 
 NAMESPACE_END

@@ -43,6 +43,10 @@
 #include "include/Utils.hpp"
 #include <cmath>
 
+#if defined(SDL_ENGINE)
+#include <SDL/SDL_rotozoom.h>
+#endif
+
 namespace Distillate {
     Sprite::Sprite(float X, float Y, const std::string &SimpleGraphics):
         Object(X, Y),
@@ -132,52 +136,35 @@ namespace Distillate {
         updateAnimation();
     }
 
-    void Sprite::render()
+    void Sprite::renderSprite()
     {
         getScreenXY(_point);
-#if defined(GL_ENGINE) && defined(GL_VBO)
-        glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(DVBO)*3, &spriteVBO[0].x, GL_STREAM_DRAW);
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glDrawArrays(GL_QUADS, 0, 4);
-        glDisableClientState(GL_VERTEX_ARRAY); 
-#elif defined(GL_ENGINE)        
-        glBegin(GL_QUADS);
-        {   
-            /* Bottom Left */
-            glTexCoord2i(0,0);
-            glVertex2f(0,height); 
 
-            /* Bottom Right */
-            glTexCoord2i(1,0);
-            glVertex2f(width,height);             
+#if defined(SDL_ENGINE)
+        SDL_Rect rect_src;
+        rect_src.x = _rendering_rect.x;
+        rect_src.y = _rendering_rect.y;
+        rect_src.w = width;
+        rect_src.h = height;
 
-            /* Top Right */
-            glTexCoord2i(1,1);
-            glVertex2f(width,0); 
-
-            /* Top Left */
-            glTexCoord2i(0,0);
-            glVertex2f(0,1); 
-        }   
-        glEnd();
-#elif defined(SDL_ENGINE)
         SDL_Rect rect_dst;
-
         rect_dst.x = _point.x;
         rect_dst.y = _point.y;
 
-        _rendering_rect.h = height;
-        _rendering_rect.w = width;
-
         if((angle == 0) || (_bakedRotation > 0))
-            SDL_BlitSurface(_pixels->data, &_rendering_rect, Globals::_buffer, &rect_dst);
-        else
-            SDL_BlitSurface(_pixels->data, &_rendering_rect, Globals::_buffer, &rect_dst);
-
-        _rendering_rect.x = 0;
-        _rendering_rect.y = 0;
+            SDL_BlitSurface(_pixels->data, &rect_src, Globals::_buffer, &rect_dst);
+        else {
+            SDL_Surface *tmp_surface;
+            tmp_surface = rotozoomSurface(_pixels->data, angle, 1, 0);
+            SDL_BlitSurface(tmp_surface, 0, Globals::_buffer, &rect_dst);
+            SDL_FreeSurface(tmp_surface);
+        }
 #endif
+    }
+
+    void Sprite::render()
+    {
+        renderSprite();
     }
 
     bool Sprite::overlapsPoint(unsigned int X, unsigned int Y, bool PerPixel)
@@ -231,7 +218,7 @@ namespace Distillate {
         unsigned int ry = 0;
 
         /* Handle sprite sheets */
-        unsigned int w = _flipped ? _flipped : _pixels->data->w;
+        unsigned int w = _flipped ? _flipped : _pixels->w;
         if(rx >= w) {
             ry = (rx/w)*frameHeight;
             rx = rx % w;

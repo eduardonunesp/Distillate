@@ -38,6 +38,7 @@
 #include "include/Object.hpp"
 #include "include/Utils.hpp"
 #include "include/Sprite.hpp"
+#include <cstdio>
 
 NAMESPACE_BEGIN
 

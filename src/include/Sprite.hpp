@@ -138,14 +138,10 @@ protected:
     int _bakedRotation;
     float _alpha;
     bool _boundsVisible;
+    Point _rendering_rect;
 
     /* Surface stuff */
     TextureResource *_pixels;
-
-#if defined(SDL_ENGINE)
-    //TODO: Put into texture resource object
-    SDL_Rect _rendering_rect;
-#endif
 
 public:
 
@@ -192,6 +188,11 @@ protected:
      * Resets some important variables for sprite optimization and rendering.
      */
     void resetHelpers();
+
+    /** 
+     * Internal function that performs the actual sprite rendering, called by render().
+     */
+    void renderSprite();
 
 public:
     /**

@@ -86,6 +86,9 @@ void PNGTextureImplementation::process(Resource* r) {
 #elif defined(GL_ENGINE)
     FILE *fp = fopen(r->filename.c_str(), "rb");
 
+    png_byte header[8];
+    fread(header, 1, 8, fp);
+
     if (!fp) {
         fprintf(stderr, "Null point detected\n");
         return;
@@ -117,7 +120,7 @@ void PNGTextureImplementation::process(Resource* r) {
     if (setjmp(png_jmpbuf(png_ptr))) {
         png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
         fclose(fp);
-        fprintf(stderr, "Null point detected\n");
+        fprintf(stderr, "Null point detected [setjmp]\n");
         return;
     }
 
@@ -161,6 +164,9 @@ void PNGTextureImplementation::process(Resource* r) {
     glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height, 0,
             GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) image_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    texRes->w = width;
+    texRes->h = height;
 
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
     delete[] image_data;

@@ -45,12 +45,14 @@ void SoundImplementation::process(Resource* r) {
     }
 
     SoundResource *soundRes = static_cast<SoundResource*>(r);
+#if defined(SDL_ENGINE)    
     soundRes->data = Mix_LoadMUS(soundRes->filename.c_str());
 
     if(!soundRes->data) {
         fprintf(stderr, "Null pointer after open mixer: %s\n", Mix_GetError());
         return;
     }
+#endif    
 
     if(soundRes)
         soundRes->count++;

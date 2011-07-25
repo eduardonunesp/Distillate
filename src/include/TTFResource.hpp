@@ -53,7 +53,10 @@ NAMESPACE_BEGIN
 struct TTFResource : public Resource {
     TTFResource(const std::string &filenameValue, const std::string &resourceidValue) : 
         Resource(filenameValue, resourceidValue), 
-        data(NULL), size(8), color(0xffffffff), w(0), h(0) {}
+#if defined(SDL_ENGINE)        
+        data(NULL), 
+#endif        
+        size(8), color(0xffffffff), w(0), h(0) {}
     ~TTFResource() {
 #ifdef DEBUG
         fprintf(stdout, "Deleting TTF %s", filename.c_str());
@@ -66,6 +69,8 @@ struct TTFResource : public Resource {
 
 #if defined(SDL_ENGINE)            
     TTF_Font *data;
+#else
+    void* data;
 #endif
     unsigned int size;
     unsigned int color;
