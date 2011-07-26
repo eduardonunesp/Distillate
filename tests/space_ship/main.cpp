@@ -48,7 +48,7 @@ public:
         add(&emitter);
         emitter.start(false);
 
-        label.setFormat("nokiafc22.ttf", 12);
+        label.setFormat("nokiafc22.ttf", 12, 0xff0000ff);
         add(&label);
     }
 

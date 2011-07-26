@@ -39,6 +39,7 @@
 #include "include/Globals.hpp"
 #include "include/Keyboard.hpp"
 #include "include/Mouse.hpp"
+#include "include/Utils.hpp"
 #include <cstdio>
 
 NAMESPACE_BEGIN
@@ -247,7 +248,6 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     glLoadIdentity();
     gluPerspective(45.0f, (GLfloat)Globals::width / (GLfloat)Globals::height, 0.1f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     XSetStandardProperties(_GLWin.dpy, _GLWin.win,Globals::gameTitle.c_str(),Globals::gameTitle.c_str(), None, NULL, 0, NULL);
 #endif
 
@@ -377,7 +377,11 @@ int Game::run()
             glXSwapBuffers(_GLWin.dpy, _GLWin.win);
         else
             glFlush();
-        glClearColor(0,0,0,1.0f);
+        glClearColor( (float) RED_FROM_UI32(State::bgColor)   / 255,
+                      (float) GREEN_FROM_UI32(State::bgColor) / 255,
+                      (float) BLUE_FROM_UI32(State::bgColor)  / 255,
+                      (float) ALPHA_FROM_UI32(State::bgColor) / 255);
+
         glClear(GL_COLOR_BUFFER_BIT);
         glLoadIdentity();
 #elif defined(SDL_ENGINE)

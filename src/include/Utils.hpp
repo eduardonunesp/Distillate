@@ -47,6 +47,15 @@
 
 NAMESPACE_BEGIN
 
+#define ALPHA_FROM_UI32(color) (int) (color >> 24)
+#define RED_FROM_UI32(color)   (int) ((color << 24) >> 24) 
+#define GREEN_FROM_UI32(color) (int) ((color << 16) >> 24) 
+#define BLUE_FROM_UI32(color)  (int) ((color << 8 ) >> 24) 
+
+#if defined(SDL_ENGINE)
+#define SDL_COLOR_FROM_UI32(color)  RED_FROM_UI32(color), GREEN_FROM_UI32(color), BLUE_FROM_UI32(color) 
+#endif
+
 /**
  * Clean functions, usefull to clean containers
  */

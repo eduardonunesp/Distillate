@@ -39,6 +39,7 @@
 #include "include/TTFResource.hpp"
 #include "include/TextureResource.hpp"
 #include "include/Globals.hpp"
+#include "include/Utils.hpp"
 
 NAMESPACE_BEGIN
 
@@ -109,8 +110,8 @@ void Text::calcFrame()
             ttf = Globals::resourceManager.ttf(ttf->resourceid);
         }
 #ifdef SDL_ENGINE
-        SDL_Color fg = { 255, 255, 255, 0 };
-        SDL_Color bg = { 99, 99, 99, 0 };
+        SDL_Color fg = { SDL_COLOR_FROM_UI32(ttf->color) };
+        SDL_Color bg = { SDL_COLOR_FROM_UI32(ttf->color) };
 
         SDL_Surface *fgs = 0;
         SDL_Surface *bgs = 0;
