@@ -18,19 +18,21 @@ public:
     ~StateTest() {}
 
     void create() {
-        bgColor = 0xff999999;
+        bgColor = 0;
+        
 
         Sprite::AnimationFrames frames;
         frames.push_back(0);
         frames.push_back(1);
         frames.push_back(2);
 
-        player.loadGraphic("player.png", true, false, 52, 21, true);
+        player.loadGraphic("player.png", false, false, 52, 21, true);
         player.addAnimation("flying", frames, 100, true);
         player.play("flying");
 
         add(&player);
 
+        /*
         emitter.delay = 0.5;
         emitter.gravity = 1000;;
         emitter.maxRotation = 0;
@@ -50,6 +52,7 @@ public:
 
         label.setFormat("nokiafc22.ttf", 12, 0xff0000ff);
         add(&label);
+        */
     }
 
     void update() {

@@ -61,15 +61,11 @@ namespace Distillate {
         _alpha(1)
     {
 
-#if defined(GL_ENGINE) && defined(GL_VBO)
-        glGenBuffersARB(1, &vboID);
-#elif defined(SDL_ENGINE)
         if(!SimpleGraphics.empty()) {
             if(Globals::resourceManager.loadTexture(SimpleGraphics)) {
                 _pixels = Globals::resourceManager.texture(SimpleGraphics);
             }
         }
-#endif
     }
 
     Sprite::~Sprite()
@@ -159,6 +155,24 @@ namespace Distillate {
             SDL_BlitSurface(tmp_surface, 0, Globals::_buffer, &rect_dst);
             SDL_FreeSurface(tmp_surface);
         }
+#elif defined(GL_ENGINE)
+        glBindTexture( GL_TEXTURE_2D, _pixels->data );
+
+        glTranslated(_point.x, _point.y, 0.0f);
+
+        glBegin( GL_QUADS );
+        glTexCoord2f(_rendering_rect.x/width, _rendering_rect.y/height); // bottom left 
+        glVertex2d(0,_point.y);
+
+        glTexCoord2f((_rendering_rect.x+width)/width, _rendering_rect.y/height); // bottom right
+        glVertex2d(_point.x,_point.y);
+
+        glTexCoord2f((_rendering_rect.x+width)/width,(_rendering_rect.y+height)/height); // top right
+        glVertex2d(_point.x,0);
+
+        glTexCoord2f(_rendering_rect.x/width, (_rendering_rect.y+height)/height); // top left
+        glVertex2d(0,0);
+        glEnd();
 #endif
     }
 

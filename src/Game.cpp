@@ -137,13 +137,17 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     atexit(TTF_Quit);
 
 #elif defined(GL_ENGINE) && defined(__linux__) 
-    int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 4,
+    int attrListSgl[] = {
+        GLX_RGBA, 
+        GLX_RED_SIZE, 4,
         GLX_GREEN_SIZE, 4,
         GLX_BLUE_SIZE, 4,
         GLX_DEPTH_SIZE, 16, 
         None};
 
-    int attrListDbl[] = {GLX_RGBA, GLX_DOUBLEBUFFER,
+    int attrListDbl[] = {
+        GLX_RGBA, 
+        GLX_DOUBLEBUFFER,
         GLX_RED_SIZE, 4,
         GLX_GREEN_SIZE, 4,
         GLX_BLUE_SIZE, 4,
@@ -237,18 +241,34 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     XGetGeometry(_GLWin.dpy, _GLWin.win, &winDummy, &_GLWin.x, &_GLWin.y,
             &_GLWin.width, &_GLWin.height, &borderDummy, &_GLWin.bpp);
 
-    glEnable( GL_TEXTURE_2D );
+    glViewport(0, 0, Globals::width, Globals::height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, (GLfloat) Globals::width / (GLfloat) Globals::height, 0.1f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+
     glPushAttrib(GL_ENABLE_BIT);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glViewport(0, 0, Globals::width, Globals::height);
+
     glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
     glLoadIdentity();
-    gluPerspective(45.0f, (GLfloat)Globals::width / (GLfloat)Globals::height, 0.1f, 100.0f);
+
+    glOrtho(0.0, (GLdouble)Globals::width,(GLdouble)Globals::height, 0.0, 0.0, 1.0);
+
     glMatrixMode(GL_MODELVIEW);
-    XSetStandardProperties(_GLWin.dpy, _GLWin.win,Globals::gameTitle.c_str(),Globals::gameTitle.c_str(), None, NULL, 0, NULL);
+    glPushMatrix();
+    glLoadIdentity();
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    XSetStandardProperties(_GLWin.dpy, _GLWin.win, Globals::gameTitle.c_str(),
+                           Globals::gameTitle.c_str(), None, NULL, 0, NULL);
+    glFlush();
 #endif
 
     return true;
@@ -349,7 +369,7 @@ int Game::run()
                     break;
                 case KeyPress:
                     Globals::keys.setKeyState(Keyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
-                    break;
+                        break;
                 case ClientMessage:
                     if (*XGetAtomName(_GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
                     {   
@@ -373,10 +393,12 @@ int Game::run()
         }
 
 #if defined(GL_ENGINE)
+
         if(_GLWin.doublebuffer)
             glXSwapBuffers(_GLWin.dpy, _GLWin.win);
         else
             glFlush();
+
         glClearColor( (float) RED_FROM_UI32(State::bgColor)   / 255,
                       (float) GREEN_FROM_UI32(State::bgColor) / 255,
                       (float) BLUE_FROM_UI32(State::bgColor)  / 255,

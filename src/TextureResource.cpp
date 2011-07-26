@@ -158,6 +158,7 @@ void PNGTextureImplementation::process(Resource* r) {
     for (int i = 0; i < height; ++i)
         row_pointers[height - 1 - i] = image_data + i * rowbytes;
 
+    png_read_image(png_ptr, row_pointers);
 
     glGenTextures(1, &texRes->data);
     glBindTexture(GL_TEXTURE_2D, texRes->data);

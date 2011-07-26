@@ -63,7 +63,7 @@ public:
         Resource(filenameValue, resourceidValue),
 #if defined(SDL_ENGINE)
         data(NULL),       
-#elif defined(GL_RENDER)
+#elif defined(GL_ENGINE)
         data(0),
 #endif
         h(0), w(0) {}
@@ -75,7 +75,7 @@ public:
 #if defined(SDL_ENGINE)            
         SDL_FreeSurface(data);
         data = NULL;
-#elif defined(GL_RENDER)
+#elif defined(GL_ENGINE)
         if(glIsTexture(data))
             glDeleteTextures(1,&data);
 #endif
@@ -83,7 +83,7 @@ public:
 
 #if defined(SDL_ENGINE)            
     SDL_Surface *data;
-#elif defined(GL_RENDER) && defined(GL_VBO)
+#elif defined(GL_ENGINE) && defined(GL_VBO)
     typedef struct {
         GLfloat x,y,z; 
         GLfloat t0,t1;
@@ -91,7 +91,7 @@ public:
 
     GLuint vboID; 
     DVBO   VBOarr[4];
-#elif defined(GL_RENDER)
+#elif defined(GL_ENGINE)
     GLuint data;
 #endif
     unsigned int h;

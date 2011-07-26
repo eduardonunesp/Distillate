@@ -124,10 +124,10 @@ public:
             Y      = (XK_Y|XK_y),
             Z      = (XK_Z|XK_z),
 
-            UP     = XK_uparrow,
-            DOWN   = XK_downarrow,
-            RIGHT  = XK_rightarrow,
-            LEFT   = XK_leftarrow,
+            UP     = XK_Up,
+            DOWN   = XK_Down,
+            RIGHT  = XK_Right,
+            LEFT   = XK_Left,
 #endif
             __LAST__   
         } Keys;
@@ -141,21 +141,21 @@ public:
         };
     };
 
-    typedef std::map<int, int> KeyMap ;
+    typedef std::map<int, unsigned int> KeyMap ;
 
     Keyboard();
     ~Keyboard();
 
-    inline void setPressed(int k) { setKeyState(Key::State::PRESSED, k); }
-    inline void setReleased(int k) { setKeyState(Key::State::RELEASED, k); }
-    inline bool checkReleased(int k) { return checkKeyState(Key::State::RELEASED, k); }
-    inline bool checkPressed(int k) { return checkKeyState(Key::State::PRESSED, k); }
+    inline void setPressed(unsigned int k) { setKeyState(Key::State::PRESSED, k); }
+    inline void setReleased(unsigned int k) { setKeyState(Key::State::RELEASED, k); }
+    inline bool checkReleased(unsigned int k) { return checkKeyState(Key::State::RELEASED, k); }
+    inline bool checkPressed(unsigned int k) { return checkKeyState(Key::State::PRESSED, k); }
 
     /* Shortcut for keypressed */
     inline bool operator()(int k) { return checkKeyState(Key::State::PRESSED, k); }
 
-    void setKeyState(int state, int k);
-    bool checkKeyState(int state, int k);
+    void setKeyState(int state, unsigned int k);
+    bool checkKeyState(int state, unsigned int k);
 
 private:
      KeyMap _keys;

@@ -35,20 +35,24 @@
  */
 
 #include "include/Keyboard.hpp"
+#include <cstdio>
 
 NAMESPACE_BEGIN
 
 Keyboard::Keyboard() {}
 Keyboard::~Keyboard() {}
 
-void Keyboard::setKeyState(int state, int k)
+void Keyboard::setKeyState(int state, unsigned int k)
 {
+#ifdef DEBUG
+    fprintf(stdout, "State %d for key %d setted\n", state, k);
+#endif    
     _keys[k] = state;
 }
 
-bool Keyboard::checkKeyState(int state, int k)
+bool Keyboard::checkKeyState(int state, unsigned int k)
 {
-    return (_keys[k] == state);;
+    return (_keys[k] == state);
 }
 
 NAMESPACE_END
