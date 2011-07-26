@@ -135,7 +135,6 @@ namespace Distillate {
     void Sprite::renderSprite()
     {
         getScreenXY(_point);
-
 #if defined(SDL_ENGINE)
         SDL_Rect rect_src;
         rect_src.x = _rendering_rect.x;
@@ -161,17 +160,19 @@ namespace Distillate {
         glTranslated(_point.x, _point.y, 0.0f);
 
         glBegin( GL_QUADS );
-        glTexCoord2f(_rendering_rect.x/width, _rendering_rect.y/height); // bottom left 
-        glVertex2d(0,_point.y);
 
-        glTexCoord2f((_rendering_rect.x+width)/width, _rendering_rect.y/height); // bottom right
-        glVertex2d(_point.x,_point.y);
+        glTexCoord2i(0, 0); // top left
+        glVertex2f(0.f,height);
 
-        glTexCoord2f((_rendering_rect.x+width)/width,(_rendering_rect.y+height)/height); // top right
-        glVertex2d(_point.x,0);
+        glTexCoord2i(1,0); // top right
+        glVertex2f(width,height);
 
-        glTexCoord2f(_rendering_rect.x/width, (_rendering_rect.y+height)/height); // top left
-        glVertex2d(0,0);
+        glTexCoord2i(1, 1); // bottom right
+        glVertex2f(width, 0.f);
+
+        glTexCoord2i(0, 1); // bottom left 
+        glVertex2f(0.f,0.f);
+
         glEnd();
 #endif
     }

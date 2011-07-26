@@ -26,7 +26,7 @@ public:
         frames.push_back(1);
         frames.push_back(2);
 
-        player.loadGraphic("player.png", false, false, 52, 21, true);
+        player.loadGraphic("player_tiles.png", false, false, 52, 21, true);
         player.addAnimation("flying", frames, 100, true);
         player.play("flying");
 
