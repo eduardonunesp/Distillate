@@ -44,7 +44,7 @@
 #include "include/ResourceManager.hpp"
 #include "include/TextureResource.hpp"
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL_image.h>
 #endif
 
@@ -66,7 +66,7 @@ bool Globals::_running = false;
 Keyboard Globals::keys;
 Mouse Globals::mouse;
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 SDL_Surface *Globals::_buffer = NULL;
 #endif
 
@@ -83,7 +83,7 @@ void Globals::setGameData(Game* Game, unsigned int Width, unsigned int Height, u
     height = Height;
     bpp = BPP;
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     _buffer = SDL_CreateRGBSurface(SDL_SWSURFACE,Width,Height,Globals::bpp,0,0,0,0);
     if(!_buffer) {
         fprintf(stderr, "%s", "Cannot create buffer \n");

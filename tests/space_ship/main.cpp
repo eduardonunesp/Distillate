@@ -12,7 +12,7 @@ private:
 public:
     StateTest() : 
         State("State1"),
-        player(10,Globals::height/2),
+        player(0,0),
         emitter(Globals::height, Globals::width/2),
         label(10, 10, Globals::width,"SCORE: 0"){};
     ~StateTest() {}
@@ -26,13 +26,12 @@ public:
         frames.push_back(1);
         frames.push_back(2);
 
-        player.loadGraphic("player_tiles.png", false, false, 52, 21, true);
+        player.loadGraphic("player_tiles.png", true, false, 52, 21, true);
         player.addAnimation("flying", frames, 100, true);
         player.play("flying");
 
         add(&player);
 
-        /*
         emitter.delay = 0.5;
         emitter.gravity = 1000;;
         emitter.maxRotation = 0;
@@ -52,11 +51,12 @@ public:
 
         label.setFormat("nokiafc22.ttf", 12, 0xff0000ff);
         add(&label);
-        */
     }
 
     void update() {
         State::update();        
+
+        Utils::overlap(&player, &emitter, collide);
 
         player.velocity.x = 0;
         player.velocity.y = 0;
@@ -72,6 +72,11 @@ public:
             player.velocity.x += 100;
         if(Globals::keys(Keyboard::Key::LEFT))
             player.velocity.x -= 100;
+    }
+
+    static bool collide(Object *ob1, Object *ob2) {
+        printf("Collide\n");
+        return true;
     }
 };
 

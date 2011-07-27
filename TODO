@@ -1,0 +1,14 @@
+* TODO
+    * Animation using GL textures
+    * Loading Textures from SDL_image
+    * BOX2D and better allocator for QuadTree objects
+    * Improve sound functions Play sounds
+    * Create rects with GL
+    * Improve keyboard support
+    * OSX support
+    * Imporve mouse support
+    * Documentation
+
+* SOON (DESIRED FOR THIS YEAR 2011)
+    * IOS Support
+    * Android Support

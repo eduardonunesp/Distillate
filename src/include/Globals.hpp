@@ -37,7 +37,7 @@
 #ifndef __GLOBALS_HPP__
 #define __GLOBALS_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #endif
 
@@ -69,7 +69,7 @@ class Globals {
     friend class Sprite;
 
 protected:
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     /**
      * Keep the global buffer, useful for SDL global draw
      */

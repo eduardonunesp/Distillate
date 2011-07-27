@@ -37,11 +37,11 @@
 #ifndef __KEYBOARD_HPP__
 #define __KEYBOARD_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #endif
 
-#if defined(__linux__) && defined(GL_ENGINE)
+#if defined(X11_VIDEO)
 #define XK_MISCELLANY
 #define XK_LATIN1
 #define XK_TECHNICAL
@@ -58,7 +58,7 @@ public:
     struct Key {
         typedef enum {
             __FIRST__ = 0,
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
             ESCAPE = SDLK_ESCAPE,
             RETURN = SDLK_RETURN,
             SPACE  = SDLK_SPACE,
@@ -94,7 +94,7 @@ public:
             DOWN   = SDLK_DOWN,
             RIGHT  = SDLK_RIGHT,
             LEFT   = SDLK_LEFT,
-#elif defined(GL_ENGINE) && defined(__linux__)
+#elif defined(X11_VIDEO)
             ESCAPE = XK_Escape,
             RETURN = XK_Return,
             SPACE  = XK_space,

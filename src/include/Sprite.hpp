@@ -37,18 +37,26 @@
 #ifndef __SPRITE_HPP__
 #define __SPRITE_HPP__
 
-#include <string>
-#include <vector>
-
-#if defined(GL_ENGINE)
-#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-#include <GL/glext.h>
-#elif defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #endif
+
+#if defined(HW_RENDER)
+#include <GL/gl.h>
+#include <GL/glu.h>
+#if defined(X11_VIDEO)
+#include <cstdio>
+#include <cstdlib>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <GL/glext.h>
+#include <GL/glx.h>
+#include <X11/extensions/xf86vmode.h>        
+#endif
+#endif
+
+#include <string>
+#include <vector>
 
 #include "Defs.hpp"
 #include "Object.hpp"

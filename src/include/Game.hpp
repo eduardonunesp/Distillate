@@ -34,30 +34,71 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ *                CROSS PLATAFORM CONFIGURATION FOR PC/MAC
+ *                      _________________________________
+ *                  ___|___        __|______      __|__  |
+ *                 |       |      |         |    |     | |
+ *        _________| LINUX |      | WINDOWS |    | OSX | |
+ *       |         ---------\     -----------  / ------- |
+ *       |      ________|__  \     __|________/          |
+ *       |     |           |  \___|           |          |
+ *       |     | X11_VIDEO |   ___| SDL_VIDEO |          |      
+ *       |     -------------  /   -------------          |
+ *       |        ______|____/     __|________           |
+ *       |       |           |    |           |          |
+ *       |       | HW_RENDER |    | SW_RENDER |          |
+ *       |       -------------    -------------          |
+ *    ___|________    ____|___                   ________|__
+ *   |            |  |        |                 |           |
+ *   |  X11_INPUT |  | OPENGL |                 | SDL_INPUT |
+ *   --------------  ----------                 -------------
+ *
+ *                CROSS PLATAFORM CONFIGURATION FOR IOS/ANDROID
+ *                     _______     _________              
+ *                    |       |   |         |             
+ *                    |  IOS  |   | ANDROID |             
+ *                    ---------   -----------             
+ *                        __|______|_                            
+ *                       |           |                            
+ *                       | HW_RENDER |                            
+ *                       -------------                            
+ *                         ____|_____                               
+ *                        |          |                               
+ *                        | OPENGLES |                              
+ *                        ------------                                       
+ *
+ */
+
 #ifndef __GAME_HPP__
 #define __GAME_HPP__
 
-#if defined(SDL_ENGINE)
-#include <SDL/SDL.h>
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #endif
 
-#if defined(__linux__) && defined(GL_ENGINE)
+#if defined(HW_RENDER)
+#include <GL/gl.h>
+#include <GL/glu.h>
+#if defined(X11_VIDEO)
 #include <cstdio>
 #include <cstdlib>
 #include <X11/X.h>
 #include <X11/Xlib.h>
-#include <GL/gl.h>
 #include <GL/glext.h>
 #include <GL/glx.h>
-#include <GL/glu.h>
 #include <X11/extensions/xf86vmode.h>        
+#endif
+#endif
+
+#if defined(__linux__)
 #include <sys/timeb.h> 
 #endif
 
 #include <string>
 #include <map>
+
 #include "Defs.hpp"
 
 NAMESPACE_BEGIN
@@ -78,12 +119,12 @@ class Game {
     typedef std::map<std::string, State*> States;
 private:
     /* Display & Event stuff */
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     SDL_Surface* _screen;
     SDL_Event _event;
 #endif
 
-#if defined(GL_ENGINE) && defined(__linux__)
+#if defined(X11_VIDEO) && defined(HW_RENDER)
     typedef struct {
         Display *dpy;
         int screen;

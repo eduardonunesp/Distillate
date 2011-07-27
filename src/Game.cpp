@@ -45,7 +45,7 @@
 NAMESPACE_BEGIN
 
 Game::Game(const std::string &GameTitle):
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     _screen(NULL),
 #endif
     _state(NULL),
@@ -69,9 +69,11 @@ Game::~Game()
     fprintf(stdout, "Game destructor\n");
 #endif
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     SDL_FreeSurface(_screen);
-#elif defined(GL_ENGINE) && defined(__linux__)         
+#endif
+
+#if defined(X11_VIDEO) && defined(HW_RENDER)        
     if(_GLWin.ctx)
     {
         if(!glXMakeCurrent(_GLWin.dpy, None, NULL))
@@ -98,7 +100,7 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     Globals::setGameData(this, GameSizeX, GameSizeY, BPP);
     State::bgColor = 0xff000000;
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #ifdef DEBUG
     fprintf(stdout, "Initializing SDL Everything\n");
 #endif
@@ -112,7 +114,12 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
 #ifdef DEBUG
     fprintf(stdout, "Setup Game (W: %d H: %d BPP: %d) \n", GameSizeX, GameSizeY, BPP);
 #endif
+
+#if defined(SW_RENDER)    
     _screen = SDL_SetVideoMode(Globals::width, Globals::height, BPP, SDL_SWSURFACE);
+#elif defined(HW_RENDER)
+    _screen = SDL_SetVideoMode(Globals::width, Globals::height, BPP, SDL_OPENGL);
+#endif    
 
     if(!_screen) {
         _failtype = -1;
@@ -136,7 +143,7 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     atexit(SDL_Quit);
     atexit(TTF_Quit);
 
-#elif defined(GL_ENGINE) && defined(__linux__) 
+#elif defined(X11_VIDEO) && defined(HW_RENDER)
     int attrListSgl[] = {
         GLX_RGBA, 
         GLX_RED_SIZE, 4,
@@ -211,7 +218,7 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
         dpyHeight = modes[bestMode]->vdisplay;
         XFree(modes);
         _GLWin.attr.override_redirect = True;
-        _GLWin.attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask |
+        _GLWin.attr.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask |
             StructureNotifyMask;
         _GLWin.win = XCreateWindow(_GLWin.dpy, RootWindow(_GLWin.dpy, vi->screen),
                 0, 0, dpyWidth, dpyHeight, 0, vi->depth, InputOutput, vi->visual,
@@ -318,7 +325,7 @@ int Game::run()
         return _failtype;
 
     while(Globals::_running) {
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
         while(SDL_PollEvent(&_event)) {
             switch(_event.type) {
                 case SDL_QUIT:
@@ -345,7 +352,7 @@ int Game::run()
             }
         }
 
-#elif defined(GL_ENGINE) && defined(__linux__)
+#elif  defined(X11_VIDEO) && defined(HW_RENDER)
         while(XPending(_GLWin.dpy) > 0)
         {   
             XNextEvent(_GLWin.dpy, &_event);
@@ -354,6 +361,10 @@ int Game::run()
                 case Expose:
                     if (_event.xexpose.count != 0)
                         break;
+
+#ifdef DEBUG
+                    fprintf(stdout, "Expose\n");
+#endif
                     break;
                 case ConfigureNotify:
                     if ((_event.xconfigure.width  != (signed) _GLWin.width) ||
@@ -369,7 +380,14 @@ int Game::run()
                     break;
                 case KeyPress:
                     Globals::keys.setKeyState(Keyboard::Key::State::PRESSED, XLookupKeysym(&_event.xkey,0));
-                        break;
+                    break;
+                case KeyRelease:
+                    {
+                        KeyCode key = XLookupKeysym(&_event.xkey,0);
+                        if(key != 0)
+                            Globals::keys.setKeyState(Keyboard::Key::State::RELEASED, key);
+                    }
+                    break;
                 case ClientMessage:
                     if (*XGetAtomName(_GLWin.dpy, _event.xclient.message_type) == *"WM_PROTOCOLS")
                     {   
@@ -392,8 +410,7 @@ int Game::run()
             fprintf(stderr, "State not found\n");
         }
 
-#if defined(GL_ENGINE)
-
+#if defined(X11_VIDEO) && defined(HW_RENDER)
         if(_GLWin.doublebuffer)
             glXSwapBuffers(_GLWin.dpy, _GLWin.win);
         else
@@ -406,7 +423,7 @@ int Game::run()
 
         glClear(GL_COLOR_BUFFER_BIT);
         glLoadIdentity();
-#elif defined(SDL_ENGINE)
+#elif defined(SDL_VIDEO)
         SDL_BlitSurface(Globals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
         SDL_FillRect(Globals::_buffer,0, State::bgColor);
@@ -416,13 +433,9 @@ int Game::run()
         _frametime = 0;
 
         do {
-#if defined(GL_ENGINE) && defined(__linux__)
             timeb tb;
             ftime( &tb );
             now = tb.millitm + (tb.time & 0xfffff) * 1000;
-#elif defined(SDL_ENGINE)
-            now = SDL_GetTicks();
-#endif
             _frametime = (now > _lasttime) ? now - _lasttime : 0;
             _lasttime  = (now >= _lasttime) ? _lasttime : now;
         } while(!(_frametime >= minFPS));

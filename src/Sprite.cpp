@@ -43,7 +43,7 @@
 #include "include/Utils.hpp"
 #include <cmath>
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO) && defined(SW_RENDER)
 #include <SDL/SDL_rotozoom.h>
 #endif
 
@@ -135,7 +135,7 @@ namespace Distillate {
     void Sprite::renderSprite()
     {
         getScreenXY(_point);
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO) && defined(SW_RENDER)
         SDL_Rect rect_src;
         rect_src.x = _rendering_rect.x;
         rect_src.y = _rendering_rect.y;
@@ -154,24 +154,24 @@ namespace Distillate {
             SDL_BlitSurface(tmp_surface, 0, Globals::_buffer, &rect_dst);
             SDL_FreeSurface(tmp_surface);
         }
-#elif defined(GL_ENGINE)
+#elif defined(HW_RENDER)
         glBindTexture( GL_TEXTURE_2D, _pixels->data );
 
         glTranslated(_point.x, _point.y, 0.0f);
 
         glBegin( GL_QUADS );
-
-        glTexCoord2i(0, 0); // top left
+       
+        glTexCoord2f(0.0f, 0.0f); // top left
         glVertex2f(0.f,height);
 
-        glTexCoord2i(1,0); // top right
+        glTexCoord2f(1.0f,0.0f); // top right
         glVertex2f(width,height);
 
-        glTexCoord2i(1, 1); // bottom right
-        glVertex2f(width, 0.f);
+        glTexCoord2f(1.0f, 1.0f); // bottom right
+        glVertex2f(width, 0.0f);
 
-        glTexCoord2i(0, 1); // bottom left 
-        glVertex2f(0.f,0.f);
+        glTexCoord2f(0.0f, 1.0f); // bottom left 
+        glVertex2f(0.0f,0.0f);
 
         glEnd();
 #endif

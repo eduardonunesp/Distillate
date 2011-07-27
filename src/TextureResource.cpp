@@ -37,16 +37,18 @@
 #include "include/TextureResource.hpp"
 #include "include/Globals.hpp"
 
-#if defined(GL_ENGINE)
+#if defined(X11_VIDEO)
 #include <png.h>
+#elif defined(SDL_VIDEO)
+#include <SDL/SDL_image.h>
 #endif
 
 NAMESPACE_BEGIN
 
 bool PNGCheck(const std::string &filename) {
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     return true;
-#elif defined(GL_ENGINE)
+#elif defined(X11_VIDEO)
     png_byte header[8];
     FILE *fp = fopen(filename.c_str(), "rb");
     if (!fp) return false;
@@ -74,7 +76,7 @@ void PNGTextureImplementation::process(Resource* r) {
     }
 
     TextureResource *texRes = static_cast<TextureResource*>(r);
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO) && defined(SW_RENDER)
     texRes->data = IMG_Load(r->filename.c_str());
 
     if(!texRes->data) {
@@ -83,7 +85,7 @@ void PNGTextureImplementation::process(Resource* r) {
 
     texRes->w = texRes->data->w;
     texRes->h = texRes->data->h;
-#elif defined(GL_ENGINE)
+#elif defined(X11_VIDEO)
     FILE *fp = fopen(r->filename.c_str(), "rb");
 
     png_byte header[8];
@@ -190,7 +192,7 @@ void AutoTextureImplementation::process(Resource* r)
     }
 
     TextureResource *texRes = static_cast<TextureResource*>(r);
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO) && defined(SW_RENDER)
     unsigned int rmask, gmask, bmask, amask;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
