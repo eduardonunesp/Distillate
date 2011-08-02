@@ -52,7 +52,7 @@ NAMESPACE_BEGIN
 #define GREEN_FROM_UI32(color) (int) ((color << 16) >> 24) 
 #define BLUE_FROM_UI32(color)  (int) ((color << 8 ) >> 24) 
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #define SDL_COLOR_FROM_UI32(color)  RED_FROM_UI32(color), GREEN_FROM_UI32(color), BLUE_FROM_UI32(color) 
 #endif
 

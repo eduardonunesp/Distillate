@@ -79,17 +79,25 @@
 #endif
 
 #if defined(HW_RENDER)
-#include <GL/gl.h>
-#include <GL/glu.h>
+
+#if defined(__APPLE__)
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/EAGLDrawable.h>
+#else
+#include <gl/gl.h>
+#include <gl/glu.h>
+#endif
+
 #if defined(X11_VIDEO)
-#include <cstdio>
-#include <cstdlib>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glext.h>
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>        
 #endif
+
 #endif
 
 #if defined(__linux__)

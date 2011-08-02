@@ -37,7 +37,7 @@
 #ifndef __TTFRESOURCE_HPP__
 #define __TTFRESOURCE_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #endif
@@ -53,7 +53,7 @@ NAMESPACE_BEGIN
 struct TTFResource : public Resource {
     TTFResource(const std::string &filenameValue, const std::string &resourceidValue) : 
         Resource(filenameValue, resourceidValue), 
-#if defined(SDL_ENGINE)        
+#if defined(SDL_VIDEO)        
         data(NULL), 
 #endif        
         size(8), color(0xffffffff), w(0), h(0) {}
@@ -62,12 +62,12 @@ struct TTFResource : public Resource {
         fprintf(stdout, "Deleting TTF %s", filename.c_str());
 #endif
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
         TTF_CloseFont(data);
 #endif
     }
 
-#if defined(SDL_ENGINE)            
+#if defined(SDL_VIDEO)            
     TTF_Font *data;
 #else
     void* data;

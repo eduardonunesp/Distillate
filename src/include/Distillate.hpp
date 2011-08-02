@@ -37,7 +37,7 @@
 #ifndef __DISTILLATE_HPP__
 #define __DISTILLATE_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>

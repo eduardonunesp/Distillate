@@ -42,8 +42,17 @@
 #endif
 
 #if defined(HW_RENDER)
-#include <GL/gl.h>
-#include <GL/glu.h>
+
+#if defined(__APPLE__)
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/EAGLDrawable.h>
+#else
+#include <gl/gl.h>
+#include <gl/glu.h>
+#endif
+
 #if defined(X11_VIDEO)
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -51,10 +60,12 @@
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>        
 #endif
+
 #endif
 
 #include <string>
 #include <cstdio>
+#include <vector>
 
 #include "Defs.hpp"
 #include "Utils.hpp"
@@ -65,9 +76,15 @@ NAMESPACE_BEGIN
 
 class TextureResource : public Resource {
 public:    
+#if defined(HW_RENDER)
+    typedef std::vector<GLuint> TextureVector;
+#endif
     TextureResource(const std::string &filenameValue, const std::string &resourceidValue) : 
         Resource(filenameValue, resourceidValue),
         data(0),
+#if defined(SDL_VIDEO) && defined(HW_RENDER)
+        animated(false),
+#endif        
         h(0), w(0) {}
     ~TextureResource() {
 #ifdef DEBUG
@@ -78,8 +95,14 @@ public:
         SDL_FreeSurface(data);
         data = NULL;
 #elif defined(HW_RENDER)
-        if(glIsTexture(data))
-            glDeleteTextures(1,&data);
+        TextureVector::iterator itr;
+        for(itr = data.begin(); itr != data.end(); itr++)
+        {
+            if(glIsTexture(*itr))
+                glDeleteTextures(1,&(*itr));
+        }
+
+        data.clear();
 #endif
     }
 
@@ -94,7 +117,10 @@ public:
     GLuint vboID; 
     DVBO   VBOarr[4];
 #elif defined(HW_RENDER)
-    GLuint data;
+    TextureVector data;
+    bool animated; 
+    void processMultipleTextures(unsigned int width, unsigned int height, unsigned int size); 
+
 #endif
     unsigned int h;
     unsigned int w;

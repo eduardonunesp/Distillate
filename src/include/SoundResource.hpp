@@ -37,7 +37,7 @@
 #ifndef __SOUNDRESOURCE_HPP__
 #define __SOUNDRESOURCE_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #endif
@@ -61,12 +61,12 @@ public:
         fprintf(stdout, "Deleting sound %s", filename.c_str());
 #endif
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
         Mix_FreeMusic(data);
 #endif
     }
 
-#if defined(SDL_ENGINE)            
+#if defined(SDL_VIDEO)            
     Mix_Music *data;
 #else
     void *data;   

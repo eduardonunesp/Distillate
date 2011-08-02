@@ -37,7 +37,7 @@
 #include "include/TextureResource.hpp"
 #include "include/Globals.hpp"
 
-#if defined(X11_VIDEO)
+#if defined(PNG_IMAGE_LOADER)
 #include <png.h>
 #elif defined(SDL_VIDEO)
 #include <SDL/SDL_image.h>
@@ -77,15 +77,87 @@ void PNGTextureImplementation::process(Resource* r) {
 
     TextureResource *texRes = static_cast<TextureResource*>(r);
 #if defined(SDL_VIDEO) && defined(SW_RENDER)
-    texRes->data = IMG_Load(r->filename.c_str());
+    SDL_Surface *surface = NULL;
+    surface = IMG_Load(r->filename.c_str());
 
     if(!texRes->data) {
         fprintf(stderr, "Null pointer %s\n", IMG_GetError());
     }
 
-    texRes->w = texRes->data->w;
-    texRes->h = texRes->data->h;
-#elif defined(X11_VIDEO)
+    texRes->data = surface;
+    texRes->w = surface->w;
+    texRes->h = surface->h;
+#elif defined(SDL_VIDEO) && defined(HW_RENDER) && !defined(PNG_IMAGE_LOADER)
+    SDL_Surface *surface = NULL;   
+    GLenum texture_format;
+    GLint  nOfColors;
+
+    surface = IMG_Load(r->filename.c_str()); 
+
+#ifdef DEBUG
+    fprintf(stdout, "file: %s (%d, %d)\n", r->filename.c_str(), surface->w, surface->h);
+#endif
+
+    if (!surface) {
+        fprintf(stderr, "Cannot open file %s: \n", SDL_GetError());
+    }
+
+    nOfColors = surface->format->BytesPerPixel;
+    if (nOfColors == 4)     
+    {
+        if (surface->format->Rmask == 0x000000ff)
+            texture_format = GL_RGBA;
+        else
+            texture_format = GL_BGRA;
+    } else if (nOfColors == 3) {
+        if (surface->format->Rmask == 0x000000ff)
+            texture_format = GL_RGB;
+        else
+            texture_format = GL_BGR;
+    } else {
+#ifdef DEBUG        
+        fprintf(stdout, "warning: the image is not truecolor..  this will probably break\n");
+#endif        
+    }
+
+    if(!texRes->animated) {
+#ifdef DEBUG
+        fprintf(stdout, "Single texture load\n");
+#endif
+        GLuint texture;         
+        glGenTextures( 1, &texture );
+        glBindTexture( GL_TEXTURE_2D, texture );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,
+                texture_format, GL_UNSIGNED_BYTE, surface->pixels );
+        texRes->data.push_back(texture);
+    } else {
+#ifdef DEBUG
+        fprintf(stdout, "Multiple texture load (%d)\n", texRes->data.size());
+#endif
+        SDL_Surface *tmp_surface = NULL;
+        GLuint texture;
+        SDL_Rect src;
+
+        for(unsigned int i=0; i<texRes->data.size();i++) {
+            glGenTextures( 1, &texture );
+            glBindTexture( GL_TEXTURE_2D, texture );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+            glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,
+                    texture_format, GL_UNSIGNED_BYTE, surface->pixels );
+            texRes->data.push_back(texture);
+        }
+    }
+
+    texRes->w = surface->w;
+    texRes->h = surface->h;
+
+    if ( surface ) 
+        SDL_FreeSurface( surface );
+
+#elif defined(PNG_IMAGE_LOADER)
     FILE *fp = fopen(r->filename.c_str(), "rb");
 
     png_byte header[8];
@@ -180,7 +252,7 @@ void PNGTextureImplementation::process(Resource* r) {
     if(texRes)
         texRes->count++;
 
-    if(!texRes->data)
+    if(texRes->data.size() == 0)
         fprintf(stderr, "Error cannot load texture\n");
 }
 
@@ -216,13 +288,14 @@ void AutoTextureImplementation::process(Resource* r)
     rect.h = texRes->h;
 
     SDL_FillRect(texRes->data, &rect, texRes->color);
+#elif defined(HW_RENDER)    
 #endif
 
     if(texRes)
         texRes->count++;
 
-    if(!texRes->data)
-        fprintf(stderr, "Error cannot load texture\n");
+    if(texRes->data.size() == 0)
+        fprintf(stderr, "Error cannot create texture\n");
 }
 
 NAMESPACE_END

@@ -73,9 +73,9 @@ namespace Distillate {
         delete_all(_animations);
     }
 
-    Sprite* Sprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, bool Unique)
+    Sprite* Sprite::loadGraphic(const std::string &Graphic, bool Animated, bool Reverse, unsigned int Width, unsigned int Height, unsigned int Textures, bool Unique)
     {
-        if(!Globals::resourceManager.loadTexture(Graphic))
+        if(!Globals::resourceManager.loadTexture(Graphic, Animated, Width, Height,  Textures, Unique))
             return NULL;
 
         _bakedRotation = 0;
@@ -155,24 +155,27 @@ namespace Distillate {
             SDL_FreeSurface(tmp_surface);
         }
 #elif defined(HW_RENDER)
-        glBindTexture( GL_TEXTURE_2D, _pixels->data );
+
+        if(!_pixels->animated)
+            glBindTexture( GL_TEXTURE_2D, _pixels->data[0]);
+        else
+            glBindTexture( GL_TEXTURE_2D, _pixels->data[_caf]);
 
         glTranslated(_point.x, _point.y, 0.0f);
-
         glBegin( GL_QUADS );
-       
-        glTexCoord2f(0.0f, 0.0f); // top left
-        glVertex2f(0.f,height);
+        {
+            glTexCoord2f(0.0f, 0.0f); 
+            glVertex2f(0.f,0.0f);
 
-        glTexCoord2f(1.0f,0.0f); // top right
-        glVertex2f(width,height);
+            glTexCoord2f(1.0f,0.0f); 
+            glVertex2f(width,0.0f);
 
-        glTexCoord2f(1.0f, 1.0f); // bottom right
-        glVertex2f(width, 0.0f);
+            glTexCoord2f(1.0f, 1.0f); 
+            glVertex2f(width, height);
 
-        glTexCoord2f(0.0f, 1.0f); // bottom left 
-        glVertex2f(0.0f,0.0f);
-
+            glTexCoord2f(0.0f, 1.0f); 
+            glVertex2f(0.0f,height);
+        }
         glEnd();
 #endif
     }

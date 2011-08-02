@@ -45,7 +45,7 @@ void SoundImplementation::process(Resource* r) {
     }
 
     SoundResource *soundRes = static_cast<SoundResource*>(r);
-#if defined(SDL_ENGINE)    
+#if defined(SDL_VIDEO)    
     soundRes->data = Mix_LoadMUS(soundRes->filename.c_str());
 
     if(!soundRes->data) {

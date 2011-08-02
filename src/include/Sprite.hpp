@@ -42,17 +42,25 @@
 #endif
 
 #if defined(HW_RENDER)
-#include <GL/gl.h>
-#include <GL/glu.h>
+
+#if defined(__APPLE__)
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/EAGLDrawable.h>
+#else
+#include <gl/gl.h>
+#include <gl/glu.h>
+#endif
+
 #if defined(X11_VIDEO)
-#include <cstdio>
-#include <cstdlib>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glext.h>
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>        
 #endif
+
 #endif
 
 #include <string>
@@ -172,11 +180,12 @@ public:
      * @param   Reverse     Whether you need this class to generate horizontally flipped versions of the animation frames.
      * @param   Width       OPTIONAL - Specify the width of your sprite (helps FlxSprite figure out what to do with non-square sprites or sprite sheets).
      * @param   Height      OPTIONAL - Specify the height of your sprite (helps FlxSprite figure out what to do with non-square sprites or sprite sheets).
+     * @param   Textures    
      * @param   Unique      Whether the graphic should be a unique instance in the graphics cache.
      *
      * @return  This FlxSprite instance (nice for chaining stuff together, if you're into that).
      */
-    Sprite *loadGraphic(const std::string &Graphic, bool Animated = false, bool Reverse = false, unsigned int Width = 0, unsigned int Height = 0, bool Unique = false);
+    Sprite *loadGraphic(const std::string &Graphic, bool Animated = false, bool Reverse = false, unsigned int Width = 0, unsigned int Height = 0, unsigned int Textures = 1, bool Unique = false);
 
     /**
      * This function creates a flat colored square image dynamically.

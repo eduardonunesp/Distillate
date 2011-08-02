@@ -37,7 +37,7 @@
 #ifndef __TEXT_HPP__
 #define __TEXT_HPP__
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL_ttf.h>
 #endif
 

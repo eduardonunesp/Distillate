@@ -73,8 +73,8 @@ public:
 
     /* Texture loaders */
     bool loadConfigurationXML(const std::string &filename) { return true; };
-    bool loadTexture(const std::string &filename);
-    bool loadTexture(const std::string &filename, const std::string &resourceid);
+    bool loadTexture(const std::string &filename, bool animated = false, unsigned int width = 0, unsigned int height = 0, unsigned int textures = 1, bool unique = false);
+    bool loadTexture(const std::string &filename, const std::string &resourceid, bool animated = false, unsigned int width = 0, unsigned int height = 0, unsigned int textures = 1, bool unique = false);
     void attachTexture(TextureResource *resource);
 
     /* Texture create */

@@ -109,7 +109,7 @@ void Text::calcFrame()
                 return;
             ttf = Globals::resourceManager.ttf(ttf->resourceid);
         }
-#ifdef SDL_ENGINE
+#if defined(SDL_VIDEO) && defined(SW_RENDER)
         SDL_Color fg = { SDL_COLOR_FROM_UI32(ttf->color) };
         SDL_Color bg = { SDL_COLOR_FROM_UI32(ttf->color) };
 

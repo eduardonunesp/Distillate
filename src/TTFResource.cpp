@@ -39,7 +39,7 @@
 NAMESPACE_BEGIN
 
 void TTFImplementation::process(Resource* r) {
-#if defined(SDL_ENGINE)        
+#if defined(SDL_VIDEO)        
     /* Permits early loaders */
     if(TTF_WasInit() == 0) {
 #ifdef DEBUG
@@ -58,7 +58,7 @@ void TTFImplementation::process(Resource* r) {
     }
 
     TTFResource *ttfRes = static_cast<TTFResource*>(r);
-#if defined(SDL_ENGINE)    
+#if defined(SDL_VIDEO)    
     ttfRes->data = TTF_OpenFont(ttfRes->filename.c_str(), ttfRes->size);
 
     ttfRes->h = TTF_FontHeight(ttfRes->data);

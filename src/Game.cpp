@@ -248,6 +248,15 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     XGetGeometry(_GLWin.dpy, _GLWin.win, &winDummy, &_GLWin.x, &_GLWin.y,
             &_GLWin.width, &_GLWin.height, &borderDummy, &_GLWin.bpp);
 
+    XSetStandardProperties(_GLWin.dpy, _GLWin.win, Globals::gameTitle.c_str(),
+                           Globals::gameTitle.c_str(), None, NULL, 0, NULL);
+    glFlush();
+#endif
+
+#if defined(HW_RENDER)
+#if defined(VBO)
+    
+#else
     glViewport(0, 0, Globals::width, Globals::height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -272,10 +281,7 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     glPushMatrix();
     glLoadIdentity();
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    XSetStandardProperties(_GLWin.dpy, _GLWin.win, Globals::gameTitle.c_str(),
-                           Globals::gameTitle.c_str(), None, NULL, 0, NULL);
-    glFlush();
+#endif
 #endif
 
     return true;
@@ -423,7 +429,17 @@ int Game::run()
 
         glClear(GL_COLOR_BUFFER_BIT);
         glLoadIdentity();
-#elif defined(SDL_VIDEO)
+#elif defined(SDL_VIDEO) && defined(HW_RENDER)
+        SDL_GL_SwapBuffers();
+
+        glClearColor( (float) RED_FROM_UI32(State::bgColor)   / 255,
+                      (float) GREEN_FROM_UI32(State::bgColor) / 255,
+                      (float) BLUE_FROM_UI32(State::bgColor)  / 255,
+                      (float) ALPHA_FROM_UI32(State::bgColor) / 255);
+
+        glClear(GL_COLOR_BUFFER_BIT);
+        glLoadIdentity();
+#elif defined(SDL_VIDEO) && defined(SW_RENDER)
         SDL_BlitSurface(Globals::_buffer, 0, _screen, 0);
         SDL_UpdateRect(_screen, 0,0,0,0);
         SDL_FillRect(Globals::_buffer,0, State::bgColor);

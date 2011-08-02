@@ -36,7 +36,7 @@
 
 #include "include/Mouse.hpp"
 
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
 #include <SDL/SDL.h>
 #endif
 
@@ -53,7 +53,7 @@ void Mouse::setMousePos(int x, int y)
 
 void Mouse::showCursor(bool show)
 {
-#if defined(SDL_ENGINE)
+#if defined(SDL_VIDEO)
     SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
 #endif   
 }

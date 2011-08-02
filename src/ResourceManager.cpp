@@ -50,12 +50,12 @@ SoundLoader *ResourceManager::soundLoader = new SoundLoader();
 ResourceManager::ResourceManager() {}
 ResourceManager::~ResourceManager() {}
 
-bool ResourceManager::loadTexture(const std::string &filename)
+bool ResourceManager::loadTexture(const std::string &filename, bool animated, unsigned int width, unsigned int height, unsigned int textures, bool unique)
 {
-    return loadTexture(filename, filename);
+    return loadTexture(filename, filename, animated, width, height, textures, unique);
 }
 
-bool ResourceManager::loadTexture(const std::string &filename, const std::string &resourceid)
+bool ResourceManager::loadTexture(const std::string &filename, const std::string &resourceid, bool animated, unsigned int width, unsigned int height, unsigned int textures, bool unique)
 {
     if(_resources[resourceid]) {
 #ifdef DEBUG 
@@ -73,6 +73,14 @@ bool ResourceManager::loadTexture(const std::string &filename, const std::string
         fprintf(stderr, "Cannot alloc texRes\n");
         return false;
     }
+
+    texRes->animated = animated;
+    texRes->w = width;
+    texRes->h = height;
+    texRes->data.reserve(textures);
+
+    for(unsigned int i = 0; i < textures; i++)
+        texRes->data.push_back(0);
 
     switch(TextureLoader::checkTexture(texRes)) {
         case TextureLoader::PNG_TEXTURE:
