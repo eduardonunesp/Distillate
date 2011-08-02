@@ -1,3 +1,84 @@
-SConscript('src/SConscript')
-SConscript('tests/space_ship/SConscript')
-#SConscript('tests/flame/SConscript')
+from sys import platform
+
+libname = 'Distillate';
+
+IncludePath = ['include/','../../src/include']
+LibsPath = []   
+Libs = []
+
+CommonFlags = ' -Wall -pedantic'
+
+debug    = ARGUMENTS.get('debug', 'true')
+linkage  = ARGUMENTS.get('linkage', 'static')
+
+video    = ARGUMENTS.get('video',  'sdl')
+render   = ARGUMENTS.get('render', 'hw')
+
+libenv = Environment( CPPFLAGS = CommonFlags)
+
+if debug == 'true':
+    libenv.Append(CPPFLAGS = ' -g -ggdb')
+    libenv.Append(CPPDEFINES = ['DEBUG'])
+
+if video == 'sdl':
+    libenv.Append(CPPDEFINES = ['SDL_VIDEO'])
+    Libs.append('SDL')
+    Libs.append('SDL_image')
+    Libs.append('SDL_ttf')
+    Libs.append('SDL_gfx')
+    Libs.append('SDL_mixer')
+    if render == 'hw':
+        libenv.Append(CPPDEFINES = ['HW_RENDER'])
+        Libs.append('GL')
+        Libs.append('GLU')
+    if render == 'sw':
+        libenv.Append(CPPDEFINES = ['SW_RENDER'])
+
+if video == 'x11':
+    if render == 'hw':
+        libenv.Append(CPPDEFINES = ['X11_VIDEO'])
+        Libs.append('GL')
+        Libs.append('GLU')
+        if platform == 'linux2':
+            Libs.append('X11')
+            Libs.append('Xxf86vm')
+            Libs.append('png')
+            LibsPath.append('/usr/lib/X11')
+    elif render == 'sw':
+        print "SW RENDER DISABLE FOR X11"
+        Exit(-1)
+
+files = Split("""
+../../src/Emitter.cpp
+../../src/Game.cpp
+../../src/Globals.cpp
+../../src/Group.cpp
+../../src/Keyboard.cpp
+../../src/Mouse.cpp
+../../src/Object.cpp
+../../src/QuadTree.cpp
+../../src/ResourceManager.cpp
+../../src/Sound.cpp
+../../src/SoundResource.cpp
+../../src/Sprite.cpp
+../../src/State.cpp
+../../src/Text.cpp
+../../src/TextureResource.cpp
+../../src/TTFResource.cpp
+../../src/Utils.cpp
+""");
+
+if linkage == 'static':
+    lib = libenv.StaticLibrary(target = libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+elif linkage == 'shared':
+    lib = libenv.SharedLibrary(target = libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
+
+prog1 = libenv.Clone()
+
+files = Split("""
+../../tests/space_ship/main.cpp
+""")
+
+Libs.append('Distillate')
+LibsPath.append('./')
+prog1.Program(target = "space_ship", source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)

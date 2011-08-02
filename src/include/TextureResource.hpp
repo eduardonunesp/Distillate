@@ -44,13 +44,13 @@
 #if defined(HW_RENDER)
 
 #if defined(__APPLE__)
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/EAGLDrawable.h>
+#include <OpenGLES/ES1/gl.h>
+#include <OpenGLES/ES1/glext.h>
+#include <OpenGLES/EAGL.h>
+#include <OpenGLES/EAGLDrawable.h>
 #else
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #endif
 
 #if defined(X11_VIDEO)
