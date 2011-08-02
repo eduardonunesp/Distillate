@@ -78,13 +78,13 @@ class TextureResource : public Resource {
 public:    
 #if defined(HW_RENDER)
     typedef std::vector<GLuint> TextureVector;
+#elif defined(SW_RENDER)
+    typedef std::vector<SDL_Surface*> TextureVector;
 #endif
     TextureResource(const std::string &filenameValue, const std::string &resourceidValue) : 
         Resource(filenameValue, resourceidValue),
         data(0),
-#if defined(SDL_VIDEO) && defined(HW_RENDER)
         animated(false),
-#endif        
         h(0), w(0) {}
     ~TextureResource() {
 #ifdef DEBUG
@@ -92,8 +92,13 @@ public:
 #endif
 
 #if defined(SDL_VIDEO) && defined(SW_RENDER)           
-        SDL_FreeSurface(data);
-        data = NULL;
+        TextureVector::iterator itr;
+        for(itr = data.begin(); itr != data.end(); itr++)
+        {
+            SDL_FreeSurface(*itr);
+        }
+
+        data.clear();
 #elif defined(HW_RENDER)
         TextureVector::iterator itr;
         for(itr = data.begin(); itr != data.end(); itr++)
@@ -107,7 +112,7 @@ public:
     }
 
 #if defined(SDL_VIDEO) && defined(SW_RENDER)           
-    SDL_Surface *data;
+    TextureVector data;
 #elif defined(HW_RENDER) && defined(VERTEX_BUFFER)
     typedef struct {
         GLfloat x,y,z; 
@@ -118,10 +123,10 @@ public:
     DVBO   VBOarr[4];
 #elif defined(HW_RENDER)
     TextureVector data;
-    bool animated; 
     void processMultipleTextures(unsigned int width, unsigned int height, unsigned int size); 
-
 #endif
+
+    bool animated; 
     unsigned int h;
     unsigned int w;
     unsigned int color;

@@ -37,6 +37,7 @@ if video == 'sdl':
 if video == 'x11':
     if render == 'hw':
         libenv.Append(CPPDEFINES = ['X11_VIDEO'])
+        libenv.Append(CPPDEFINES = ['HW_RENDER'])
         Libs.append('GL')
         Libs.append('GLU')
         if platform == 'linux2':
@@ -73,12 +74,3 @@ if linkage == 'static':
 elif linkage == 'shared':
     lib = libenv.SharedLibrary(target = libname, source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)
 
-prog1 = libenv.Clone()
-
-files = Split("""
-../../tests/space_ship/main.cpp
-""")
-
-Libs.append('Distillate')
-LibsPath.append('./')
-prog1.Program(target = "space_ship", source = files, CPPPATH = IncludePath, LIBS = Libs, LIBPATH = LibsPath)

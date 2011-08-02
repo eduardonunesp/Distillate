@@ -116,20 +116,20 @@ void Text::calcFrame()
         SDL_Surface *fgs = 0;
         SDL_Surface *bgs = 0;
 
-        SDL_FillRect(_pixels->data, &_pixels->data->clip_rect, 0);
+        SDL_FillRect(_pixels->data[0], &_pixels->data[0]->clip_rect, 0);
 
         if(_shadow) {
             fgs = TTF_RenderUTF8_Solid(ttf->data, _text.c_str(), fg);
             bgs = TTF_RenderUTF8_Solid(ttf->data, _text.c_str(), bg);
 
             if(fgs && bgs) {
-                SDL_BlitSurface(bgs, 0,_pixels->data, 0);
-                SDL_BlitSurface(fgs, 0,_pixels->data, 0);
+                SDL_BlitSurface(bgs, 0,_pixels->data[0], 0);
+                SDL_BlitSurface(fgs, 0,_pixels->data[0], 0);
             }
         } else {
             fgs = TTF_RenderUTF8_Solid(ttf->data, _text.c_str(), fg);
             if(fgs) {
-                SDL_BlitSurface(fgs, 0,_pixels->data, 0);
+                SDL_BlitSurface(fgs, 0,_pixels->data[0], 0);
             }
         }
 #endif

@@ -147,10 +147,10 @@ namespace Distillate {
         rect_dst.y = _point.y;
 
         if((angle == 0) || (_bakedRotation > 0))
-            SDL_BlitSurface(_pixels->data, &rect_src, Globals::_buffer, &rect_dst);
+            SDL_BlitSurface(_pixels->data[0], &rect_src, Globals::_buffer, &rect_dst);
         else {
             SDL_Surface *tmp_surface;
-            tmp_surface = rotozoomSurface(_pixels->data, angle, 1, 0);
+            tmp_surface = rotozoomSurface(_pixels->data[0], angle, 1, 0);
             SDL_BlitSurface(tmp_surface, 0, Globals::_buffer, &rect_dst);
             SDL_FreeSurface(tmp_surface);
         }

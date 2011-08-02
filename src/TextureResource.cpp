@@ -37,7 +37,7 @@
 #include "include/TextureResource.hpp"
 #include "include/Globals.hpp"
 
-#if defined(PNG_IMAGE_LOADER)
+#if defined(X11_VIDEO)
 #include <png.h>
 #elif defined(SDL_VIDEO)
 #include <SDL/SDL_image.h>
@@ -80,14 +80,14 @@ void PNGTextureImplementation::process(Resource* r) {
     SDL_Surface *surface = NULL;
     surface = IMG_Load(r->filename.c_str());
 
-    if(!texRes->data) {
+    if(!texRes->data[0]) {
         fprintf(stderr, "Null pointer %s\n", IMG_GetError());
     }
 
-    texRes->data = surface;
+    texRes->data.push_back(surface);
     texRes->w = surface->w;
     texRes->h = surface->h;
-#elif defined(SDL_VIDEO) && defined(HW_RENDER) && !defined(PNG_IMAGE_LOADER)
+#elif defined(SDL_VIDEO) && defined(HW_RENDER) 
     SDL_Surface *surface = NULL;   
     GLenum texture_format;
     GLint  nOfColors;
@@ -140,6 +140,7 @@ void PNGTextureImplementation::process(Resource* r) {
         GLuint texture;
         SDL_Rect src;
 
+        /*
         for(unsigned int i=0; i<texRes->data.size();i++) {
             glGenTextures( 1, &texture );
             glBindTexture( GL_TEXTURE_2D, texture );
@@ -149,6 +150,7 @@ void PNGTextureImplementation::process(Resource* r) {
                     texture_format, GL_UNSIGNED_BYTE, surface->pixels );
             texRes->data.push_back(texture);
         }
+        */
     }
 
     texRes->w = surface->w;
@@ -157,7 +159,7 @@ void PNGTextureImplementation::process(Resource* r) {
     if ( surface ) 
         SDL_FreeSurface( surface );
 
-#elif defined(PNG_IMAGE_LOADER)
+#elif defined(X11_VIDEO)
     FILE *fp = fopen(r->filename.c_str(), "rb");
 
     png_byte header[8];
@@ -234,11 +236,13 @@ void PNGTextureImplementation::process(Resource* r) {
 
     png_read_image(png_ptr, row_pointers);
 
-    glGenTextures(1, &texRes->data);
-    glBindTexture(GL_TEXTURE_2D, texRes->data);
+    GLuint texture;         
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height, 0,
             GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) image_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    texRes->data.push_back(texture);
 
     texRes->w = width;
     texRes->h = height;
@@ -279,15 +283,17 @@ void AutoTextureImplementation::process(Resource* r)
     amask = 0xff000000;
 #endif
 
-    texRes->data = SDL_CreateRGBSurface(SDL_SWSURFACE, texRes->w, texRes->h,Globals::bpp,rmask, gmask, bmask, amask);
+    
+    SDL_Surface *texture= SDL_CreateRGBSurface(SDL_SWSURFACE, texRes->w, texRes->h,Globals::bpp,rmask, gmask, bmask, amask);
 
+    texRes->data.push_back(texture);
     SDL_Rect rect;
     rect.x = 0;
     rect.y = 0;
-    rect.w = texRes->w;
-    rect.h = texRes->h;
+    rect.w = texture->w;
+    rect.h = texture->h;
 
-    SDL_FillRect(texRes->data, &rect, texRes->color);
+    SDL_FillRect(texRes->data[0], &rect, texRes->color);
 #elif defined(HW_RENDER)    
 #endif
 

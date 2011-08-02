@@ -73,7 +73,9 @@ Game::~Game()
     SDL_FreeSurface(_screen);
 #endif
 
-#if defined(X11_VIDEO) && defined(HW_RENDER)        
+#if defined(HW_RENDER)       
+
+#if defined(X11_RENDER)
     if(_GLWin.ctx)
     {
         if(!glXMakeCurrent(_GLWin.dpy, None, NULL))
@@ -93,6 +95,8 @@ Game::~Game()
 
     XCloseDisplay(_GLWin.dpy);
 #endif
+
+#endif
 }
 
 bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BPP)
@@ -100,7 +104,8 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     Globals::setGameData(this, GameSizeX, GameSizeY, BPP);
     State::bgColor = 0xff000000;
 
-#if defined(SDL_VIDEO)
+#if defined(SDL_VIDEO) 
+
 #ifdef DEBUG
     fprintf(stdout, "Initializing SDL Everything\n");
 #endif
@@ -118,7 +123,13 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
 #if defined(SW_RENDER)    
     _screen = SDL_SetVideoMode(Globals::width, Globals::height, BPP, SDL_SWSURFACE);
 #elif defined(HW_RENDER)
+
+#if defined(__APPLE__)
+
+#else
     _screen = SDL_SetVideoMode(Globals::width, Globals::height, BPP, SDL_OPENGL);
+#endif
+
 #endif    
 
     if(!_screen) {
@@ -143,7 +154,9 @@ bool Game::setup(unsigned int GameSizeX, unsigned int GameSizeY, unsigned int BP
     atexit(SDL_Quit);
     atexit(TTF_Quit);
 
-#elif defined(X11_VIDEO) && defined(HW_RENDER)
+#endif
+
+#if defined(X11_VIDEO) && defined(HW_RENDER)
     int attrListSgl[] = {
         GLX_RGBA, 
         GLX_RED_SIZE, 4,
