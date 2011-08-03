@@ -46,8 +46,6 @@
 #if defined(__APPLE__)
 #include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>
-#include <OpenGLES/EAGL.h>
-#include <OpenGLES/EAGLDrawable.h>
 #else
 #include <GL/gl.h>
 #include <GL/glu.h>

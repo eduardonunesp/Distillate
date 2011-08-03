@@ -154,7 +154,7 @@ namespace Distillate {
             SDL_BlitSurface(tmp_surface, 0, Globals::_buffer, &rect_dst);
             SDL_FreeSurface(tmp_surface);
         }
-#elif defined(HW_RENDER)
+#elif defined(HW_RENDER) && !defined(VBO)
 
         if(!_pixels->animated)
             glBindTexture( GL_TEXTURE_2D, _pixels->data[0]);
